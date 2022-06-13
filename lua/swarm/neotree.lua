@@ -10,7 +10,8 @@ neotree.setup {
       visible = false, -- when true, they will just be displayed differently than normal items
       hide_dotfiles = false,
       hide_by_name = {
-        "node_modules"
+        "node_modules",
+        ".git"
       },
     },
   },
