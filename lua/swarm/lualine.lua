@@ -10,7 +10,7 @@ custom_palenight.visual.b.fg = purplish
 
 require('lualine').setup{
   options = {
-    theme = 'gruvbox-material',
+    theme = 'palenight',
     section_separators = '',
     component_separators = ''
   }

@@ -4,7 +4,7 @@ local keymap = function(mode, key, command)
     mode,
     key,
     command,
-    {noremap = true, silent = true}
+    { noremap = true, silent = true }
   )
 end
 
@@ -42,7 +42,7 @@ keymap('v', 'p', '"_dP')
 local status_ok, _ = pcall(require, "telescope")
 if status_ok then
   -- Telescope mappings
-  keymap('n', '<leader>ff', ':Telescope find_files<cr>')
+  keymap('n', '<leader>f', ':Telescope find_files<cr>')
   keymap('n', '<leader>fw', ':Telescope live_grep<cr>')
   keymap('n', '<c-p>', ':Telescope find_files<cr>')
 end
@@ -57,4 +57,3 @@ end
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>")
 keymap("n", "<S-h>", ":bprevious<CR>")
-

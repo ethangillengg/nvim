@@ -7,7 +7,7 @@ end
 require_lua('options')
 require_lua('keymaps')
 
-vim.cmd "colorscheme gruvbox"
+vim.cmd "colorscheme tokyonight"
 
 require_lua('plugins')
 require_lua('cmp')
