@@ -10,8 +10,9 @@ end
 
 vim.g.mapleader = ' '
 
+-- Quick nav splits
 keymap('n', '<c-h>', '<c-w>h')
-keymap('n', '<BS>', '<c-w>l')
+keymap('n', '<c-l>', '<c-w>l')
 keymap('n', '<c-j>', '<c-w>j')
 keymap('n', '<c-k>', '<c-w>k')
 
@@ -35,12 +36,16 @@ keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi')
 keymap('v', '<A-j>', ":m '>+1<CR>gv-gv")
 keymap('v', '<A-k>', ":m '<-2<CR>gv-gv")
 
+-- Navigate buffers
+keymap("n", "<S-l>", ":bnext<CR>")
+keymap("n", "<S-h>", ":bprevious<CR>")
+
 -- Don't overrite register on paste in visual mode
 keymap('v', 'p', '"_dP')
 
 -- only if telescope exists
-local status_ok, _ = pcall(require, "telescope")
-if status_ok then
+local ok, _ = pcall(require, "telescope")
+if ok then
   -- Telescope mappings
   keymap('n', '<leader>f', ':Telescope find_files<cr>')
   keymap('n', '<leader>fw', ':Telescope live_grep<cr>')
@@ -53,7 +58,8 @@ if ok then
   keymap('n', '<leader>e', ':NeoTreeFloatToggle<cr>')
 end
 
-
--- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>")
-keymap("n", "<S-h>", ":bprevious<CR>")
+-- Floaterm mappings
+-- local ok, _ = pcall(require, "floaterm")
+if ok then
+  keymap('n', '<leader>d', ':FloatermNew --height=0.9 --width=0.9 --autoclose=1 lazygit<cr>')
+end

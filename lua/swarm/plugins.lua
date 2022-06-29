@@ -105,6 +105,8 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
+  -- Floating terminal (lg, testing, etc)
+  use 'voldikss/vim-floaterm'
   --Bufferline
   -- use "akinsho/bufferline.nvim"
   -- use "moll/vim-bbye"
