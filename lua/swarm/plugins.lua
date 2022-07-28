@@ -46,6 +46,7 @@ return packer.startup(function(use)
   use 'tjdevries/colorbuddy.nvim'
   use 'bkegley/gloombuddy'
   use 'folke/tokyonight.nvim'
+	use { "catppuccin/nvim", as = "catppuccin" }
   use 'morhetz/gruvbox'
 
   -- cmp plugins

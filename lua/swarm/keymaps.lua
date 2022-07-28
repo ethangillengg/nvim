@@ -18,6 +18,7 @@ keymap('n', '<c-k>', '<c-w>k')
 
 keymap('n', '<leader>w', ':wa<cr>')
 keymap('n', '<leader>q', ':wqa<cr>')
+keymap("n", "<Leader>v", ":edit ~/.config/nvim/lua/init.lua<CR>")
 
 -- Navigate buffers
 keymap('n', '<S-l>', ':bnext<cr>')
@@ -48,7 +49,7 @@ local ok, _ = pcall(require, "telescope")
 if ok then
   -- Telescope mappings
   keymap('n', '<leader>f', ':Telescope find_files<cr>')
-  keymap('n', '<leader>fw', ':Telescope live_grep<cr>')
+  keymap('n', '<leader>r', ':Telescope live_grep<cr>')
   keymap('n', '<c-p>', ':Telescope find_files<cr>')
 end
 

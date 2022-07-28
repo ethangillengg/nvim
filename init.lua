@@ -7,7 +7,7 @@ end
 require_lua('options')
 require_lua('keymaps')
 
-vim.cmd "colorscheme tokyonight"
+-- vim.cmd "colorscheme tokyonight"
 
 require_lua('plugins')
 require_lua('cmp')
@@ -20,3 +20,5 @@ require_lua('neotree')
 require_lua('lualine')
 require_lua('floaterm')
 -- require_lua('bufferline')
+
+vim.cmd "colorscheme catppuccin"
