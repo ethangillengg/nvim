@@ -19,6 +19,7 @@ require_lua('gitsigns')
 require_lua('neotree')
 require_lua('lualine')
 require_lua('floaterm')
+require('telescope').setup{  defaults = { file_ignore_patterns = { "node_modules" }} }
 -- require_lua('bufferline')
 
 vim.cmd "colorscheme catppuccin"
