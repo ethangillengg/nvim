@@ -29,27 +29,19 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-  use "wbthomason/packer.nvim" -- Have packer manage itself
+  use 'wbthomason/packer.nvim'
 
-  -- Treesitter for better highlighting
-  use {
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-  }
-  
-  use 'kyazdani42/blue-moon'
-
- -- Telescope
-  use {
-      'nvim-telescope/telescope.nvim',
-      requires = {
-        {'nvim-lua/plenary.nvim'},
-        {'kyazdani42/nvim-web-devicons'},
-    }
-  }
+  use 'nvim-lua/plenary.nvim' --api for stuffs
+  use 'nvim-lua/popup.nvim' --other api for stuffs
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' } --treesitter
+  use 'nvim-telescope/telescope.nvim' --telescope
+  use 'kyazdani42/nvim-web-devicons' --icons for stuffs
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' } -- fast sorter for telescope
-
-  use 'windwp/nvim-autopairs'
+  use 'windwp/nvim-autopairs' --bracket pairs
+  use 'numToStr/Comment.nvim' --use 'gcc' to comment
+  use  'nvim-lualine/lualine.nvim'
+  
+  use 'kyazdani42/blue-moon' --cool colorscheme
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
