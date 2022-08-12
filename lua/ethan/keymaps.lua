@@ -44,12 +44,17 @@ map("n", "<S-h>", ":bprevious<CR>")
 -- Don't overrite register on paste in visual mode
 map('v', 'p', '"_dP')
 
--- only if telescope exists
+
+-- Telescope mappings
 local telescope, _ = pcall(require, "telescope")
 if telescope then
-  -- Telescope mappings
-  map('n', '<leader>e', ':Explore<CR>')
   map('n', '<leader>c', ':Telescope colorscheme<CR>')
   map('n', '<leader>r', ':Telescope live_grep<CR>')
   map('n', '<c-p>', ':Telescope find_files<CR>')
+end
+
+-- Neotree mappings
+local neotree, _ = pcall(require, "neo-tree")
+if neotree then
+  map('n', '<leader>e', ':NeoTreeFloatToggle<cr>')
 end

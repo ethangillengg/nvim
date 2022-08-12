@@ -1,6 +1,5 @@
 local profile = 'ethan'
 
-
 local require_lua = function(filename)
   require('' .. profile .. '/' .. filename)
 end

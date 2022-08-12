@@ -36,11 +36,34 @@ return packer.startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' } --treesitter
   use 'nvim-telescope/telescope.nvim' --telescope
   use 'kyazdani42/nvim-web-devicons' --icons for stuffs
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' } -- fast sorter for telescope
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' } -- fast sorter for telescope
   use 'windwp/nvim-autopairs' --bracket pairs
   use 'numToStr/Comment.nvim' --use 'gcc' to comment
-  use  'nvim-lualine/lualine.nvim'
-  
+  use 'nvim-lualine/lualine.nvim' --nice line at bottom
+  use 'xiyaowong/nvim-transparent' --allow transparency for colorschemes that don't support it
+  use { 'akinsho/toggleterm.nvim', tag = 'v2.*' } --terminal in neovim!!
+  use 'goolord/alpha-nvim' --greeter
+  use 'lewis6991/impatient.nvim' --make neovim start faster!
+  use { 'nvim-neo-tree/neo-tree.nvim', requires = { 'MunifTanjim/nui.nvim' } } --file explorer
+
+  -- cmp plugins  
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
+
+  -- snippets
+  use 'L3MON4D3/LuaSnip'
+  use 'rafamadriz/friendly-snippets'
+
+  -- LSP
+  -- use 'neovim/nvim-lspconfig' --enable lsp
+  -- use 'williamboman/nvim-lsp-installer' --enable lsp
+  -- use 'jose-elias-alvarez/null-ls.nvim'
+  -- use 'RRethy/vim-illuminate'
+
   use 'kyazdani42/blue-moon' --cool colorscheme
 
   if PACKER_BOOTSTRAP then
