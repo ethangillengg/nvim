@@ -105,12 +105,12 @@ end
 
 
 M.on_attach = function(client, bufnr)
-  if client.name == "tsserver" then
-    client.server_capabilities.document_formatting = false
-  end
+  --[[ if client.name == "tsserver" then ]]
+  --[[   client.server_capabilities.document_formatting = false ]]
+  --[[ end ]]
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
-  if client.supports_method("textDocument/formatting") then
+  --[[ if client.supports_method("textDocument/formatting") then ]]
     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
     group = augroup,
@@ -119,7 +119,7 @@ M.on_attach = function(client, bufnr)
         lsp_formatting(bufnr)
     end,
     })
-  end
+  --[[ end ]]
 end
 
 

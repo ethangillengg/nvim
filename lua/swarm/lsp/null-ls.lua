@@ -16,6 +16,6 @@ null_ls.setup {
 		-- formatting.yapf,
 		formatting.stylua,
     diagnostics.eslint_d,
-		diagnostics.flake8,
+		--[[ diagnostics.flake8, ]]
 	},
 }
