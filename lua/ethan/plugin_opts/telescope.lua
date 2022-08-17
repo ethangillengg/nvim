@@ -4,6 +4,14 @@ if not status_ok then
 end
 
 telescope.setup {
+  defaults = {
+    prompt_prefix = "   ",
+    selection_caret = "❯ ",
+    sorting_strategy = "ascending",
+    layout_config = {
+      prompt_position = 'top',
+    },
+  },
   extensions = {
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
