@@ -6,7 +6,8 @@ end
 require_lua('options')
 require_lua('keymaps')
 require_lua('plugins')
-vim.cmd[[colorscheme blue-moon]]
 require_lua('plugin_opts')
 require_lua('lsp')
 
+vim.g.sonokai_transparent_background = 1
+vim.cmd[[colorscheme sonokai]]

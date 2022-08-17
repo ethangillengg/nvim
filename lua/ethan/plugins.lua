@@ -67,6 +67,7 @@ return packer.startup(function(use)
 
   -- colors!!
   use 'kyazdani42/blue-moon' --cool colorscheme
+  use 'sainnhe/sonokai'
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
