@@ -59,11 +59,13 @@ return packer.startup(function(use)
   use 'rafamadriz/friendly-snippets'
 
   -- LSP
-  -- use 'neovim/nvim-lspconfig' --enable lsp
-  -- use 'williamboman/nvim-lsp-installer' --enable lsp
-  -- use 'jose-elias-alvarez/null-ls.nvim'
-  -- use 'RRethy/vim-illuminate'
+  use {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+  }
 
+  -- colors!!
   use 'kyazdani42/blue-moon' --cool colorscheme
 
   if PACKER_BOOTSTRAP then

@@ -236,10 +236,23 @@ cmp.setup {
     select = false,
   },
   window = {
-    completion = cmp.config.window.bordered(), --uses the regular window for autocompletion
-    documentation = cmp.config.window.bordered(),
-  },
+    documentation = {
+      border = 'rounded',
+      winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None',
+      zindex = 1001,
+      col_offset = 0,
+      side_padding = 1,
+    },
+    completion = {
+      border = 'rounded',
+      winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None',
+      zindex = 1001,
+      col_offset = 0,
+      side_padding = 1,
+    },
+},
   experimental = {
     ghost_text = true,
   },
 }
+
