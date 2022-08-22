@@ -11,7 +11,7 @@ local function button(sc, txt, keybind, keybind_opts)
   return b
 end
 
-local icons = require( "ethan.plugin_opts.icons")
+local icons = require( "ethan.icons")
 
 dashboard.section.header.val = {
   [[                               __                ]],

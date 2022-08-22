@@ -1,7 +1,8 @@
 --Auto-install packer
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    install_path })
   vim.cmd [[packadd packer.nvim]]
 end
 
@@ -46,7 +47,7 @@ return packer.startup(function(use)
   use 'lewis6991/impatient.nvim' --make neovim start faster!
   use { 'nvim-neo-tree/neo-tree.nvim', requires = { 'MunifTanjim/nui.nvim' } } --file explorer
 
-  -- cmp plugins  
+  -- cmp plugins
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
@@ -60,13 +61,15 @@ return packer.startup(function(use)
 
   -- LSP
   use {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
   }
+  use 'jose-elias-alvarez/null-ls.nvim'
 
   -- colors!!
   use 'kyazdani42/blue-moon' --cool colorscheme
+  use { "catppuccin/nvim", as = "catppuccin" }
   use 'sainnhe/sonokai'
 
   if PACKER_BOOTSTRAP then
