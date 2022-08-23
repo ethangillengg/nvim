@@ -60,3 +60,11 @@ local neotree, _ = pcall(require, "neo-tree")
 if neotree then
   map('n', '<leader>e', ':NeoTreeFloatToggle<cr>')
 end
+
+
+-- Mason mappings
+local mason, _ = pcall(require, "mason")
+if mason then
+  map('n', '<leader>m', ':Mason<cr>')
+end
+
