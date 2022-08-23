@@ -22,7 +22,7 @@ dashboard.section.header.val = {
   [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
 }
 dashboard.section.buttons.val = {
-  button("f", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
+  button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
   button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
   button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
   button("t", icons.ui.List .. " Find text", ":Telescope live_grep <CR>"),
