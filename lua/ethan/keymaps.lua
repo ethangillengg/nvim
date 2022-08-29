@@ -50,7 +50,7 @@ local telescope, _ = pcall(require, "telescope")
 if telescope then
   map('n', '<leader>c', ':Telescope colorscheme<CR>')
   map('n', '<leader>r', ':Telescope live_grep<CR>')
-  map('n', '<c-h>', ':Telescope help_tags<CR>')
+  map('n', '<leader>h', ':Telescope help_tags<CR>')
   map('n', '<leader>l', ':Telescope colorscheme<CR>')
   map('n', '<c-p>', ':Telescope find_files<CR>')
 end
