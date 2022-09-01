@@ -8,6 +8,7 @@ require_lua('keymaps')
 require_lua('plugins')
 require_lua('treesitter')
 require_lua('plugin_opts')
+require_lua('lsp')
 
 vim.g.sonokai_transparent_background = 0
 vim.cmd[[colorscheme catppuccin]]
