@@ -49,11 +49,14 @@ if telescope then
 	map("n", "<c-p>", ":Telescope find_files<CR>")
 end
 
--- Neotree mappings
-local neotree, _ = pcall(require, "neo-tree")
-if neotree then
-	map("n", "<leader>e", ":NeoTreeFloatToggle<cr>")
-end
+-- Neotree mappings (DEPRECATED in favor of lf)
+--[[ local neotree, _ = pcall(require, "neo-tree") ]]
+--[[ if neotree then ]]
+--[[ 	map("n", "<leader>e", ":NeoTreeFloatToggle<cr>") ]]
+--[[ end ]]
+
+-- Lf mappings
+map("n", "<leader>e", ":Lf<cr>")
 
 -- Mason mappings
 local mason, _ = pcall(require, "mason")

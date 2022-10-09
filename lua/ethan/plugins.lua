@@ -47,6 +47,7 @@ return packer.startup(function(use)
 	use("goolord/alpha-nvim") --greeter
 	use("lewis6991/impatient.nvim") --make neovim start faster!
 	use({ "nvim-neo-tree/neo-tree.nvim", requires = { "MunifTanjim/nui.nvim" } }) --file explorer
+	use("weebcyberpunk/lf.vim")
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp")
