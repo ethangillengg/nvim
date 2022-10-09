@@ -43,11 +43,11 @@ return packer.startup(function(use)
 	use("JoosepAlviste/nvim-ts-context-commentstring")
 	use("nvim-lualine/lualine.nvim") --nice line at bottom
 	use("xiyaowong/nvim-transparent") --allow transparency for colorschemes that don't support it
-	use({ "akinsho/toggleterm.nvim", tag = "v2.*" }) --terminal in neovim!!
+	--[[ use({ "akinsho/toggleterm.nvim", tag = "v2.*" }) --terminal in neovim!! ]]
 	use("goolord/alpha-nvim") --greeter
 	use("lewis6991/impatient.nvim") --make neovim start faster!
-	use({ "nvim-neo-tree/neo-tree.nvim", requires = { "MunifTanjim/nui.nvim" } }) --file explorer
 	use("weebcyberpunk/lf.vim")
+	use("voldikss/vim-floaterm")
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp")

@@ -34,7 +34,7 @@ local options = {
 	guifont = "monospace:h17", -- the font used in graphical neovim applications
 	-- cursorline = true,
 	formatoptions = "jql",
-	guicursor = "",
+	--[[ guicursor = "", ]]
 }
 
 for opt, val in pairs(options) do
