@@ -100,6 +100,11 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
+	--[[ only use null-ls for formatting ]]
+	if client.name ~= "null-ls" then
+		client.server_capabilities.document_formatting = false
+	end
+
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 end
@@ -140,4 +145,5 @@ end
 vim.cmd([[ command! LspToggleAutoFormat execute 'lua require("ethan.lsp.handlers").toggle_format_on_save()' ]])
 
 M.start_format_on_save()
+
 return M
