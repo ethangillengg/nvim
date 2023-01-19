@@ -12,6 +12,8 @@ map("n", "<c-l>", "<c-w>l<cr>")
 map("n", "<c-j>", "<c-w>j<cr>")
 map("n", "<c-k>", "<c-w>k<cr>")
 
+map("n", "K", "")
+
 map("t", "<c-h>", "<c-\\><c-o><c-w>h<cr>")
 map("t", "<c-l>", "<c-\\><c-o><c-w>l<cr>")
 map("t", "<c-j>", "<c-\\><c-o><c-w>j<cr>")
