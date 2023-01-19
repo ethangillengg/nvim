@@ -61,7 +61,7 @@ if mason then
 end
 
 -- Lf mappings
-map("n", "<leader>e", ":Lf<cr>")
+map("n", "<leader>e", ":NvimTreeToggle<cr>")
 
 -- Lazygit
-map("n", "<leader>d", ":FloatermNew lazygit<cr>")
+map("n", "<leader>d", ":FloatermNew gitui<cr>")

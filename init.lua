@@ -10,6 +10,7 @@ require_lua("treesitter")
 require_lua("plugin_opts")
 require_lua("lsp")
 
+print(vim.fn.winwidth(0))
 vim.g.sonokai_transparent_background = 0
 
 vim.cmd([[colorscheme catppuccin]])

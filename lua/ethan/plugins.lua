@@ -44,9 +44,15 @@ return packer.startup(function(use)
 	use("nvim-lualine/lualine.nvim") --nice line at bottom
 	use("xiyaowong/nvim-transparent") --allow transparency for colorschemes that don't support it
 	--[[ use({ "akinsho/toggleterm.nvim", tag = "v2.*" }) --terminal in neovim!! ]]
+	use({
+		"nvim-tree/nvim-tree.lua",
+		requires = {
+			"nvim-tree/nvim-web-devicons", -- optional, for file icons
+		},
+		tag = "nightly", -- optional, updated every week. (see issue #1193)
+	})
 	use("goolord/alpha-nvim") --greeter
 	use("lewis6991/impatient.nvim") --make neovim start faster!
-	use("weebcyberpunk/lf.vim")
 	use("voldikss/vim-floaterm")
 
 	-- cmp plugins
