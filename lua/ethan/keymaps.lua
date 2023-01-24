@@ -27,6 +27,9 @@ map("n", "<Leader>v", ":edit ~/.config/nvim/lua/init.lua<CR>")
 map("n", "<S-l>", ":bnext<cr>")
 map("n", "<S-h>", ":bprevious<cr>")
 
+-- Toggle options
+map("n", "<c-t>", ":set wrap!<cr>")
+
 -- Dont stop visual mode on indent
 map("v", "<", "<gv")
 map("v", ">", ">gv")
