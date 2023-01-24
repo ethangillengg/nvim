@@ -39,6 +39,9 @@ mason_lspconfig.setup_handlers({
 					},
 				},
 			},
+			--make sure to copy these for any custom server attach functions
+			on_attach = require("ethan.lsp.handlers").on_attach,
+			capabilities = require("ethan.lsp.handlers").capabilities,
 		})
 	end,
 })
