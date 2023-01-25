@@ -4,6 +4,7 @@ end
 
 load_opts("telescope")
 load_opts("autopairs")
+load_opts("autotag")
 load_opts("comment")
 load_opts("lualine")
 load_opts("transparent")

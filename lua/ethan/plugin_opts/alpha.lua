@@ -27,7 +27,8 @@ dashboard.section.buttons.val = {
 	button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
 	button("t", icons.ui.List .. " Find text", ":Telescope live_grep <CR>"),
 	button("c", icons.ui.Gear .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
-	button("u", icons.ui.CloudDownload .. " Update", ":PackerSync<CR>"),
+	button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
+	button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
 	button("q", icons.ui.SignOut .. " Quit", ":qa<CR>"),
 }
 local function footer()

@@ -6,7 +6,7 @@ end
 configs.setup({
 	ensure_installed = "all",
 	sync_install = false,
-	ignore_install = { "haskell", "ruby", "tlaplus", "arduino" }, -- List of parsers to ignore installing
+	ignore_install = { "haskell", "ruby", "tlaplus", "arduino", "thrift" }, -- List of parsers to ignore installing
 	highlight = {
 		enable = true, -- false will disable the whole extension
 		disable = { "" }, -- list of language that will be disabled
