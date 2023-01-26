@@ -2,3 +2,4 @@
 /undodir
 /plugin
 *.ts
+lazy-lock.json
