@@ -1,5 +1,5 @@
 local map = function(mode, key, command)
-	vim.api.nvim_set_keymap(mode, key, command, { noremap = true, silent = true })
+	vim.keymap.set(mode, key, command, { noremap = true, silent = true })
 end
 
 vim.g.mapleader = " "
@@ -50,13 +50,14 @@ map("n", "<S-h>", ":bprevious<CR>")
 map("v", "p", '"_dP')
 
 -- Telescope mappings
-local telescope, _ = pcall(require, "telescope")
-if telescope then
-	map("n", "<leader>c", ":Telescope colorscheme<CR>")
-	map("n", "<leader>r", ":Telescope live_grep<CR>")
-	map("n", "<leader>h", ":Telescope help_tags<CR>")
+local ok, telescope = pcall(require, "telescope.builtin")
+if ok then
+	map("n", "<c-p>", telescope.fd)
+	--	vim.keymap.set("n", "<c-p>", telescope.git_files, { noremap = true, silent = true })
+	map("n", "<leader>c", telescope.colorscheme)
+	map("n", "<leader>r", telescope.live_grep)
+	map("n", "<leader>h", telescope.help_tags)
 	map("n", "<leader>l", ":Lazy<CR>")
-	map("n", "<c-p>", ":Telescope find_files<CR>")
 end
 
 -- Mason mappings
