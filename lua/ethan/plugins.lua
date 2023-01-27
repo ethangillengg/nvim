@@ -68,4 +68,9 @@ lazy.setup({
 	{ "kyazdani42/blue-moon" }, --cool colorscheme
 	{ "sainnhe/sonokai" },
 	{ "folke/tokyonight.nvim" },
+
+	-- git integration
+	{
+		"lewis6991/gitsigns.nvim",
+	},
 })
