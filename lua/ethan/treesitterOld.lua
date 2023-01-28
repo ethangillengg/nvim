@@ -4,9 +4,33 @@ if not status_ok then
 end
 
 configs.setup({
-	ensure_installed = "all",
+	context_commentstring = {
+		enable = true,
+	},
+	ensure_installed = {
+		"bash",
+		"fish",
+		"c",
+		"cpp",
+		"help",
+		"html",
+		"javascript",
+		"typescript",
+		"json",
+		"lua",
+		"markdown",
+		"markdown_inline",
+		"python",
+		"query",
+		"regex",
+		"tsx",
+		"vim",
+		"vue",
+		"jsdoc",
+		"rust",
+		"yaml",
+	},
 	sync_install = false,
-	ignore_install = { "haskell", "ruby", "tlaplus", "arduino", "thrift" }, -- List of parsers to ignore installing
 	highlight = {
 		enable = true, -- false will disable the whole extension
 		disable = { "" }, -- list of language that will be disabled

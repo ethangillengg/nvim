@@ -20,21 +20,20 @@ end
 -- Install your plugins here
 lazy.setup({
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, --treesitter
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope
-	{ "nvim-telescope/telescope.nvim" }, --telescope
 	{ "nvim-lua/plenary.nvim" }, --api for stuffs
 	{ "nvim-lua/popup.nvim" }, --other api for stuffs
 	{ "kyazdani42/nvim-web-devicons" }, --icons for stuffs
 	{ "windwp/nvim-autopairs" }, --bracket pairs
 	{ "windwp/nvim-ts-autotag" }, -- other auto pairs (html for example)
+	{ "nvim-telescope/telescope.nvim" }, --telescope
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope
 	{ "numToStr/Comment.nvim", dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" } }, -- Easily comment stuff
-	{ "nvim-lualine/lualine.nvim" }, --nice line at bottom
 	{ "xiyaowong/nvim-transparent" }, --allow transparency for colorschemes that don't support it
+	{ "nvim-lualine/lualine.nvim" }, --nice line at bottom
 	{ "nvim-tree/nvim-tree.lua", dependencies = { "kyazdani42/nvim-web-devicons" } },
 	{ "goolord/alpha-nvim" }, --greeter
 	{ "lewis6991/impatient.nvim" }, --make neovim start faster!
 	{ "voldikss/vim-floaterm" },
-
 	-- cmp plugins
 	{ "hrsh7th/nvim-cmp" },
 	{ "hrsh7th/cmp-buffer" },
@@ -43,24 +42,20 @@ lazy.setup({
 	{ "hrsh7th/cmp-nvim-lua" },
 	{ "saadparwaiz1/cmp_luasnip" },
 	{ "hrsh7th/cmp-cmdline" },
-
 	-- snippets
 	{ "L3MON4D3/LuaSnip", lazy = true },
 	{ "rafamadriz/friendly-snippets" },
-
 	-- LSP
 	{ "williamboman/mason.nvim" },
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "neovim/nvim-lspconfig" },
 	{ "jose-elias-alvarez/null-ls.nvim" },
 	{ "folke/neodev.nvim" }, -- LSP for neovim config!
-
 	-- colors!!
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "kyazdani42/blue-moon" }, --cool colorscheme
 	{ "sainnhe/sonokai" },
 	{ "folke/tokyonight.nvim" },
-
 	-- git integration
 	{ "lewis6991/gitsigns.nvim" },
 

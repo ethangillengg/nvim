@@ -1,17 +1,25 @@
 local profile = "ethan"
 
-local require_lua = function(filename)
+local profile_require = function(filename)
 	require("" .. profile .. "/" .. filename)
 end
 
-require_lua("options")
-require_lua("plugins")
-require_lua("keymaps")
-require_lua("treesitter")
-require_lua("plugin_opts")
-require_lua("lsp")
+profile_require("options")
+profile_require("keymaps")
+--[[ profile_require("treesitter") ]]
 
-print(vim.fn.winwidth(0))
-vim.g.sonokai_transparent_background = 0
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
 
+require("lazy").setup("ethan.plugins")
 vim.cmd([[colorscheme tokyonight]])

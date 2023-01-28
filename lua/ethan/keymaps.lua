@@ -54,8 +54,12 @@ if ok then
 	map("n", "<c-p>", telescope.fd)
 	map("n", "<leader>c", telescope.colorscheme)
 	map("n", "<leader>r", telescope.live_grep)
+	map("n", "<leader>t", telescope.builtin)
 	map("n", "<leader>h", telescope.help_tags)
 end
+
+-- Lazy mappings
+map("n", "<leader>l", ":Lazy<CR>")
 
 -- Gitsigns mappings
 local ok_1, gitsigns = pcall(require, "gitsigns")
@@ -69,20 +73,12 @@ if ok_1 then
 	end)
 end
 
--- Lazy mappings
-local lazy, _ = pcall(require, "lazy")
-if lazy then
-	map("n", "<leader>l", ":Lazy<CR>")
-end
-
 -- Mason mappings
 local mason, _ = pcall(require, "mason")
 if mason then
 	map("n", "<leader>m", ":Mason<cr>")
 end
 
--- Lf mappings
-map("n", "<leader>e", ":NvimTreeToggle<cr>")
-
--- Lazygit
-map("n", "<leader>d", ":FloatermNew gitui<cr>")
+-- Lf + lazygit mappings
+map("n", "<leader>e", ":Lf<cr>")
+map("n", "<leader>d", ":Gitui<cr>")
