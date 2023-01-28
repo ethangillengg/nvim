@@ -72,5 +72,4 @@ lazy.setup({
 
 	-- git integration
 	{ "lewis6991/gitsigns.nvim" },
-	--[[ { "gelguy/wilder.nvim" }, ]]
 })

@@ -4,12 +4,13 @@ if not status_ok then
 end
 gitsigns.setup({
 	signs = {
-		add = { text = "│" },
-		change = { text = "│" },
+		add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+		change = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
 		delete = { text = "_" },
 		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-		untracked = { text = "┆" },
+		changedelete = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+		untracked = { text = "▎" },
+		--[[ untracked = { text = "┆" }, ]]
 	},
 	numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
 	linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
@@ -24,6 +25,7 @@ gitsigns.setup({
 		virt_text = true,
 		virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
 		delay = 0,
+		virt_text_priority = 0,
 	},
 	current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
 	sign_priority = 6,
