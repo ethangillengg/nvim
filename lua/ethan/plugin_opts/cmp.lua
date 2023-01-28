@@ -195,7 +195,7 @@ cmp.setup({
 		{
 			name = "buffer",
 			group_index = 2,
-			filter = function(entry, ctx)
+			filter = function(_, ctx)
 				if not contains(buffer_fts, ctx.prev_context.filetype) then
 					return true
 				end
@@ -244,8 +244,5 @@ cmp.setup({
 			col_offset = 0,
 			side_padding = 1,
 		},
-	},
-	experimental = {
-		ghost_text = true,
 	},
 })

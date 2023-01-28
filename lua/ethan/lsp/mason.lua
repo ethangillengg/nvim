@@ -34,6 +34,9 @@ mason_lspconfig.setup_handlers({
 		lspconfig.sumneko_lua.setup({
 			settings = {
 				Lua = {
+					runtime = {
+						version = "LuaJIT",
+					},
 					diagnostics = {
 						globals = { "vim" },
 					},

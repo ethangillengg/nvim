@@ -70,7 +70,6 @@ lazy.setup({
 	{ "folke/tokyonight.nvim" },
 
 	-- git integration
-	{
-		"lewis6991/gitsigns.nvim",
-	},
+	{ "lewis6991/gitsigns.nvim" },
+	{ "gelguy/wilder.nvim" },
 })
