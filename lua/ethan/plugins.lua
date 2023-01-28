@@ -19,50 +19,41 @@ end
 
 -- Install your plugins here
 lazy.setup({
-	"nvim-lua/plenary.nvim", --api for stuffs
-	"nvim-lua/popup.nvim", --other api for stuffs
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, --treesitter
-	"nvim-telescope/telescope.nvim", --telescope
-	"kyazdani42/nvim-web-devicons", --icons for stuffs
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope
-	"windwp/nvim-autopairs", --bracket pairs
-	"windwp/nvim-ts-autotag", -- other auto pairs (html for example)
-	"numToStr/Comment.nvim", -- Easily comment stuff
-	"JoosepAlviste/nvim-ts-context-commentstring",
-	"nvim-lualine/lualine.nvim", --nice line at bottom
-	"xiyaowong/nvim-transparent", --allow transparency for colorschemes that don't support it
-	--[[ use({ "akinsho/toggleterm.nvim", tag = "v2.*" }) --terminal in neovim!! ]]
-	{
-		"nvim-tree/nvim-tree.lua",
-		dependencies = {
-			--[[ "nvim-tree/nvim-web-devicons", -- optional, for file icons ]]
-			"kyazdani42/nvim-web-devicons", -- optional, for file icons
-		},
-	},
-	"goolord/alpha-nvim", --greeter
-	"lewis6991/impatient.nvim", --make neovim start faster!
-	"voldikss/vim-floaterm",
+	{ "nvim-telescope/telescope.nvim" }, --telescope
+	{ "nvim-lua/plenary.nvim" }, --api for stuffs
+	{ "nvim-lua/popup.nvim" }, --other api for stuffs
+	{ "kyazdani42/nvim-web-devicons" }, --icons for stuffs
+	{ "windwp/nvim-autopairs" }, --bracket pairs
+	{ "windwp/nvim-ts-autotag" }, -- other auto pairs (html for example)
+	{ "numToStr/Comment.nvim", dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" } }, -- Easily comment stuff
+	{ "nvim-lualine/lualine.nvim" }, --nice line at bottom
+	{ "xiyaowong/nvim-transparent" }, --allow transparency for colorschemes that don't support it
+	{ "nvim-tree/nvim-tree.lua", dependencies = { "kyazdani42/nvim-web-devicons" } },
+	{ "goolord/alpha-nvim" }, --greeter
+	{ "lewis6991/impatient.nvim" }, --make neovim start faster!
+	{ "voldikss/vim-floaterm" },
 
 	-- cmp plugins
-	"hrsh7th/nvim-cmp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"saadparwaiz1/cmp_luasnip",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-nvim-lua",
-	"hrsh7th/cmp-cmdline",
+	{ "hrsh7th/nvim-cmp" },
+	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-nvim-lua" },
+	{ "saadparwaiz1/cmp_luasnip" },
+	{ "hrsh7th/cmp-cmdline" },
 
 	-- snippets
 	{ "L3MON4D3/LuaSnip", lazy = true },
-	"rafamadriz/friendly-snippets",
+	{ "rafamadriz/friendly-snippets" },
 
 	-- LSP
-	{
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"neovim/nvim-lspconfig",
-	},
-	"jose-elias-alvarez/null-ls.nvim",
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "neovim/nvim-lspconfig" },
+	{ "jose-elias-alvarez/null-ls.nvim" },
+	{ "folke/neodev.nvim" }, -- LSP for neovim config!
 
 	-- colors!!
 	{ "catppuccin/nvim", name = "catppuccin" },
@@ -78,7 +69,7 @@ lazy.setup({
 		"folke/which-key.nvim",
 		config = function()
 			vim.o.timeout = true
-			vim.o.timeoutlen = 300
+			vim.o.timeoutlen = 500
 			require("which-key").setup({
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
@@ -86,4 +77,7 @@ lazy.setup({
 			})
 		end,
 	},
+
+	-- UI
+	{ "stevearc/dressing.nvim" }, -- styling for lsp rename and code actions
 })

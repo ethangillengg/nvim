@@ -17,6 +17,8 @@ nvim --headless "+Lazy! sync" +qa
 - [x] [folke/which-key.nvim](https://github.com/folke/which-key.nvim) - Neovim plugin that shows a popup with possible keybindings of the command you started typing.
 - [ ] [is0n/fm-nvim](https://github.com/is0n/fm-nvim) - Neovim plugin that lets you use your favorite terminal file managers (and fuzzy finders).
 - [ ] [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim) - Improve the built-in `vim.ui` interfaces with telescope, fzf, etc.
+- [x] [RRethy/vim-illuminate](https://github.com/RRethy/vim-illuminate)
+- [ ] [folke/neodev.nvim](https://github.com/folke/neodev.nvim)
 
 ### Test First
 
@@ -27,7 +29,11 @@ nvim --headless "+Lazy! sync" +qa
 - [ ] [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim) - Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
 - [ ] [gorbit99/codewindow.nvim](https://github.com/gorbit99/codewindow.nvim) - Minimap plugin, that is closely integrated with treesitter and the builtin LSP to display more information to the user.
 - [ ] [mrjones2014/legendary.nvim](https://github.com/mrjones2014/legendary.nvim) - Define your keymaps, commands, and autocommands as simple Lua tables, and create a legend for them at the same time (like VS Code's Command Palette), integrates with `which-key.nvim`.
+- [ ] [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim)
+- [ ] [themercorp/themer.lua](https://github.com/themercorp/themer.lua)
+- [ ] [ggandor/leap.nvim](https://github.com/ggandor/leap.nvim);
 
 ### Other
 
 - [ ] Document my keymaps in [which-key](https://github.com/folke/which-key.nvim)
+- [ ] Structure plugins like shown [here](https://github.com/folke/lazy.nvim#-structuring-your-plugins)
