@@ -1,5 +1,5 @@
 local map = function(mode, key, command)
-	vim.keymap.set(mode, key, command, { noremap = true, silent = true })
+  vim.keymap.set(mode, key, command, { noremap = true, silent = true })
 end
 vim.g.mapleader = " "
 
@@ -51,11 +51,11 @@ map("v", "p", '"_dP')
 -- Telescope mappings
 local ok, telescope = pcall(require, "telescope.builtin")
 if ok then
-	map("n", "<c-p>", telescope.fd)
-	map("n", "<leader>c", telescope.colorscheme)
-	map("n", "<leader>r", telescope.live_grep)
-	map("n", "<leader>t", telescope.builtin)
-	map("n", "<leader>h", telescope.help_tags)
+  map("n", "<c-p>", telescope.fd)
+  map("n", "<leader>c", telescope.colorscheme)
+  map("n", "<leader>r", telescope.live_grep)
+  map("n", "<leader>t", telescope.builtin)
+  map("n", "<leader>h", telescope.help_tags)
 end
 
 -- Lazy mappings
@@ -64,21 +64,17 @@ map("n", "<leader>l", ":Lazy<CR>")
 -- Gitsigns mappings
 local ok_1, gitsigns = pcall(require, "gitsigns")
 if ok_1 then
-	map("n", "<leader>g", gitsigns.diffthis)
-	map("n", "<c-g>", function()
-		gitsigns.next_hunk()
-		vim.schedule(function()
-			gitsigns.preview_hunk_inline()
-		end)
-	end)
+  map("n", "<leader>g", gitsigns.diffthis)
+  map("n", "<c-g>", function()
+    gitsigns.next_hunk()
+    vim.schedule(function()
+      gitsigns.preview_hunk_inline()
+    end)
+  end)
 end
 
 -- Mason mappings
 local mason, _ = pcall(require, "mason")
 if mason then
-	map("n", "<leader>m", ":Mason<cr>")
+  map("n", "<leader>m", ":Mason<cr>")
 end
-
--- Lf + lazygit mappings
-map("n", "<leader>e", ":Lf<cr>")
-map("n", "<leader>d", ":Gitui<cr>")

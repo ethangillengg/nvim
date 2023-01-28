@@ -90,11 +90,24 @@ return {
   -- Lets you use git and file managers
   {
     "is0n/fm-nvim",
+    keys = {
+      -- Lf + lazygit mappings (fm-nvim)
+      -- map("n", "<leader>d", ":Gitui<cr>")
+      { "<leader>d", "<cmd>Gitui<cr>", desc = "Lf at current file" },
+      {
+        "<leader>e",
+        function()
+          -- command to start lf at the current file
+          require("fm-nvim").Lf(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
+        end,
+        desc = "Lf at current file",
+      },
+    },
     opts = {
       ui = {
         float = {
           height = 1,
-          width = 0.8,
+          width = 0.9,
         },
       },
     },
