@@ -50,6 +50,7 @@ lazy.setup({
 	"saadparwaiz1/cmp_luasnip",
 	"hrsh7th/cmp-nvim-lsp",
 	"hrsh7th/cmp-nvim-lua",
+	"hrsh7th/cmp-cmdline",
 
 	-- snippets
 	{ "L3MON4D3/LuaSnip", lazy = true },
@@ -71,5 +72,5 @@ lazy.setup({
 
 	-- git integration
 	{ "lewis6991/gitsigns.nvim" },
-	{ "gelguy/wilder.nvim" },
+	--[[ { "gelguy/wilder.nvim" }, ]]
 })

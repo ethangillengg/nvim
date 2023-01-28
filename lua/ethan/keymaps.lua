@@ -1,7 +1,6 @@
 local map = function(mode, key, command)
 	vim.keymap.set(mode, key, command, { noremap = true, silent = true })
 end
-
 vim.g.mapleader = " "
 
 -- Quick nav splits
@@ -53,10 +52,26 @@ map("v", "p", '"_dP')
 local ok, telescope = pcall(require, "telescope.builtin")
 if ok then
 	map("n", "<c-p>", telescope.fd)
-	--	vim.keymap.set("n", "<c-p>", telescope.git_files, { noremap = true, silent = true })
 	map("n", "<leader>c", telescope.colorscheme)
 	map("n", "<leader>r", telescope.live_grep)
 	map("n", "<leader>h", telescope.help_tags)
+end
+
+-- Gitsigns mappings
+local ok_1, gitsigns = pcall(require, "gitsigns")
+if ok_1 then
+	map("n", "<leader>g", gitsigns.diffthis)
+	map("n", "<c-g>", function()
+		gitsigns.next_hunk()
+		vim.schedule(function()
+			gitsigns.preview_hunk_inline()
+		end)
+	end)
+end
+
+-- Lazy mappings
+local lazy, _ = pcall(require, "lazy")
+if lazy then
 	map("n", "<leader>l", ":Lazy<CR>")
 end
 

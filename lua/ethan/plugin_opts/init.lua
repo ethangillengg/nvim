@@ -1,5 +1,5 @@
 local load_opts = function(filename)
-	require("ethan.plugin_opts." .. filename)
+  require("ethan.plugin_opts." .. filename)
 end
 
 load_opts("telescope")
@@ -15,4 +15,3 @@ load_opts("cmp")
 load_opts("nvim-tree")
 load_opts("floaterm")
 load_opts("gitsigns")
-load_opts("wilder")
