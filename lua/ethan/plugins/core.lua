@@ -4,11 +4,19 @@ return {
   { "nvim-lua/plenary.nvim" }, --api for stuffs
   { "kyazdani42/nvim-web-devicons" }, --icons for stuffs
 
-  { "windwp/nvim-autopairs", config = true }, --bracket pairs
-  { "windwp/nvim-ts-autotag", config = true }, -- other auto pairs (html for example)
+  { "windwp/nvim-autopairs", event = "BufEnter", config = true }, --bracket pairs
+  { "windwp/nvim-ts-autotag", event = "BufEnter", config = true }, -- other auto pairs (html for example)
 
   {
     "nvim-telescope/telescope.nvim",
+    lazy = false,
+    keys = {
+      { "<c-p>", "<cmd>Telescope fd<cr>", desc = "Theme" },
+      { "<leader>r", "<cmd>Telescope live_grep<cr>", desc = "Find word" },
+      { "<leader>c", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
+      { "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+      { "<leader>t", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
+    },
     opts = {
       defaults = {
         prompt_prefix = "   ",
@@ -24,6 +32,7 @@ return {
 
   {
     "numToStr/Comment.nvim",
+    event = "BufEnter",
     --configure later?
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     config = true,
@@ -32,6 +41,21 @@ return {
   -- git integration
   {
     "lewis6991/gitsigns.nvim",
+    event = "BufEnter",
+    keys = {
+      { "<leader>g", "<cmd>Gitsigns diffthis<cr>", desc = "Git Diff" },
+      {
+        "<c-g>",
+        function()
+          local gitsigns = require("gitsigns")
+          gitsigns.next_hunk()
+          vim.schedule(function()
+            gitsigns.preview_hunk_inline()
+          end)
+        end,
+        desc = "Preview next hunk",
+      },
+    },
     opts = {
       signs = {
         add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
@@ -84,15 +108,14 @@ return {
     "is0n/fm-nvim",
     keys = {
       -- Lf + lazygit mappings (fm-nvim)
-      -- map("n", "<leader>d", ":Gitui<cr>")
-      { "<leader>d", "<cmd>Gitui<cr>", desc = "Open gitui" },
+      { "<leader>d", "<cmd>Gitui<cr>", desc = "Gitui" },
       {
         "<leader>e",
         function()
           -- command to start lf at the current file
           require("fm-nvim").Lf(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
         end,
-        desc = "Lf at current file",
+        desc = "Lf",
       },
     },
     opts = {
@@ -101,7 +124,7 @@ return {
       },
       ui = {
         float = {
-          border = "rounded",
+          -- border = "rounded",
           height = 1,
           width = 0.9,
         },

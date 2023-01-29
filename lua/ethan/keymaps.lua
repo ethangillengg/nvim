@@ -48,33 +48,5 @@ map("n", "<S-h>", ":bprevious<CR>")
 -- Don't overrite register on paste in visual mode
 map("v", "p", '"_dP')
 
--- Telescope mappings
-local ok, telescope = pcall(require, "telescope.builtin")
-if ok then
-  map("n", "<c-p>", telescope.fd)
-  map("n", "<leader>c", telescope.colorscheme)
-  map("n", "<leader>r", telescope.live_grep)
-  map("n", "<leader>t", telescope.builtin)
-  map("n", "<leader>h", telescope.help_tags)
-end
-
 -- Lazy mappings
 map("n", "<leader>l", ":Lazy<CR>")
-
--- Gitsigns mappings
-local ok_1, gitsigns = pcall(require, "gitsigns")
-if ok_1 then
-  map("n", "<leader>g", gitsigns.diffthis)
-  map("n", "<c-g>", function()
-    gitsigns.next_hunk()
-    vim.schedule(function()
-      gitsigns.preview_hunk_inline()
-    end)
-  end)
-end
-
--- Mason mappings
-local mason, _ = pcall(require, "mason")
-if mason then
-  map("n", "<leader>m", ":Mason<cr>")
-end
