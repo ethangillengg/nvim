@@ -48,11 +48,9 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]]) -- TODO: this doesn't seem to work
 
---[[ Highligh on yank ]]
---from: https://stackoverflow.com/questions/26069278/highlight-copied-area-in-vim/61950540#61950540
-vim.cmd([[
-augroup highlight_yank
-autocmd!
-au TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=125})
-augroup END
-]])
+--[[ Highlight on yank ]]
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 125 })
+	end,
+})

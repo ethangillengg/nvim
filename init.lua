@@ -1,7 +1,7 @@
 local profile = "ethan"
 
 local profile_require = function(filename)
-  require("" .. profile .. "/" .. filename)
+	require("" .. profile .. "/" .. filename)
 end
 
 profile_require("options")
