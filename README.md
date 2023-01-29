@@ -36,5 +36,5 @@ nvim --headless "+Lazy! sync" +qa
 ### Other
 
 - [x] Structure plugins like shown [here](https://github.com/folke/lazy.nvim#-structuring-your-plugins)
-- [ ] Fix cmp keybindings
+- [x] Fix cmp keybindings
 - [ ] Document my keymaps in [which-key](https://github.com/folke/which-key.nvim)
