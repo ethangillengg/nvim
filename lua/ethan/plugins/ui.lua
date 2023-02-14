@@ -285,6 +285,8 @@ return {
 			return dashboard
 		end,
 		config = function(_, dashboard)
+			-- hide the statusline
+			vim.opt_global.laststatus = 0
 			require("alpha").setup(dashboard.opts)
 		end,
 	}, --greeter
@@ -303,7 +305,7 @@ return {
 
 			local theme = {
 				aqua = "#7AB0DF",
-				bg = "#1C212A",
+				-- bg = "#1C212A",
 				blue = "#5FB0FC",
 				cyan = "#70C0BA",
 				darkred = "#FB7373",
@@ -609,6 +611,8 @@ return {
 				},
 			}
 
+			-- show the statusline
+			vim.opt_global.laststatus = 3
 			feline.setup({
 				components = components,
 				theme = theme,
