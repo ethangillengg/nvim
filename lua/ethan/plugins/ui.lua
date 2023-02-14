@@ -340,7 +340,11 @@ return {
 
 			component.vim_mode = {
 				provider = function()
-					return vim.api.nvim_get_mode().mode:upper()
+					local mode = vim.api.nvim_get_mode().mode:upper()
+					if mode == "" then
+						mode = "VC"
+					end
+					return mode
 				end,
 				hl = function()
 					return {
@@ -353,7 +357,6 @@ return {
 				left_sep = "block",
 				right_sep = "block",
 			}
-
 			component.git_branch = {
 				provider = "git_branch",
 				hl = {
@@ -366,32 +369,35 @@ return {
 			}
 
 			component.git_add = {
+				icon = " ",
 				provider = "git_diff_added",
 				hl = {
 					fg = "green",
 					bg = "bg",
 				},
-				left_sep = "",
+				left_sep = "left_filled",
 				right_sep = "",
 			}
 
 			component.git_delete = {
+				icon = " ",
 				provider = "git_diff_removed",
 				hl = {
 					fg = "red",
 					bg = "bg",
 				},
-				left_sep = "",
+				left_sep = "left_filled",
 				right_sep = "",
 			}
 
 			component.git_change = {
+				icon = " ",
 				provider = "git_diff_changed",
 				hl = {
 					fg = "yellow",
 					bg = "bg",
 				},
-				left_sep = "",
+				left_sep = "left_filled",
 				right_sep = "",
 			}
 
@@ -608,8 +614,6 @@ return {
 				theme = theme,
 				vi_mode_colors = mode_theme,
 			})
-
-			---vim:filetype=lua
 		end,
 	},
 }
