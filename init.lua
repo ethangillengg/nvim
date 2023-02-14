@@ -8,4 +8,4 @@ profile_require("options")
 profile_require("keymaps")
 profile_require("setup-plugins")
 
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme catppuccin-mocha]])
