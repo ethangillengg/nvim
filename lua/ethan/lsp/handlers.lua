@@ -6,6 +6,12 @@ local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_cmp_ok then
 	return
 end
+
+local status_navic_ok, navic = pcall(require, "nvim-navic")
+if not status_cmp_ok then
+	return
+end
+
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 local function lsp_highlight_document(client)
@@ -87,6 +93,9 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.document_formatting = false
 	end
 
+	if client.server_capabilities.documentSymbolProvider then
+		navic.attach(client, bufnr)
+	end
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 end
@@ -94,8 +103,8 @@ end
 function M.start_format_on_save()
 	vim.cmd([[
     augroup format_on_save
-      autocmd! 
-      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
+      autocmd!
+      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false })
     augroup end
   ]])
 end

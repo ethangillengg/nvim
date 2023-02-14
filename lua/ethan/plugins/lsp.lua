@@ -5,7 +5,7 @@ return {
 			{
 				"williamboman/mason-lspconfig.nvim",
 				event = "BufReadPre",
-				dependencies = { "neovim/nvim-lspconfig" },
+				dependencies = { "neovim/nvim-lspconfig", "SmiteshP/nvim-navic" },
 				keys = {
 					{ "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
 				},
