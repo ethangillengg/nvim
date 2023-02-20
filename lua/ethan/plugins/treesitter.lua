@@ -29,6 +29,7 @@ return {
 				"jsdoc",
 				"rust",
 				"yaml",
+				"nix",
 			},
 			sync_install = false,
 			highlight = {
