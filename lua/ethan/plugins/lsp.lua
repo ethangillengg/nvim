@@ -5,7 +5,11 @@ return {
       {
         "williamboman/mason-lspconfig.nvim",
         event = "BufReadPre",
-        dependencies = { "neovim/nvim-lspconfig", "SmiteshP/nvim-navic" },
+        dependencies = {
+          "neovim/nvim-lspconfig",
+          "SmiteshP/nvim-navic",
+          "simrat39/rust-tools.nvim",
+        },
         keys = {
           { "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
         },
@@ -41,6 +45,12 @@ return {
                   },
                 },
                 --make sure to copy these for any custom server attach functions
+                on_attach = require("ethan.lsp.handlers").on_attach,
+                capabilities = require("ethan.lsp.handlers").capabilities,
+              })
+            end,
+            ["rust_analyzer"] = function()
+              require("rust-tools").setup({
                 on_attach = require("ethan.lsp.handlers").on_attach,
                 capabilities = require("ethan.lsp.handlers").capabilities,
               })
@@ -111,30 +121,30 @@ return {
   },
   { "folke/neodev.nvim", config = true }, -- LSP for neovim config!
   { "folke/neodev.nvim", config = true }, -- LSP for neovim config!
-  {
-    "simrat39/rust-tools.nvim",
-    config = function()
-      local rt = require("rust-tools")
-
-      rt.setup({
-        server = {
-          on_attach = function(_, bufnr)
-            -- Hover actions
-            vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
-            -- Code action groups
-            vim.keymap.set("n", "<c-a>", rt.code_action_group.code_action_group, { buffer = bufnr })
-
-            --   vim.keymap.set("n", "gh", rt.debuggables.debuggables
-            --     vim.diagnostic.open_float({ scope = "cursor" })
-            --   end, opts)
-            --   vim.keymap.set("n", "gl", function()
-            --     vim.diagnostic.open_float({ scope = "line" })
-            --   end, opts)
-          end,
-        },
-      })
-    end,
-  },
+  -- {
+  --   "simrat39/rust-tools.nvim",
+  --   config = function()
+  --     local rt = require("rust-tools")
+  --
+  --     rt.setup({
+  --       server = {
+  --         on_attach = function(_, bufnr)
+  --           -- Hover actions
+  --           vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
+  --           -- Code action groups
+  --           vim.keymap.set("n", "<c-a>", rt.code_action_group.code_action_group, { buffer = bufnr })
+  --
+  --           --   vim.keymap.set("n", "gh", rt.debuggables.debuggables
+  --           --     vim.diagnostic.open_float({ scope = "cursor" })
+  --           --   end, opts)
+  --           --   vim.keymap.set("n", "gl", function()
+  --           --     vim.diagnostic.open_float({ scope = "line" })
+  --           --   end, opts)
+  --         end,
+  --       },
+  --     })
+  --   end,
+  -- },
   -- TODO: highlight color breaks with transparency plugin and makes it all black
   -- {
   --   "j-hui/fidget.nvim",
