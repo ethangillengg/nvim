@@ -12,7 +12,8 @@ return {
 
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+				build = "make",
 			},
 		},
 		lazy = false,
@@ -90,7 +91,7 @@ return {
 				untracked = { text = "▎" },
 				--[[ untracked = { text = "┆" }, ]]
 			},
-			current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+			current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
 			current_line_blame_opts = {
 				delay = 0,
 				virt_text_priority = 0,
