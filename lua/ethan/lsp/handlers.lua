@@ -91,6 +91,8 @@ M.on_attach = function(client, bufnr)
 	--[[ only use null-ls for formatting ]]
 	if client.name ~= "null-ls" then
 		client.server_capabilities.document_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
 	end
 
 	if client.server_capabilities.documentSymbolProvider then
