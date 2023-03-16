@@ -18,6 +18,10 @@ map("t", "<c-l>", "<c-\\><c-o><c-w>l<cr>")
 map("t", "<c-j>", "<c-\\><c-o><c-w>j<cr>")
 map("t", "<c-k>", "<c-\\><c-o><c-w>k<cr>")
 
+-- move between wrapped lines
+map("n", "j", "gj")
+map("n", "k", "gk")
+
 map("n", "<leader>w", ":wa<cr>")
 map("n", "<leader>q", ":wqa<cr>")
 map("n", "<Leader>v", ":edit ~/.config/nvim/lua/init.lua<CR>")
