@@ -12,7 +12,6 @@ return {
 				"fish",
 				"c",
 				"cpp",
-				"help",
 				"html",
 				"javascript",
 				"typescript",
