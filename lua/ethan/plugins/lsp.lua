@@ -91,9 +91,16 @@ return {
 					})
 				end,
 				["rust_analyzer"] = function()
-					require("rust-tools").setup({
-						on_attach = require("ethan.lsp.handlers").on_attach,
-						capabilities = require("ethan.lsp.handlers").capabilities,
+					local rt = require("rust-tools")
+					rt.setup({
+						server = {
+							on_attach = function(client, bufnr)
+								-- Code action groups
+								vim.keymap.set("n", "<C-.>", rt.code_action_group.code_action_group, { buffer = bufnr })
+								require("ethan.lsp.handlers").on_attach(client, bufnr)
+							end,
+							capabilities = require("ethan.lsp.handlers").capabilities,
+						},
 					})
 				end,
 			})
@@ -110,11 +117,10 @@ return {
 			return {
 				deug = false,
 				sources = {
-					formatting.prettierd,
-					formatting.csharpier,
+					-- formatting.prettierd,
+					-- formatting.csharpier,
 					formatting.stylua,
 					diagnostics.eslint_d,
-					diagnostics.alex,
 				},
 			}
 		end,
