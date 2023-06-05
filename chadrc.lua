@@ -11,8 +11,11 @@ M.ui = {
 
   hl_override = highlights.override,
   hl_add = highlights.add,
+  cmp = { style = "atom_colored" },
 
-  tabufline = { enabled = false },
+  -- statusline = { theme = "" },
+
+  -- tabufline = { enabled = false },
 
   -- use dashboard
   nvdash = {
