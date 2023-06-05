@@ -3,7 +3,7 @@ local M = {}
 
 M.custom = {
   n = {
-    ["<leader>q"] = { "<cmd> wqa <CR>", "Save & Quit", opts = { nowait = true } },
+    ["<leader>q"] = { "<cmd> wq <CR>", "Save & Quit", opts = { nowait = true } },
     ["<leader>w"] = { "<cmd> wa <CR>", "Save & Quit", opts = { nowait = true } },
 
     ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "Find files" },
