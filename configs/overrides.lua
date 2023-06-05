@@ -35,6 +35,7 @@ M.mason = {
     "typescript-language-server",
     "prettierd",
     "vue-language-server",
+    "csharp-language-server",
     "volar",
   },
 }
