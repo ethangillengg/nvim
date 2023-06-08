@@ -14,6 +14,8 @@ local sources = {
   -- Lua
   formatting.stylua,
 
+  formatting.csharpier,
+
   -- cpp
   formatting.clang_format,
 }
