@@ -54,6 +54,7 @@ local plugins = {
   { "windwp/nvim-ts-autotag", event = "BufEnter", config = true },
 
   { "nvim-treesitter/nvim-treesitter-context", event = "BufEnter" },
+  { "simrat39/rust-tools.nvim", event = "BufEnter" },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
