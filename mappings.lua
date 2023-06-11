@@ -26,6 +26,8 @@ M.custom = {
       end,
       "Floating diagnostic",
     },
+
+    ["<C-t>"] = { ":set wrap!<CR>", "Toggle word wrap" },
   },
 
   v = {
