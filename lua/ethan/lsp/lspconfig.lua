@@ -1,5 +1,11 @@
 local lsp_servers = {
 	"lua_ls",
+	"html",
+	"cssls",
+	"tsserver",
+	"clangd",
+	"volar",
+	"csharp_ls",
 	"rust_analyzer",
 }
 

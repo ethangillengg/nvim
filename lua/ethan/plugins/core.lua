@@ -1,11 +1,10 @@
 return {
 	{ "nvim-lua/popup.nvim" }, --other api for stuffs
 	{ "nvim-lua/plenary.nvim" }, --api for stuffs
-	{ "kyazdani42/nvim-web-devicons" }, --icons for stuffs
+	{ "nvim-tree/nvim-web-devicons" }, --icons for stuffs
 
 	{ "windwp/nvim-autopairs", event = "BufEnter", config = true }, --bracket pairs
 	{ "windwp/nvim-ts-autotag", event = "BufEnter", config = true }, -- other auto pairs (html for example)
-
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
@@ -117,6 +116,16 @@ return {
 			vim.o.timeout = true
 			vim.o.timeoutlen = 10
 			require("which-key").setup()
+		end,
+	},
+	{
+		"max397574/better-escape.nvim",
+		event = "InsertEnter",
+		opts = {
+			timeout = 300,
+		},
+		config = function(_, opts)
+			require("better_escape").setup(opts)
 		end,
 	},
 }

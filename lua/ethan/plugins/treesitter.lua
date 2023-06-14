@@ -51,4 +51,5 @@ return {
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},
+	-- { "nvim-treesitter/nvim-treesitter-context", event = "BufEnter" },
 }
