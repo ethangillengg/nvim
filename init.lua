@@ -5,7 +5,7 @@ local profile_require = function(filename)
 end
 
 profile_require("options")
-profile_require("keymaps")
+profile_require("mappings")
 profile_require("setup-plugins")
 
 vim.cmd([[colorscheme catppuccin-mocha]])

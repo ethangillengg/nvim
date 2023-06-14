@@ -1,5 +1,5 @@
 local map = function(mode, key, command)
-  vim.keymap.set(mode, key, command, { noremap = true, silent = true })
+	vim.keymap.set(mode, key, command, { noremap = true, silent = true })
 end
 vim.g.mapleader = " "
 
@@ -24,7 +24,6 @@ map("n", "k", "gk")
 
 map("n", "<leader>w", ":wa<cr>")
 map("n", "<leader>q", ":wqa<cr>")
-map("n", "<Leader>v", ":edit ~/.config/nvim/lua/init.lua<CR>")
 
 -- Navigate buffers
 map("n", "<S-l>", ":bnext<cr>")

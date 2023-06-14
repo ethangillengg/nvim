@@ -620,4 +620,26 @@ return {
 			})
 		end,
 	},
+	{
+		"romgrk/barbar.nvim",
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
+		opts = {
+			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+			auto_hide = true,
+			-- Set the filetypes which barbar will offset itself for
+			sidebar_filetypes = {
+				-- Use the default values: {event = 'BufWinLeave', text = nil}
+				NvimTree = true,
+			},
+		},
+
+		keys = {
+			{ "<Tab>", ":BufferNext<CR>", desc = "Next buffer" },
+			{ "<S-Tab>", ":BufferPrevious<CR>", desc = "Previous buffer" },
+			{ "<leader>x", ":BufferClose<CR>", desc = "Close buffer" },
+			{ "<leader>X", ":BufferCloseAllButCurrent<CR>", desc = "Close all buffers (except current)" },
+		},
+	},
 }

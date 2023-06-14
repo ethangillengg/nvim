@@ -25,7 +25,7 @@ local options = {
 	shiftwidth = 2, -- the number of spaces inserted for each indentation
 	tabstop = 2, -- insert 2 spaces for a tab
 	number = true, -- set numbered lines
-	-- relativenumber = true, -- set relative numbered lines
+	relativenumber = true, -- set relative numbered lines
 	numberwidth = 4, -- set number column width to 2 {default 4}
 	signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
 	wrap = false, -- display lines as one long line
@@ -36,6 +36,7 @@ local options = {
 	cursorline = true,
 	formatoptions = "jql",
 	laststatus = 3, -- global statusline!!
+  linebreak = true, -- words break line on wrap
 	--[[ guicursor = "", ]]
 }
 
