@@ -104,6 +104,12 @@ return {
 	{
 		"nvim-tree/nvim-tree.lua",
 		event = "BufEnter",
+		opts = {
+			update_focused_file = {
+				enable = true,
+				update_root = false,
+			},
+		},
 		config = true,
 		keys = {
 			{ "<C-n>", ":NvimTreeToggle<CR>", desc = "Toggle file tree" },

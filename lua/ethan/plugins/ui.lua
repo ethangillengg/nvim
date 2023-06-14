@@ -81,9 +81,9 @@ return {
 			},
 			sections = {
 				lualine_a = { "mode" },
-				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { "%=", "filename" },
-				lualine_x = { "filetype" },
+				lualine_b = { "branch" },
+				lualine_c = { "diff", "%=", "filename" },
+				lualine_x = { "diagnostics", "filetype" },
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
@@ -108,11 +108,13 @@ return {
 			vim.g.barbar_auto_setup = false
 		end,
 		opts = {
-			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
 			auto_hide = true,
-			-- Set the filetypes which barbar will offset itself for
+			animation = false,
+			highlight_visible = true,
+			icons = {
+				separator = { left = "", right = "" },
+			},
 			sidebar_filetypes = {
-				-- Use the default values: {event = 'BufWinLeave', text = nil}
 				NvimTree = true,
 			},
 		},
