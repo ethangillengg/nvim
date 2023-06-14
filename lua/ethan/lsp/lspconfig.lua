@@ -1,5 +1,6 @@
 local lsp_servers = {
 	"lua_ls",
+	"nil_ls",
 	"html",
 	"cssls",
 	"tsserver",
@@ -37,7 +38,5 @@ M.setup = function()
 		end
 	end
 end
-
-M.lsp_servers = lsp_servers
 
 return M

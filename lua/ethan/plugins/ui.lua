@@ -124,4 +124,10 @@ return {
 			{ "<leader>X", ":BufferCloseAllButCurrent<CR>", desc = "Close all buffers (except current)" },
 		},
 	},
+
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		config = true,
+	},
 }
