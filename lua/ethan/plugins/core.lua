@@ -19,7 +19,7 @@ return {
 		keys = {
 			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find File" },
 			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep Word" },
-			{ "<leader>c", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
+			-- { "<leader>th", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
 			{ "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help" },
 			{ "<leader>t", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
 		},
@@ -55,20 +55,20 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufEnter",
-		keys = {
-			{ "<leader>g", "<cmd>Gitsigns diffthis<cr>", desc = "Git Diff" },
-			{
-				"<c-g>",
-				function()
-					local gitsigns = require("gitsigns")
-					gitsigns.next_hunk()
-					vim.schedule(function()
-						gitsigns.preview_hunk_inline()
-					end)
-				end,
-				desc = "Preview next hunk",
-			},
-		},
+		-- keys = {
+		-- 	{ "<leader>g", "<cmd>Gitsigns diffthis<cr>", desc = "Git Diff" },
+		-- 	{
+		-- 		"<c-g>",
+		-- 		function()
+		-- 			local gitsigns = require("gitsigns")
+		-- 			gitsigns.next_hunk()
+		-- 			vim.schedule(function()
+		-- 				gitsigns.preview_hunk_inline()
+		-- 			end)
+		-- 		end,
+		-- 		desc = "Preview next hunk",
+		-- 	},
+		-- },
 		opts = {
 			signs = {
 				add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
@@ -133,5 +133,15 @@ return {
 		config = function(_, opts)
 			require("better_escape").setup(opts)
 		end,
+	},
+	{
+		"tpope/vim-fugitive",
+		event = "VimEnter",
+		keys = {
+
+			{ "<leader>gg", ":Git<CR>", desc = "Git summary" },
+			{ "<leader>gc", ":Git commit<CR>", desc = "Git commit" },
+			{ "<leader>gp", ":Git push<CR>", desc = "Git push" },
+		},
 	},
 }

@@ -4,7 +4,9 @@ local formatting = null_ls.builtins.formatting
 
 local sources = {
 	-- webdev stuff
-	formatting.prettierd.with({ filetypes = { "html", "markdown", "css", "vue" } }), -- so prettier works only on these filetypes
+	-- formatting.deno_fmt, -- chose deno for ts/js files cuz its very fast!
+	-- formatting.prettierd.with({ filetypes = { "html", "markdown", "css", "vue" } }), -- so prettier works only on these filetypes
+	formatting.prettierd,
 	formatting.rustfmt,
 	-- Lua
 	formatting.stylua,
