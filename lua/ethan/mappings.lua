@@ -22,9 +22,13 @@ map("t", "<c-k>", "<c-\\><c-o><c-w>k<cr>")
 map("n", "j", "gj")
 map("n", "k", "gk")
 
+-- Quick save mappings
 map("n", "<leader>w", ":wa<cr>")
 map("n", "<leader>q", ":wqa<cr>")
 
+-- Center while paging
+map("n", "<c-d>", "<c-d>zz")
+map("n", "<c-u>", "<c-u>zz")
 -- Navigate buffers
 map("n", "<S-l>", ":bnext<cr>")
 map("n", "<S-h>", ":bprevious<cr>")
@@ -53,3 +57,4 @@ map("v", "p", '"_dP')
 
 -- Lazy mappings
 map("n", "<leader>l", ":Lazy<CR>")
+map("n", "<leader>rs", ":LspRestart<CR>")
