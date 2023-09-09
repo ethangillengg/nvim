@@ -8,4 +8,4 @@ profile_require("options")
 profile_require("mappings")
 profile_require("setup-plugins")
 
-vim.cmd("colorscheme material")
+vim.cmd("colorscheme gruvbox")
