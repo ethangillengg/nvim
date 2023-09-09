@@ -65,6 +65,7 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
+					{ name = "neorg" },
 					{ name = "nvim_lsp" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 3, max_item_count = 10 },

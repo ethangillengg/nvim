@@ -3,7 +3,7 @@ local options = {
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	-- cmdheight = 1, -- more space in the neovim command line for displaying messages
 	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
-	conceallevel = 0, -- so that `` is visible in markdown files
+	conceallevel = 3, -- so that `` is visible in markdown files
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = false, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
@@ -36,7 +36,7 @@ local options = {
 	cursorline = true,
 	formatoptions = "jql",
 	laststatus = 3, -- global statusline!!
-  linebreak = true, -- words break line on wrap
+	linebreak = true, -- words break line on wrap
 	--[[ guicursor = "", ]]
 }
 
@@ -48,7 +48,7 @@ vim.opt.shortmess:append("c")
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
-vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]]) -- TODO: this doesn't seem to work
+vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 --[[ Highlight on yank ]]
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {

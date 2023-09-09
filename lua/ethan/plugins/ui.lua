@@ -22,9 +22,10 @@ return {
 			dashboard.section.buttons.val = {
 				button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
 				button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
+				button("n", icons.ui.Note .. " Notes", ":Neorg index<CR>"),
 				button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
-				button("t", icons.ui.List .. " Find text", ":Telescope live_grep <CR>"),
-				button("c", icons.ui.Gear .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
+				button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
+				-- button("c", icons.ui.Gear .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
 				button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
 				button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
 				button("q", icons.ui.SignOut .. " Quit", ":qa<CR>"),
@@ -63,7 +64,7 @@ return {
 		opts = {
 			options = {
 				icons_enabled = true,
-				theme = "material",
+				theme = "gruvbox",
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				disabled_filetypes = {

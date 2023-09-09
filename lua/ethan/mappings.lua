@@ -2,6 +2,7 @@ local map = function(mode, key, command)
 	vim.keymap.set(mode, key, command, { noremap = true, silent = true })
 end
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- Quick nav splits
 map("n", "<c-w>h", ":split<cr>")
@@ -30,8 +31,8 @@ map("n", "<leader>q", ":wqa<cr>")
 map("n", "<c-d>", "<c-d>zz")
 map("n", "<c-u>", "<c-u>zz")
 -- Navigate buffers
-map("n", "<S-l>", ":bnext<cr>")
-map("n", "<S-h>", ":bprevious<cr>")
+map("n", "<tab>", ":bnext<cr>")
+map("n", "<S-tab>", ":bprevious<cr>")
 
 -- Toggle options
 map("n", "<c-t>", ":set wrap!<cr>")
