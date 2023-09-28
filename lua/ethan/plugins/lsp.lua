@@ -69,6 +69,11 @@ return {
 	},
 
 	{
+		"simrat39/rust-tools.nvim",
+		config = false,
+	},
+
+	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
 		version = "*",

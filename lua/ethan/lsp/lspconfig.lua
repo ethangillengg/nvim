@@ -14,6 +14,7 @@ local M = {}
 
 M.setup = function()
 	local lspconfig = require("lspconfig")
+	local rt = require("rust-tools")
 	local on_attach = require("ethan.lsp.handlers").on_attach
 	local capabilities = require("ethan.lsp.handlers").capabilities
 
@@ -30,6 +31,13 @@ M.setup = function()
 				on_attach = on_attach,
 				capabilities = capabilities,
 			})
+		elseif lsp == "rust_analyzer" then
+			local opts = {
+				server = {
+					on_attach = on_attach,
+				},
+			}
+			rt.setup(opts)
 		else
 			lspconfig[lsp].setup({
 				on_attach = on_attach,
