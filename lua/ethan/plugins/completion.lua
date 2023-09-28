@@ -32,6 +32,8 @@ return {
 		event = "InsertEnter",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-nvim-lua",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -41,14 +43,9 @@ return {
 		},
 		opts = function()
 			local cmp = require("cmp")
+			local icons = require("ethan.icons")
+
 			return {
-				performance = {
-					debounce = 0,
-					throttle = 0,
-				},
-				completion = {
-					completeopt = "menu,menuone,noinsert",
-				},
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)
@@ -64,23 +61,22 @@ return {
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
+
 				sources = cmp.config.sources({
 					{ name = "neorg" },
 					{ name = "nvim_lsp" },
+					{ name = "nvim_lsp_signature_help" },
+					{ name = "nvim_lua" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 3, max_item_count = 10 },
-					{ name = "nvim_lua" },
 					{ name = "luasnip" },
 					{ name = "emoji" },
-					{ max_item_count = 1 },
 				}),
 				formatting = {
 					fields = { "abbr", "kind", "menu" },
 					format = function(entry, vim_item)
-						local icons = require("ethan.icons")
 						-- Kind icons
 						vim_item.kind = icons.kind[vim_item.kind]
-
 						vim_item.menu = ({
 							nvim_lsp = "[LSP]",
 							luasnip = "[Snippet]",
@@ -89,23 +85,12 @@ return {
 							nvim_lua = "[LUA]",
 							emoji = "[Emoji]",
 						})[entry.source.name]
-
 						return vim_item
 					end,
 				},
 				window = {
-					documentation = {
-						border = "rounded",
-						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-						max_height = 60,
-					},
-					completion = {
-						border = "rounded",
-						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-					},
-				},
-				experimental = {
-					ghost_text = true,
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
 				},
 			}
 		end,
