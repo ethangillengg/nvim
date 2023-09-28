@@ -45,6 +45,8 @@ for opt, val in pairs(options) do
 end
 
 vim.opt.shortmess:append("c")
+-- vertical diff split
+vim.opt.diffopt:append("vertical")
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
