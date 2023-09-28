@@ -29,6 +29,7 @@ return {
 				"rust",
 				"yaml",
 				"nix",
+				"glsl",
 			},
 			sync_install = false,
 			highlight = {

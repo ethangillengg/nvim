@@ -65,7 +65,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = "neorg" },
 					{ name = "nvim_lsp" },
-					{ name = "nvim_lsp_signature_help" },
+					-- { name = "nvim_lsp_signature_help" },
 					{ name = "nvim_lua" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 3, max_item_count = 10 },

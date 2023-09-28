@@ -8,6 +8,7 @@ local lsp_servers = {
 	"volar",
 	"csharp_ls",
 	"rust_analyzer",
+	"glslls",
 }
 
 local M = {}
