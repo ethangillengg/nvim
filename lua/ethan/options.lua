@@ -1,4 +1,5 @@
 local options = {
+
 	backup = false, -- creates a backup file
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	-- cmdheight = 1, -- more space in the neovim command line for displaying messages
@@ -45,8 +46,7 @@ for opt, val in pairs(options) do
 end
 
 vim.opt.shortmess:append("c")
--- vertical diff split
-vim.opt.diffopt:append("vertical")
+vim.opt.diffopt:append("vertical") --vertical diff
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
