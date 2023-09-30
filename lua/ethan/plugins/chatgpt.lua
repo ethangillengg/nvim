@@ -1,9 +1,9 @@
 return {
 	{
-		"jackMort/ChatGPT.nvim",
+		"ethangillengg/ChatGPT.nvim",
 		event = "VeryLazy",
 		opts = {
-			api_key_cmd = "gpg --decrypt " .. "C:\\Users\\EGill\\openai.txt.gpg",
+			api_key_cmd = "pass show personal/openai",
 		},
 
 		dependencies = {

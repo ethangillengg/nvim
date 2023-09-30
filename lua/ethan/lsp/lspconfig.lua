@@ -36,6 +36,7 @@ M.setup = function()
 			local opts = {
 				server = {
 					on_attach = on_attach,
+					capabilities = capabilities,
 				},
 			}
 			rt.setup(opts)

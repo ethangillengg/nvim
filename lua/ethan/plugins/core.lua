@@ -20,8 +20,9 @@ return {
 			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find File" },
 			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep Word" },
 			-- { "<leader>th", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
-			{ "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-			{ "<leader>t", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
+			{ "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = "Symbols" },
+			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
 		},
 		opts = {
 			defaults = {
@@ -40,6 +41,7 @@ return {
 		config = function(_, opts)
 			require("telescope").setup(opts)
 			require("telescope").load_extension("fzf")
+			-- require("telescope.builtin").symbols({ sources = { "math", "latex", "nerd" } })
 		end,
 	}, --telescope
 	-- [[ { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope ]]
