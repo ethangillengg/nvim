@@ -11,5 +11,8 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
+		keys = {
+			{ "<C-c>", "<cmd>ChatGPT<CR>", "Toggle ChatGPT" },
+		},
 	},
 }
