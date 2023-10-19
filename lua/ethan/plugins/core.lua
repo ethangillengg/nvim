@@ -24,23 +24,34 @@ return {
 			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = "Symbols" },
 			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
 		},
-		opts = {
-			defaults = {
-				prompt_prefix = " ",
-				selection_caret = "❯ ",
-				sorting_strategy = "ascending",
-				layout_config = {
-					prompt_position = "top",
+		opts = function()
+			local actions = require("telescope.actions")
+
+			return {
+				defaults = {
+					prompt_prefix = " ",
+					selection_caret = "❯ ",
+					sorting_strategy = "ascending",
+					layout_config = {
+						prompt_position = "top",
+					},
+					file_ignore_patterns = {
+						"^wwwroot\\",
+						"^target/",
+					},
+					mappings = {
+						i = {
+							["<C-j>"] = actions.move_selection_next,
+							["<C-k>"] = actions.move_selection_previous,
+						},
+					},
 				},
-				file_ignore_patterns = {
-					"^wwwroot\\",
-					"^target/",
-				},
-			},
-		},
+			}
+		end,
 		config = function(_, opts)
-			require("telescope").setup(opts)
-			require("telescope").load_extension("fzf")
+			local ts = require("telescope")
+			ts.setup(opts)
+			ts.load_extension("fzf")
 			-- require("telescope.builtin").symbols({ sources = { "math", "latex", "nerd" } })
 		end,
 	}, --telescope
