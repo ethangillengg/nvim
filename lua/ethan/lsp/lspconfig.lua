@@ -9,6 +9,7 @@ local lsp_servers = {
 	"csharp_ls",
 	"rust_analyzer",
 	"glslls",
+	"pyright",
 }
 
 local M = {}
