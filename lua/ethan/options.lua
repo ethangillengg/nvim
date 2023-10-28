@@ -4,7 +4,7 @@ local options = {
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	-- cmdheight = 1, -- more space in the neovim command line for displaying messages
 	completeopt = { "menuone", "noselect", "noinsert" }, -- mostly just for cmp
-	conceallevel = 3, -- so that `` is visible in markdown files
+	conceallevel = 0, -- so that `` is visible in markdown files
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = false, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
@@ -51,6 +51,9 @@ vim.opt.diffopt:append("vertical") --vertical diff
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
+
+vim.cmd([[au BufRead,BufNewFile *.norg setlocal spell spelllang=en_us]])
+vim.cmd([[au BufRead,BufNewFile *.md,*.norg setlocal conceallevel=3]])
 
 --[[ Highlight on yank ]]
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {

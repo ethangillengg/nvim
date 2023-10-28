@@ -1,9 +1,6 @@
 local cmp_copilot = {
 	"zbirenbaum/copilot-cmp",
 	opts = true, -- auto setup
-	-- config = function()
-	-- 	require("copilot_cmp").setup()
-	-- end,
 }
 
 local has_words_before = function()

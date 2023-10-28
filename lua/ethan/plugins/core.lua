@@ -68,7 +68,7 @@ return {
 	-- git integration
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "BufEnter",
+		event = "BufReadPost",
 		-- keys = {
 		-- 	{ "<leader>g", "<cmd>Gitsigns diffthis<cr>", desc = "Git Diff" },
 		-- 	{
