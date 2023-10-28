@@ -3,6 +3,8 @@ return {
 		"nvim-neorg/neorg",
 		build = ":Neorg sync-parsers",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = "norg",
+		cmd = "Neorg",
 
 		-- keys = {
 		-- 	{ "<localleader>nr", "<cmd>Neorg return<cr>", desc = "Neorg return" },

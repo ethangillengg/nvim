@@ -3,8 +3,9 @@ return {
 	{ "nvim-lua/plenary.nvim" }, --api for stuffs
 	{ "nvim-tree/nvim-web-devicons" }, --icons for stuffs
 
-	{ "windwp/nvim-autopairs", event = "BufEnter", config = true }, --bracket pairs
-	{ "windwp/nvim-ts-autotag", event = "BufEnter", config = true }, -- other auto pairs (html for example)
+	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true }, --bracket pairs
+	{ "windwp/nvim-ts-autotag", event = "InsertEnter", config = true }, -- other auto pairs (html for example)
+
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
@@ -15,7 +16,7 @@ return {
 				build = "make",
 			},
 		},
-		lazy = false,
+		cmd = "Telescope",
 		keys = {
 			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find File" },
 			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep Word" },
@@ -58,9 +59,9 @@ return {
 	-- [[ { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope ]]
 	{
 		"numToStr/Comment.nvim",
-		event = "BufEnter",
+		event = "InsertEnter",
 		--configure later?
-		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+		-- dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = true,
 	}, -- Easily comment stuff
 
@@ -116,7 +117,7 @@ return {
 	{ "stevearc/dressing.nvim" }, -- styling for lsp rename and code actions
 	{
 		"nvim-tree/nvim-tree.lua",
-		event = "BufEnter",
+		cmd = "NvimTreeToggle",
 		opts = {
 			update_focused_file = {
 				enable = true,

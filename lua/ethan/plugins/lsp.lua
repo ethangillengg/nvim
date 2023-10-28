@@ -2,6 +2,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
+		cmd = "Mason",
 		keys = {
 			{ "<leader>m", ":Mason<CR>", desc = "Open mason" },
 		},
@@ -50,31 +51,42 @@ return {
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "neovim/nvim-lspconfig" },
-		config = true,
+		event = { "BufReadPre", "BufNewFile" },
+		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
 	},
 	{
 		"neovim/nvim-lspconfig",
-		event = "BufEnter",
+		lazy = true,
 		config = function()
 			require("ethan.lsp.lspconfig").setup()
 		end,
 	},
 	{
 		"jose-elias-alvarez/null-ls.nvim",
-		event = "BufEnter",
+		event = { "BufWritePre" },
 		config = function()
 			require("ethan.lsp.null-ls")
 		end,
 	},
 
 	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		config = true,
+		event = { "BufReadPre", "BufNewFile" },
+		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+	},
+
+	{
 		"simrat39/rust-tools.nvim",
+		lazy = true,
 		config = false,
 	},
 
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
+		lazy = true,
 		version = "*",
 		dependencies = {
 			"SmiteshP/nvim-navic",
