@@ -62,7 +62,7 @@ return {
 	},
 	{
 		"jose-elias-alvarez/null-ls.nvim",
-		event = { "BufWritePre" },
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			require("ethan.lsp.null-ls")
 		end,
@@ -85,7 +85,7 @@ return {
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
-		lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
 		version = "*",
 		dependencies = {
 			"SmiteshP/nvim-navic",
