@@ -69,21 +69,6 @@ return {
 					["<C-k>"] = cmp.mapping.scroll_docs(-4),
 					["<Tab>"] = cmp.mapping.select_next_item(),
 					["<S-Tab>"] = cmp.mapping.select_prev_item(),
-					-- ["<Tab>"] = vim.schedule_wrap(function(fallback)
-					-- 	if cmp.visible() and has_words_before() then
-					-- 		cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end),
-					--
-					-- ["<S-Tab>"] = vim.schedule_wrap(function(fallback)
-					-- 	if cmp.visible() and has_words_before() then
-					-- 		cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),

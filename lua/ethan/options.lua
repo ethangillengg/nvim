@@ -52,7 +52,7 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
-vim.cmd([[au BufRead,BufNewFile *.norg setlocal spell spelllang=en_us]])
+vim.cmd([[au BufRead,BufNewFile *.md,*.norg setlocal spell spelllang=en_us]])
 vim.cmd([[au BufRead,BufNewFile *.md,*.norg setlocal conceallevel=3]])
 
 --[[ Highlight on yank ]]
