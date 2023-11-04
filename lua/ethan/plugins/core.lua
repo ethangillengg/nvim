@@ -59,7 +59,7 @@ return {
 	-- [[ { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope ]]
 	{
 		"numToStr/Comment.nvim",
-		event = "InsertEnter",
+		event = "BufReadPost",
 		--configure later?
 		-- dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = true,
