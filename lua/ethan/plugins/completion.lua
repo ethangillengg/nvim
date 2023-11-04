@@ -3,14 +3,6 @@ local cmp_copilot = {
 	opts = true, -- auto setup
 }
 
-local has_words_before = function()
-	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-		return false
-	end
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
-end
-
 return {
 	{
 		"hrsh7th/nvim-cmp",
@@ -18,6 +10,7 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
+			"f3fora/cmp-spell",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-buffer",
@@ -63,18 +56,21 @@ return {
 					end,
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-c>"] = cmp.mapping.complete({ reason = "manual" }),
 					["<C-s>"] = cmp.mapping.complete({ reason = "manual" }),
-					["<C-j>"] = cmp.mapping.scroll_docs(4),
-					["<C-k>"] = cmp.mapping.scroll_docs(-4),
+					["<C-j>"] = cmp.mapping.select_next_item(),
+					["<C-k>"] = cmp.mapping.select_prev_item(),
+					["<C-u>"] = cmp.mapping.scroll_docs(-4),
+					["<C-d>"] = cmp.mapping.scroll_docs(4),
 					["<Tab>"] = cmp.mapping.select_next_item(),
 					["<S-Tab>"] = cmp.mapping.select_prev_item(),
 					["<C-e>"] = cmp.mapping.abort(),
+					["<C-c>"] = cmp.mapping.abort(),
+
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 
 				sources = cmp.config.sources({
-					{ name = "neorg" },
+					{ name = "spell" },
 					{ name = "nvim_lsp" },
 					{ name = "copilot" },
 					-- { name = "nvim_lsp_signature_help" },
@@ -108,6 +104,7 @@ return {
 						-- Kind icons
 						vim_item.kind = icons.kind[vim_item.kind]
 						vim_item.menu = ({
+							spell = "[Spell]",
 							copilot = "[Copilot]",
 							nvim_lsp = "[LSP]",
 							luasnip = "[Snippet]",
