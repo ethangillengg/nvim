@@ -6,7 +6,18 @@ return {
 		keys = {
 			{ "<leader>m", ":Mason<CR>", desc = "Open mason" },
 		},
-		config = function(_, opts)
+		config = true,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = { "neovim/nvim-lspconfig" },
+		event = { "BufReadPre", "BufNewFile" },
+		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+	},
+	{
+		"neovim/nvim-lspconfig",
+		lazy = true,
+		config = function()
 			local icons = require("ethan.icons")
 
 			local signs = {
@@ -31,32 +42,17 @@ return {
 				severity_sort = true,
 				float = {
 					focusable = false,
-					style = "minimal",
-					border = "rounded",
 					source = "always",
+					width = 80,
 				},
 			}
 
 			vim.diagnostic.config(config)
 
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "rounded",
-				title = "Hover",
+				width = 60,
 			})
 
-			require("mason").setup(opts)
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = { "neovim/nvim-lspconfig" },
-		event = { "BufReadPre", "BufNewFile" },
-		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
-	},
-	{
-		"neovim/nvim-lspconfig",
-		lazy = true,
-		config = function()
 			require("ethan.lsp.lspconfig").setup()
 		end,
 	},
