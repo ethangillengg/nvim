@@ -116,6 +116,9 @@ return {
 						return vim_item
 					end,
 				},
+				window = {
+					documentation = { max_width = 60 },
+				},
 			}
 		end,
 		config = function(_, opts)
