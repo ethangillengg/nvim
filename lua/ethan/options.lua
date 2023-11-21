@@ -53,7 +53,9 @@ vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 vim.cmd([[au BufRead,BufNewFile *.md,*.norg,COMMIT_EDITMSG setlocal spell spelllang=en_us]])
-vim.cmd([[au BufRead,BufNewFile *.norg setlocal conceallevel=3]])
+vim.cmd([[au BufRead,BufNewFile *.norg setlocal conceallevel=3 | setlocal wrap]])
+-- Don't conceal checklists, wrap text
+vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=0 | setlocal wrap]])
 
 --[[ Highlight on yank ]]
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
