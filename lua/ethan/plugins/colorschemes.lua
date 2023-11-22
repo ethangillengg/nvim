@@ -1,6 +1,7 @@
 return {
 	-- colors!!
 	{ "catppuccin/nvim" },
+	{ "folke/tokyonight.nvim" },
 	{ "ellisonleao/gruvbox.nvim" },
 	{
 		"marko-cerovac/material.nvim",

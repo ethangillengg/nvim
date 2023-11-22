@@ -8,4 +8,4 @@ profile_require("options")
 profile_require("mappings")
 profile_require("setup-plugins")
 
-vim.cmd("colorscheme catppuccin")
+vim.cmd("colorscheme tokyonight-night")
