@@ -44,15 +44,9 @@ local function lsp_keymaps(bufnr)
 	vim.keymap.set("n", "<leader>ca", function()
 		vim.lsp.buf.code_action()
 	end, opts)
-	vim.keymap.set("n", "<leader>f", function()
-		vim.lsp.buf.format()
-	end, opts)
 end
 
-M.on_attach = function(client, bufnr)
-	client.server_capabilities.documentFormattingProvider = false
-	client.server_capabilities.documentRangeFormattingProvider = false
-
+M.on_attach = function(_, bufnr)
 	lsp_keymaps(bufnr)
 end
 
