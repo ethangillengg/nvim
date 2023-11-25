@@ -58,46 +58,10 @@ return {
 	},
 
 	{
-		"stevearc/conform.nvim",
-		event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
-		keys = {
-			{
-				"<leader>ff",
-				function()
-					require("conform").format({ async = true, lsp_fallback = true })
-				end,
-				mode = "",
-				desc = "Format buffer",
-			},
-		},
-		opts = {
-			formatters_by_ft = {
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				json = { { "prettierd", "prettier" } },
-				react = { { "prettierd", "prettier" } },
-				vue = { { "prettierd", "prettier" } },
-				nix = { "alejandra" },
-				cs = { "charpier" },
-				lua = { "stylua" },
-				cpp = { "clang_format" },
-				python = { "ruff_format" },
-				bash = { "shfmt" },
-			},
-			format_on_save = {
-				timeout_ms = 500,
-				async = true,
-				lsp_fallback = true,
-			},
-		},
-	},
-	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
 		config = true,
 		event = { "BufReadPre", "BufNewFile" },
-		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
 	},
 
 	{
