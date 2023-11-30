@@ -1,15 +1,22 @@
 local lsp_servers = {
 	"lua_ls",
+	-- Nix
 	"nil_ls",
+	-- Web Dev
 	"html",
 	"cssls",
 	"tsserver",
-	"clangd",
 	"volar",
-	"csharp_ls",
+	"tailwindcss",
+	-- Rust
 	"rust_analyzer",
-	"glslls",
+	-- Python
 	"pyright",
+	-- C#
+	"csharp_ls",
+	-- C/C++
+	"clangd",
+	"glslls",
 }
 
 local M = {}
