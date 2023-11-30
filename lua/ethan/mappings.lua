@@ -57,5 +57,5 @@ map("n", "<S-h>", ":bprevious<CR>")
 map("v", "p", '"_dP')
 
 -- Lazy mappings
-map("n", "<leader>l", ":Lazy<CR>")
-map("n", "<leader>rs", ":LspRestart<CR>")
+map("n", "<leader>li", ":LspInfo<CR>")
+map("n", "<leader>lr", ":LspRestart<CR>")
