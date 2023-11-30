@@ -83,4 +83,12 @@ return {
 			-- configurations go here
 		},
 	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
+		config = {
+			"*", -- highlight all files
+		},
+	},
 }
