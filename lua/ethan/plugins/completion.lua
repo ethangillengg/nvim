@@ -117,7 +117,18 @@ return {
 					end,
 				},
 				window = {
-					documentation = { max_width = 60 },
+					completion = {
+						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
+						border = "rounded",
+						scrollbar = true,
+						max_width = 60,
+					},
+					documentation = {
+						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
+						border = "rounded",
+						scrollbar = true,
+						max_width = 60,
+					},
 				},
 			}
 		end,

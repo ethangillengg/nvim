@@ -31,27 +31,45 @@ return {
 				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
 			end
 
-			local config = {
-				virtual_text = true,
+			vim.diagnostic.config({
 				-- show signs
 				signs = {
 					active = signs,
 				},
 				update_in_insert = true,
-				underline = true,
 				severity_sort = true,
 				float = {
+					-- title = "Diagnostic",
+					header = false,
 					focusable = false,
 					source = "always",
-					width = 80,
+					border = "rounded",
+					max_width = 80,
 				},
-			}
-
-			vim.diagnostic.config(config)
+			})
 
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				width = 60,
-				height = 30,
+				-- title = "Hover",
+				border = "rounded",
+				max_width = 60,
+				max_height = 30,
+			})
+
+			-- makes floating windows transparent
+			local set_hl_for_floating_window = function()
+				vim.api.nvim_set_hl(0, "NormalFloat", {
+					link = "Normal",
+				})
+				vim.api.nvim_set_hl(0, "FloatBorder", {
+					bg = "none",
+				})
+			end
+			set_hl_for_floating_window()
+
+			-- prevent override by colorscheme
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				pattern = "*",
+				callback = set_hl_for_floating_window,
 			})
 
 			require("ethan.lsp.lspconfig").setup()
