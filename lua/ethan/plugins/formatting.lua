@@ -29,6 +29,7 @@ return {
 				cs = { "charpier" },
 				lua = { "stylua" },
 				cpp = { "clang_format" },
+				glsl = { "clang_format" },
 				python = { "ruff_format" },
 				bash = { "shfmt" },
 			},
