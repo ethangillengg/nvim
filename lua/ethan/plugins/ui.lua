@@ -22,7 +22,7 @@ return {
 			dashboard.section.buttons.val = {
 				button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
 				button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
-				button("n", icons.ui.Note .. " Notes", ":Neorg index<CR>"),
+				button("n", icons.ui.Note .. " Notes", ":edit ~/Notes/index.md<CR>"),
 				button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
 				button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
 				-- button("c", icons.ui.Gear .. " Config", ":e ~/.config/nvim/init.lua <CR>"),

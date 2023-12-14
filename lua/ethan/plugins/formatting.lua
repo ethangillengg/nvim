@@ -32,6 +32,8 @@ return {
 				glsl = { "clang_format" },
 				python = { "ruff_format" },
 				bash = { "shfmt" },
+				sh = { "shfmt" },
+				yaml = { "yamlfmt" },
 			},
 			format_on_save = {
 				timeout_ms = 500,

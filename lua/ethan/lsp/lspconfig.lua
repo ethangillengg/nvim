@@ -7,16 +7,21 @@ local lsp_servers = {
 	"cssls",
 	"tsserver",
 	"volar",
-	"tailwindcss",
+	"biome",
 	-- Rust
 	"rust_analyzer",
 	-- Python
 	"pyright",
+	"ruff_lsp",
 	-- C#
 	"csharp_ls",
 	-- C/C++
 	"clangd",
 	"glslls",
+	-- Bash
+	"bashls",
+	-- Markdown
+	"marksman",
 }
 
 local M = {}
