@@ -4,9 +4,31 @@ return {
 		event = "VimEnter",
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
+
+			---@param sc string Shortcut key.
+			---@param txt string Text to display for the button.
+			---@param keybind string | function Action to perform when the button is pressed. Either a string or a function.
+			---@param keybind_opts table? Options to pass to the keymap function.
 			local function button(sc, txt, keybind, keybind_opts)
-				local b = dashboard.button(sc, txt, keybind, keybind_opts)
+				local b
+				if type(keybind) == "string" then
+					b = dashboard.button(sc, txt, keybind, keybind_opts)
+				else
+					b = dashboard.button(sc, txt, "", keybind_opts)
+					b.opts.keymap = {
+						"n",
+						sc,
+						"",
+						{
+							callback = keybind,
+							noremap = true,
+							silent = true,
+							nowait = true,
+						},
+					}
+				end
 				b.opts.hl_shortcut = "Macro"
+
 				return b
 			end
 
@@ -21,53 +43,27 @@ return {
 				[[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
 				[[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
 			}
-			local function test()
-				vim.cmd(":echo 'test'")
-			end
 
 			dashboard.section.buttons.val = {
 				button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
 				button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
-				button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
-				button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
-				-- button("c", icons.ui.Gear .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
-				{
-					type = "button",
-					val = icons.ui.Note .. " Notes",
-					on_press = function()
-						local key = vim.api.nvim_replace_termcodes("n" .. "<Ignore>", true, false, true)
-						vim.api.nvim_feedkeys(key, "t", false)
-					end,
-					opts = {
-						position = "center",
-						shortcut = ("n"):gsub("%s", ""):gsub("SPC", "<leader>"),
-						cursor = 3,
-						width = 50,
-						align_shortcut = "right",
-						hl_shortcut = "Macro",
-
-						keymap = {
-							"n",
-							"n",
-							"",
-							{
-								callback = function()
-									local this_os = vim.loop.os_uname().sysname
-									if this_os == "Linux" then
-										vim.cmd(":e ~/Notes/index.md")
-									else
-										vim.cmd(":e C:\\Users\\EGill\\Notes\\index.md")
-									end
-								end,
-								noremap = true,
-								silent = true,
-								nowait = true,
-							},
-						},
-					},
-				},
+				-- button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
+				-- button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
+				button("n", icons.ui.Note .. " Notes", function()
+					local this_os = vim.loop.os_uname().sysname
+					if this_os == "Linux" then
+						vim.cmd(":e ~/Notes/index.md")
+					else
+						vim.cmd(":e C:\\Users\\EGill\\Notes\\index.md") -- for Windows
+					end
+				end),
 				button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
 				button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
+
+				button("c", icons.ui.Gear .. " Config", function()
+					vim.api.nvim_set_current_dir("~/.config/nvim")
+					vim.cmd(":e init.lua")
+				end),
 				button("q", icons.ui.SignOut .. " Quit", ":qa<CR>"),
 			}
 
@@ -103,7 +99,6 @@ return {
 			-- hide the statusline
 			vim.opt_global.laststatus = 0
 			require("alpha").setup(dashboard.opts)
-			-- require("alpha").setup()
 		end,
 	}, --greeter
 	{
