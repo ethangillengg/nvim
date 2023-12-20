@@ -11,6 +11,9 @@ return {
 				transform_explicit = false,
 				transform_implicit = false,
 			},
+			modules = {
+				cmp = true,
+			},
 
 			mappings = {
 				MkdnEnter = false,

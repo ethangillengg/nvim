@@ -10,7 +10,6 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
-			"f3fora/cmp-spell",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-buffer",
@@ -70,7 +69,7 @@ return {
 				}),
 
 				sources = cmp.config.sources({
-					{ name = "spell" },
+					{ name = "mkdnflow" },
 					{ name = "nvim_lsp" },
 					{ name = "copilot" },
 					-- { name = "nvim_lsp_signature_help" },
@@ -104,7 +103,7 @@ return {
 						-- Kind icons
 						vim_item.kind = icons.kind[vim_item.kind]
 						vim_item.menu = ({
-							spell = "[Spell]",
+							mkdnflow = "[Flow]",
 							copilot = "[Copilot]",
 							nvim_lsp = "[LSP]",
 							luasnip = "[Snippet]",
