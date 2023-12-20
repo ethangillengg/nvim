@@ -50,19 +50,35 @@ return {
 				-- button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
 				-- button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
 				button("n", icons.ui.Note .. " Notes", function()
+					local notes_dir
+
 					local this_os = vim.loop.os_uname().sysname
-					if this_os == "Linux" then
-						vim.cmd(":e ~/Notes/index.md")
-					else
-						vim.cmd(":e C:\\Users\\EGill\\Notes\\index.md") -- for Windows
+					if this_os == "Linux" or this_os == "Darwin" then
+						notes_dir = vim.fn.expand("~/Notes", nil, nil)
+					elseif this_os == "Windows_NT" then
+						notes_dir = vim.fn.expand("$USERPROFILE/Notes", nil, nil)
 					end
+
+					vim.api.nvim_set_current_dir(notes_dir)
+
+					vim.cmd("edit index.md")
 				end),
 				button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
 				button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
 
 				button("c", icons.ui.Gear .. " Config", function()
-					vim.api.nvim_set_current_dir("~/.config/nvim")
-					vim.cmd(":e init.lua")
+					local config_dir
+
+					local this_os = vim.loop.os_uname().sysname
+					if this_os == "Linux" or this_os == "Darwin" then
+						config_dir = vim.fn.expand("$XDG_CONFIG_HOME/nvim", nil, nil)
+					elseif this_os == "Windows_NT" then
+						config_dir = vim.fn.expand("$LOCALAPPDATA/nvim", nil, nil)
+					end
+
+					vim.api.nvim_set_current_dir(config_dir)
+
+					vim.cmd("edit init.lua")
 				end),
 				button("q", icons.ui.SignOut .. " Quit", ":qa<CR>"),
 			}
