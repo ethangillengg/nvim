@@ -1,9 +1,15 @@
 return {
 	{
 		"jakewvincent/mkdnflow.nvim",
+		lazy = false,
 		opts = {
 			to_do = {
 				symbols = { " ", "~", "X" },
+			},
+			links = {
+				implicit_extension = nil,
+				transform_explicit = false,
+				transform_implicit = false,
 			},
 
 			mappings = {
@@ -48,14 +54,44 @@ return {
 		keys = {
 			{
 				"<CR>",
+				-- Follow a link, but don't create one if there isn't one
 				function()
 					local flow = require("mkdnflow")
-					vim.cmd([[normal! m`]]) -- push to jumplist
-					flow.cursor.toNextLink()
-					flow.links.followLink()
+
+					-- Copied + modified from the source code for followLink()
+					-- https://github.com/jakewvincent/mkdnflow.nvim/blob/main/lua/mkdnflow/links.lua
+					local link = flow.links.getLinkUnderCursor()
+
+					if not link then -- try to find another link on the line
+						local cur_line = tostring(vim.api.nvim_get_current_line())
+						local link_regex = vim.regex("\\[.*\\]") -- regex for markdown links
+						local col = link_regex:match_str(cur_line)
+
+						if col then
+							-- go to the col where we found a link
+							vim.api.nvim_win_set_cursor(0, { vim.api.nvim_win_get_cursor(0)[1], col })
+							link = flow.links.getLinkUnderCursor()
+						end
+
+						if not link or not col then -- still couldn't find a link
+							vim.api.nvim_echo({ { "No link below the cursor", "WarningMsg" } }, true, {})
+							return
+						end
+					end
+
+					-- push to jumplist
+					vim.cmd([[normal! m`]])
+
+					-- follow the link
+					local path, anchor = flow.links.getLinkPart(link, "source")
+					flow.paths.handlePath(path, anchor)
+
+					-- push to jumplist
+					vim.cmd([[normal! m`]])
 				end,
 				mode = "n",
 				desc = "Follow Link",
+				ft = { "markdown" },
 			},
 		},
 	},
