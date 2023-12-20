@@ -1,4 +1,7 @@
-# My nvim setup
+![](./demo.png)
+Welcome to my neovim config!
+
+# Setup
 
 To install run the following commands in `$XDG_CONFIG_HOME`
 
