@@ -71,7 +71,7 @@ return {
 
 					local this_os = vim.loop.os_uname().sysname
 					if this_os == "Linux" or this_os == "Darwin" then
-						config_dir = vim.fn.expand("$XDG_CONFIG_HOME/nvim", nil, nil)
+						config_dir = vim.fn.expand("$HOME/.config/nvim", nil, nil)
 					elseif this_os == "Windows_NT" then
 						config_dir = vim.fn.expand("$LOCALAPPDATA/nvim", nil, nil)
 					end
