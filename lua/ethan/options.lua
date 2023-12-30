@@ -53,7 +53,7 @@ vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 vim.cmd([[au BufRead,BufNewFile *.md,*.norg,COMMIT_EDITMSG setlocal spell spelllang=en_us]])
-vim.cmd([[au BufRead,BufNewFile *.norg,*.md setlocal conceallevel=3 | setlocal wrap]])
+vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=2 | setlocal wrap]])
 
 --[[ Highlight on yank ]]
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {

@@ -1,20 +1,14 @@
 return {
 	{
 		"jakewvincent/mkdnflow.nvim",
-		lazy = false,
+		ft = { "markdown" },
 		opts = {
 			to_do = {
-				symbols = { " ", "~", "X" },
+				symbols = { " ", "~", "x", "a", "!" }, -- see MkdnToggleToDo
+				not_started = " ",
+				in_progress = "~",
+				complete = "x",
 			},
-			links = {
-				implicit_extension = nil,
-				transform_explicit = false,
-				transform_implicit = false,
-			},
-			modules = {
-				cmp = true,
-			},
-
 			mappings = {
 				MkdnEnter = false,
 				MkdnTab = false,
@@ -53,59 +47,106 @@ return {
 				MkdnUnfoldSection = false, -- use default fold binds
 			},
 		},
+	},
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		ft = "markdown",
+		cmd = { "ObsidianQuickSwitch", "ObsidianToday" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+			"folke/zen-mode.nvim",
+			{
+				"iamcco/markdown-preview.nvim",
+				cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+				build = "cd app && npm install",
+				init = function()
+					vim.g.mkdp_filetypes = { "markdown" }
+				end,
+			},
+		},
+		opts = {
+			workspaces = {
+				{
+					name = "notes",
+					path = "~/Notes",
+				},
+			},
+			completion = {
+				min_chars = 0,
+			},
+			ui = {
+				enable = true, -- set to false to disable all additional syntax features
+				checkboxes = {
+					[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+					["~"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- done
+					["x"] = { char = "󰄲", hl_group = "ObsidianTodoDone" }, -- done
+					["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- ambiguous
+					["!"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
+				},
+				hl_groups = {
+					ObsidianTodo = { bold = true, fg = "#f78c6c" },
+					ObsidianTodoStarted = { bold = true, fg = "#f7d26c" },
+					ObsidianTodoDone = { bold = true, fg = "#89ddff" },
+					ObsidianTodoAmbiguous = { bold = true, fg = "#c792ea" },
+					ObsidianTodoCancelled = { bold = true, fg = "#ff5370" },
+				},
+			},
+		},
 
 		keys = {
 			{
-				"<CR>",
-				-- Follow a link, but don't create one if there isn't one
+				"<leader>ot",
 				function()
-					local flow = require("mkdnflow")
+					vim.cmd(":ObsidianToday")
+					vim.cmd(":ZenMode")
+				end,
+				desc = "Daily Note",
+			},
+			{
+				"<leader>of",
+				":ObsidianQuickSwitch<CR>",
+				desc = "Find Note",
+			},
+			{
+				"<leader>op",
+				":ObsidianPasteImg<CR>",
+				desc = "Paste Image",
+			},
+			{
+				"<leader>or",
+				":MarkdownPreview<CR>",
+				desc = "Markdown Preview",
+				ft = { "markdown" },
+			},
+			{
+				"<CR>",
+				function()
+					local cursor_on_markdown_link = require("obsidian").util.cursor_on_markdown_link
 
-					-- Copied + modified from the source code for followLink()
-					-- https://github.com/jakewvincent/mkdnflow.nvim/blob/main/lua/mkdnflow/links.lua
-					local link = flow.links.getLinkUnderCursor()
-
-					if not link then -- try to find another link on the line
+					if cursor_on_markdown_link() then -- follow the link
+						vim.cmd(":ObsidianFollowLink")
+					else -- try to find a link on the line
 						local cur_line = tostring(vim.api.nvim_get_current_line())
 						local link_regex = vim.regex("\\[.*\\]") -- regex for markdown links
 						local col = link_regex:match_str(cur_line)
+						print(col)
 
 						if col then
 							-- go to the col where we found a link
 							vim.api.nvim_win_set_cursor(0, { vim.api.nvim_win_get_cursor(0)[1], col })
-							link = flow.links.getLinkUnderCursor()
-						end
-
-						if not link or not col then -- still couldn't find a link
-							vim.api.nvim_echo({ { "No link below the cursor", "WarningMsg" } }, true, {})
+							vim.cmd(":ObsidianFollowLink") -- follow the link
 							return
 						end
+
+						vim.api.nvim_echo({ { "No link below the cursor", "WarningMsg" } }, true, {})
 					end
-
-					-- push to jumplist
-					vim.cmd([[normal! m`]])
-
-					-- follow the link
-					local path, anchor = flow.links.getLinkPart(link, "source")
-					flow.paths.handlePath(path, anchor)
-
-					-- push to jumplist
-					vim.cmd([[normal! m`]])
 				end,
 				mode = "n",
 				desc = "Follow Link",
 				ft = { "markdown" },
 			},
 		},
-	},
-	{ "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
-	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		build = "cd app && npm install",
-		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
-		end,
-		ft = { "markdown" },
 	},
 }

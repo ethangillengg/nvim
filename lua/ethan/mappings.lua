@@ -59,3 +59,4 @@ map("v", "p", '"_dP')
 -- Lazy mappings
 map("n", "<leader>li", ":LspInfo<CR>")
 map("n", "<leader>lr", ":LspRestart<CR>")
+map("n", "<leader>ll", ":Lazy<CR>")

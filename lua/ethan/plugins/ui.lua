@@ -46,9 +46,12 @@ return {
 
 			dashboard.section.buttons.val = {
 				button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
-				button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
+				-- button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
 				-- button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
-				-- button("t", icons.ui.Abc .. " Find text", ":Telescope live_grep <CR>"),
+				button("t", "󰃶" .. " Daily Note", function()
+					vim.cmd(":ObsidianToday")
+					vim.cmd(":ZenMode")
+				end),
 				button("n", icons.ui.Note .. " Notes", function()
 					local notes_dir
 
@@ -60,8 +63,7 @@ return {
 					end
 
 					vim.api.nvim_set_current_dir(notes_dir)
-
-					vim.cmd("edit index.md")
+					vim.cmd(":ObsidianQuickSwitch")
 				end),
 				button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
 				button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
