@@ -190,4 +190,21 @@ return {
 			{ "<leader>X", ":BufferCloseAllButCurrent<CR>", desc = "Close all buffers (except current)" },
 		},
 	},
+	{
+		"folke/zen-mode.nvim",
+		lazy = false,
+		opts = {
+			window = {
+				options = {
+					signcolumn = "no", -- hide gitsigns, and column
+				},
+			},
+			on_open = function()
+				require("barbecue.ui").toggle(false)
+			end,
+			on_close = function()
+				require("barbecue.ui").toggle(true)
+			end,
+		},
+	},
 }
