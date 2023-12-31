@@ -32,6 +32,17 @@ return {
 				return b
 			end
 
+			local function goToNotes()
+				local notes_dir
+				local this_os = vim.loop.os_uname().sysname
+				if this_os == "Linux" or this_os == "Darwin" then
+					notes_dir = vim.fn.expand("~/Notes", nil, nil)
+				elseif this_os == "Windows_NT" then
+					notes_dir = vim.fn.expand("$USERPROFILE/Notes", nil, nil)
+				end
+				vim.api.nvim_set_current_dir(notes_dir)
+			end
+
 			local icons = require("ethan.icons")
 
 			dashboard.section.header.val = {
@@ -51,19 +62,11 @@ return {
 				button("t", "󰃶" .. " Daily Note", function()
 					vim.cmd(":ObsidianToday")
 					vim.cmd(":ZenMode")
+					goToNotes()
 				end),
 				button("n", icons.ui.Note .. " Notes", function()
-					local notes_dir
-
-					local this_os = vim.loop.os_uname().sysname
-					if this_os == "Linux" or this_os == "Darwin" then
-						notes_dir = vim.fn.expand("~/Notes", nil, nil)
-					elseif this_os == "Windows_NT" then
-						notes_dir = vim.fn.expand("$USERPROFILE/Notes", nil, nil)
-					end
-
-					vim.api.nvim_set_current_dir(notes_dir)
 					vim.cmd(":ObsidianQuickSwitch")
+					goToNotes()
 				end),
 				button("l", icons.misc.Package .. " Plugins", ":Lazy<CR>"),
 				button("u", icons.ui.CloudDownload .. " Update", ":Lazy sync<CR>"),
