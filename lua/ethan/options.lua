@@ -4,7 +4,6 @@ local options = {
 	-- cmdheight = 1, -- more space in the neovim command line for displaying messages
 	completeopt = { "menuone", "noselect", "noinsert" }, -- mostly just for cmp
 	conceallevel = 0, -- so that `` is visible in markdown files
-	concealcursor = "nc", -- conceal in normal and command mode (:help concealcursor)
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = false, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
@@ -55,6 +54,9 @@ vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 vim.cmd([[au BufRead,BufNewFile *.md,*.norg,COMMIT_EDITMSG setlocal spell spelllang=en_us]])
 vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=2 | setlocal wrap]])
+-- vim.cmd(
+-- 	[[au BufRead,BufNewFile *.md setlocal shiftwidth=0 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab]]
+-- )
 
 --[[ Highlight on yank ]]
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
