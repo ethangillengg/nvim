@@ -93,6 +93,9 @@ return {
 					ObsidianTodoCancelled = { bold = true, fg = "#ff5370" },
 				},
 			},
+			follow_url_func = function(url)
+				vim.fn.jobstart({ "xdg-open", url }) -- linux
+			end,
 		},
 
 		keys = {
