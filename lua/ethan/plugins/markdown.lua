@@ -34,7 +34,7 @@ return {
 					["~"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- done
 					["x"] = { char = "󰄲", hl_group = "ObsidianTodoDone" }, -- done
 					["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- ambiguous
-					["!"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
+					["c"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
 				},
 				hl_groups = {
 					ObsidianTodo = { bold = true, fg = "#f78c6c" },
@@ -116,7 +116,7 @@ return {
 		ft = { "markdown" },
 		opts = {
 			to_do = {
-				symbols = { " ", "~", "x", "a", "!" }, -- see MkdnToggleToDo
+				symbols = { " ", "~", "x", "a", "c" }, -- see MkdnToggleToDo
 				not_started = " ",
 				in_progress = "~",
 				complete = "x",
