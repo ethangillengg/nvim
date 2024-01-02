@@ -45,7 +45,15 @@ return {
 				},
 			},
 			follow_url_func = function(url)
-				vim.fn.jobstart({ "xdg-open", url }) -- TODO: linux-only
+				local this_os = vim.loop.os_uname().sysname
+
+				if this_os == "Linux" then
+					vim.fn.jobstart({ "xdg-open", url })
+				elseif this_os == "Darwin" then
+					vim.fn.jobstart({ "open", url })
+				elseif this_os == "Windows_NT" then
+					vim.fn.jobstart({ "cmd.exe", "/c", "start", url })
+				end
 			end,
 		},
 
