@@ -56,7 +56,6 @@ return {
 			-- require("telescope.builtin").symbols({ sources = { "math", "latex", "nerd" } })
 		end,
 	}, --telescope
-	-- [[ { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- fast sorter for telescope ]]
 	{
 		"numToStr/Comment.nvim",
 		event = "BufReadPost",
@@ -153,14 +152,14 @@ return {
 		event = "VimEnter",
 		keys = {
 
-			{ "<leader>gg", ":Git<CR>", desc = "Git summary" },
+			{ "<leader>gg", ":Git ++curwin<CR>", desc = "Git summary" },
 			{ "<leader>gc", ":Git commit<CR>", desc = "Git commit" },
 			{ "<leader>gp", ":Git push<CR>", desc = "Git push" },
 			{ "<leader>gd", ":Gdiffsplit<CR>", desc = "Git diff" },
 
 			{ "<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "Git branches" },
 			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Git status" },
-			{ "<leader>gl", "<cmd>Telescope git_commits<CR>", desc = "Git log" },
+			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git log" },
 		},
 	},
 }
