@@ -25,11 +25,13 @@ return {
 				"tsx",
 				"vim",
 				"vue",
+				"css",
 				"jsdoc",
 				"rust",
 				"yaml",
 				"nix",
 				"glsl",
+				"query",
 			},
 			sync_install = false,
 			highlight = {
