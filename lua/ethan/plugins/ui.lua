@@ -200,6 +200,7 @@ return {
 		lazy = false,
 		opts = {
 			window = {
+				width = 1, -- 100% width
 				options = {
 					signcolumn = "no", -- hide gitsigns, and column
 				},
