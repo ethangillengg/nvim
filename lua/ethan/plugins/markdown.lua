@@ -90,15 +90,20 @@ return {
 					if cursor_on_markdown_link() then -- follow the link
 						vim.cmd(":ObsidianFollowLink")
 					else -- try to find a link on the line
-						local cur_line = tostring(vim.api.nvim_get_current_line())
-						local link_regex = vim.regex("\\[.*\\]") -- regex for markdown links
-						local col = link_regex:match_str(cur_line)
-						print(col)
+						local bufnr = 0 -- current buf
+						local lang = "markdown_inline" -- use the inline parser
+						local query_string = "(link_text) @target"
 
-						if col then
-							-- go to the col where we found a link
-							vim.api.nvim_win_set_cursor(0, { vim.api.nvim_win_get_cursor(0)[1], col })
-							vim.cmd(":ObsidianFollowLink") -- follow the link
+						local query = vim.treesitter.query.parse(lang, query_string)
+						local cur_node = vim.treesitter.get_node({ lang = lang })
+						local cur_row = vim.api.nvim_win_get_cursor(bufnr)[1] - 1 -- 0-indexed row
+
+						-- iterate over matching nodes in tree on the row of the cursor
+						for _, node in query:iter_captures(cur_node, bufnr, cur_row, cur_row + 1) do
+							-- go to the node
+							local _, node_col = node:range()
+							vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col - 1 })
+							vim.cmd(":ObsidianFollowLink")
 							return
 						end
 
