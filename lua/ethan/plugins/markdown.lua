@@ -111,15 +111,20 @@ return {
 
 						local query = vim.treesitter.query.parse(lang, query_string)
 						local cur_node = vim.treesitter.get_node({ lang = lang })
-						local cur_row = vim.api.nvim_win_get_cursor(bufnr)[1] - 1 -- 0-indexed row
+						local cur_pos = vim.api.nvim_win_get_cursor(bufnr)
+						-- 0-indexe correction
+						local cur_row = cur_pos[1] - 1
+						local cur_col = cur_pos[2] - 1
 
 						-- iterate over matching nodes in tree on the row of the cursor
 						for _, node in query:iter_captures(cur_node, bufnr, cur_row, cur_row + 1) do
 							-- go to the node
 							local _, node_col = node:range()
-							vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col - 1 })
-							vim.cmd(":ObsidianFollowLink")
-							return
+							if node_col > cur_col then
+								vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col - 1 })
+								vim.cmd(":ObsidianFollowLink")
+								return
+							end
 						end
 
 						vim.api.nvim_echo({ { "No link below the cursor", "WarningMsg" } }, true, {})
