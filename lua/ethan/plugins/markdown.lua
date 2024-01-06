@@ -134,55 +134,36 @@ return {
 				desc = "Follow Link",
 				ft = { "markdown" },
 			},
+
+			{
+				"<C-]>",
+				function()
+					local bufnr = 0 -- current buf
+					local lang = "markdown_inline" -- use the inline parser
+					local query_string = "(link_text) @target"
+				end,
+				desc = "Toggle Checkbox",
+				ft = { "markdown" },
+			},
 		},
 	},
 	{
-		"jakewvincent/mkdnflow.nvim",
+
+		"tadmccorkle/markdown.nvim",
+		event = "VeryLazy",
 		ft = { "markdown" },
+
 		opts = {
-			to_do = {
-				symbols = { " ", "~", "x", "a", "c" }, -- see MkdnToggleToDo
-				not_started = " ",
-				in_progress = "~",
-				complete = "x",
-			},
-			mappings = {
-				MkdnEnter = false,
-				MkdnTab = false,
-				MkdnSTab = false,
-				MkdnNextLink = false,
-				MkdnPrevLink = false,
-				MkdnNextHeading = { "n", "]]" },
-				MkdnPrevHeading = { "n", "[[" },
-				MkdnGoBack = false,
-				MkdnGoForward = false,
-				MkdnCreateLink = false, -- see MkdnEnter
-				MkdnCreateLinkFromClipboard = { { "n", "v" }, "<leader>p" }, -- see MkdnEnter
-				MkdnFollowLink = false, -- see MkdnEnter
-				MkdnDestroyLink = { "n", "<M-CR>" },
-				MkdnTagSpan = { "v", "<M-CR>" },
-				MkdnMoveSource = { "n", "<F2>" },
-				MkdnYankAnchorLink = { "n", "yaa" },
-				MkdnYankFileAnchorLink = { "n", "yfa" },
-				MkdnIncreaseHeading = { "n", "+" },
-				MkdnDecreaseHeading = { "n", "-" },
-				MkdnToggleToDo = { { "n", "v" }, "<C-]>" },
-				MkdnNewListItem = { "i", "<CR>" }, -- seee MkdnEnter
-				MkdnNewListItemBelowInsert = { "n", "o" },
-				MkdnNewListItemAboveInsert = { "n", "O" },
-				MkdnExtendList = false,
-				MkdnUpdateNumbering = { "n", "<leader>nn" },
-				MkdnTableNextCell = { "i", "<Tab>" },
-				MkdnTablePrevCell = { "i", "<S-Tab>" },
-				MkdnTableNextRow = false,
-				MkdnTablePrevRow = { "i", "<M-CR>" },
-				MkdnTableNewRowBelow = { "n", "<leader>ir" },
-				MkdnTableNewRowAbove = { "n", "<leader>iR" },
-				MkdnTableNewColAfter = { "n", "<leader>ic" },
-				MkdnTableNewColBefore = { "n", "<leader>iC" },
-				MkdnFoldSection = false, -- use default fold binds
-				MkdnUnfoldSection = false, -- use default fold binds
-			},
+			on_attach = function(bufnr)
+				local function toggle(key)
+					return "<Esc>gv<Cmd>lua require'markdown.inline'" .. ".toggle_emphasis_visual'" .. key .. "'<CR>"
+				end
+				local opts = { buffer = bufnr }
+
+				vim.keymap.set({ "n", "i" }, "<M-o>", "<Cmd>MDListItemBelow<CR>", opts)
+				vim.keymap.set("x", "<C-b>", toggle("b"), opts)
+				vim.keymap.set("x", "<C-i>", toggle("i"), opts)
+			end,
 		},
 	},
 }

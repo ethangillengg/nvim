@@ -53,7 +53,7 @@ vim.cmd([[set iskeyword+=-]])
 vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 vim.cmd([[au BufRead,BufNewFile *.md,*.norg,COMMIT_EDITMSG setlocal spell spelllang=en_us]])
-vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=2 | setlocal wrap]])
+vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=0 | setlocal wrap]])
 -- vim.cmd(
 -- 	[[au BufRead,BufNewFile *.md setlocal shiftwidth=0 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab]]
 -- )

@@ -7,6 +7,8 @@ vim.g.maplocalleader = ","
 -- Quick nav splits
 map("n", "<c-w>h", ":split<cr>")
 map("n", "<c-w><c-h>", ":split<cr>")
+map("n", "<c-h>", "<c-w>h<cr>")
+map("n", "<c-l>", "<c-w>l<cr>")
 
 map("n", "K", "")
 
