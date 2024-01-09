@@ -110,9 +110,22 @@ return {
 						local query_string = "(link_text) @target"
 
 						local query = vim.treesitter.query.parse(lang, query_string)
-						local cur_node = vim.treesitter.get_node({ lang = lang })
+						local cur_node = vim.treesitter.get_node({ lang = lang, ignore_injections = false })
+
+						-- fix for if we are not in an inline block
+						if cur_node:type() ~= "inline" then
+							cur_node = cur_node:next_sibling()
+							cur_node = cur_node:child(0)
+							local r, c = cur_node:range()
+							cur_node = vim.treesitter.get_node({
+								lang = lang,
+								ignore_injections = false,
+								pos = { r, c },
+							})
+						end
+
 						local cur_pos = vim.api.nvim_win_get_cursor(bufnr)
-						-- 0-indexe correction
+						-- 0-index correction
 						local cur_row = cur_pos[1] - 1
 						local cur_col = cur_pos[2] - 1
 
@@ -121,7 +134,7 @@ return {
 							-- go to the node
 							local _, node_col = node:range()
 							if node_col > cur_col then
-								vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col - 1 })
+								vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col })
 								vim.cmd(":ObsidianFollowLink")
 								return
 							end
