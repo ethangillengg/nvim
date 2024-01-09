@@ -123,6 +123,12 @@ return {
 				desc = "Find Note",
 			},
 			{
+				"<leader>os",
+				":ObsidianSearch<CR>",
+				desc = "Grep Notes",
+				ft = { "markdown" },
+			},
+			{
 				"<leader>op",
 				":ObsidianPasteImg<CR>",
 				desc = "Paste Image",
