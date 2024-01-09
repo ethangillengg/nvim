@@ -1,3 +1,39 @@
+local function toggle_box(checkbox_node) end
+
+--- Find parent node of given type.
+---@param node TSNode
+---@param type string | nil
+---@return TSNode | nil
+local function find_parent_node(node, type)
+	if node == node:root() then
+		return nil
+	end
+	if node:type() == type or node:type() == nil then
+		return node
+	end
+	return find_parent_node(node:parent(), type)
+end
+
+--- Find child node of given type.
+---@param node TSNode
+---@param node_type string | table
+---@return TSNode | nil
+local function find_child_node(node, node_type)
+	local child = node:child(0)
+	while child do
+		if type(node_type) == "table" then
+			if node_type[child:type()] then
+				return child
+			end
+		else
+			if child:type() == node_type then
+				return child
+			end
+		end
+		child = child:next_sibling()
+	end
+	return nil
+end
 return {
 	{
 		"epwalsh/obsidian.nvim",
@@ -151,9 +187,65 @@ return {
 			{
 				"<C-]>",
 				function()
+					---@class CheckToggleState
+					---@field value string
+					---@field node_name string | nil
+
 					local bufnr = 0 -- current buf
-					local lang = "markdown_inline" -- use the inline parser
-					local query_string = "(link_text) @target"
+					local cur_node = vim.treesitter.get_node({ lang = "markdown" })
+					local item = find_parent_node(cur_node, "list_item")
+
+					if item == nil then
+						vim.api.nvim_echo({ { "Item below cursor is not a todo", "WarningMsg" } }, true, {})
+						return
+					end
+
+					--- @type  CheckToggleState[]
+					local box_types = {
+						{
+							value = " ",
+						},
+						{
+							value = "~",
+						},
+						{
+							value = "x",
+						},
+						{
+							value = "a",
+						},
+						{
+							value = "c",
+						},
+					}
+
+					local box = find_child_node(item, {
+						task_list_marker_checked = true,
+						task_list_marker_unchecked = true,
+						paragraph = true, -- for the extended markdown todo states
+					})
+
+					if box == nil then
+						vim.api.nvim_echo({ { "Item below cursor is not a todo", "WarningMsg" } }, true, {})
+						return
+					end
+
+					local box_text = vim.treesitter.get_node_text(box, bufnr):sub(1, 3)
+
+					-- find which node is next in the table and use that
+					for i, v in pairs(box_types) do
+						-- if the state matches the char in the box
+						if v.value == box_text:sub(2, 2) then
+							-- get the next todo state
+							local next_node = box_types[(i % #box_types) + 1]
+
+							local sr, sc = box:range()
+							local content = { next_node.value }
+							-- only replace the todo char within the box
+							sc = sc + 1
+							vim.api.nvim_buf_set_text(bufnr, sr, sc, sr, sc + 1, content)
+						end
+					end
 				end,
 				desc = "Toggle Checkbox",
 				ft = { "markdown" },
