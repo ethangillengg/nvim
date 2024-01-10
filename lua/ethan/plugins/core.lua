@@ -68,20 +68,6 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
-		-- keys = {
-		-- 	{ "<leader>g", "<cmd>Gitsigns diffthis<cr>", desc = "Git Diff" },
-		-- 	{
-		-- 		"<c-g>",
-		-- 		function()
-		-- 			local gitsigns = require("gitsigns")
-		-- 			gitsigns.next_hunk()
-		-- 			vim.schedule(function()
-		-- 				gitsigns.preview_hunk_inline()
-		-- 			end)
-		-- 		end,
-		-- 		desc = "Preview next hunk",
-		-- 	},
-		-- },
 		opts = {
 			signs = {
 				add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
@@ -111,7 +97,25 @@ return {
 			},
 		},
 	},
+	{ -- for git merge
+		"sindrets/diffview.nvim",
+		cmd = { "DiffviewOpen", "DiffViewFileHistory" },
+		opts = {
+			view = {
+				merge_tool = {
+					layout = "diff3_mixed",
+				},
+			},
+			file_panel = {
 
+				win_config = {
+					width = 20,
+				},
+			},
+		},
+	},
+
+	{ "akinsho/git-conflict.nvim", version = "*", config = {} },
 	-- UI
 	{ "stevearc/dressing.nvim" }, -- styling for lsp rename and code actions
 	{
@@ -162,7 +166,6 @@ return {
 			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git log" },
 		},
 	},
-
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
@@ -173,4 +176,5 @@ return {
 			},
 		},
 	},
+	{ "anuvyklack/pretty-fold.nvim", opts = {} },
 }

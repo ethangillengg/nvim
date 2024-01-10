@@ -59,11 +59,11 @@ return {
 				button("p", icons.documents.Files .. " Find file", ":Telescope find_files <CR>"),
 				-- button("e", icons.ui.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
 				-- button("r", icons.ui.History .. " Recent files", ":Telescope oldfiles <CR>"),
-				button("t", "󰃶" .. " Daily Note", function()
-					vim.cmd(":ObsidianToday")
-					vim.cmd(":ZenMode")
-					goToNotes()
-				end),
+				-- button("t", "󰃶" .. " Daily Note", function()
+				-- 	vim.cmd(":ObsidianToday")
+				-- 	vim.cmd(":ZenMode")
+				-- 	goToNotes()
+				-- end),
 				button("n", icons.ui.Note .. " Notes", function()
 					vim.cmd(":ObsidianQuickSwitch")
 					goToNotes()
