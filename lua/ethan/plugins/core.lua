@@ -162,4 +162,15 @@ return {
 			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git log" },
 		},
 	},
+
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {
+			debounce = 50,
+			indent = {
+				char = "┊",
+			},
+		},
+	},
 }
