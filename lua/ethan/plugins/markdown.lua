@@ -277,4 +277,12 @@ return {
 			end,
 		},
 	},
+	{
+		"NFrid/due.nvim",
+		ft = { "markdown" },
+		opts = {
+			use_clock_time = true,
+			use_seconds = false,
+		},
+	},
 }
