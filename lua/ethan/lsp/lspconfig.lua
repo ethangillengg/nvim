@@ -22,6 +22,8 @@ local lsp_servers = {
 	"bashls",
 	-- Markdown
 	"marksman",
+	-- Latex
+	"texlab",
 }
 
 local M = {}

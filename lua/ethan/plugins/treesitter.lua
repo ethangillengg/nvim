@@ -32,6 +32,7 @@ return {
 				"nix",
 				"glsl",
 				"query",
+				"latex",
 			},
 			sync_install = false,
 			highlight = {

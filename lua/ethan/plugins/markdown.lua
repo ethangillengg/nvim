@@ -104,14 +104,6 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
-			{
-				"iamcco/markdown-preview.nvim",
-				cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-				build = "cd app && npm install",
-				init = function()
-					vim.g.mkdp_filetypes = { "markdown" }
-				end,
-			},
 		},
 		opts = {
 			workspaces = {
@@ -178,6 +170,13 @@ return {
 				end,
 				desc = "Daily Note",
 			},
+
+			{
+				"ol",
+				":ObsidianLink<CR>",
+				mode = "v",
+				desc = "Link selection",
+			},
 			{
 				"<leader>of",
 				":ObsidianQuickSwitch<CR>",
@@ -200,12 +199,6 @@ return {
 				"<leader>op",
 				":ObsidianPasteImg<CR>",
 				desc = "Paste Image",
-			},
-			{
-				"<leader>or",
-				":MarkdownPreview<CR>",
-				desc = "Markdown Preview",
-				ft = { "markdown" },
 			},
 
 			{
@@ -274,6 +267,26 @@ return {
 				end,
 				desc = "Toggle Checkbox",
 				ft = { "markdown" },
+			},
+		},
+	},
+
+	{
+
+		"iamcco/markdown-preview.nvim",
+		ft = { "markdown" },
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && npm install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+			vim.g.mkdp_browser = "chromium"
+		end,
+		keys = {
+			{
+				"<leader>p",
+				":MarkdownPreviewToggle<CR>",
+				desc = "Markdown Preview",
+				ft = { "markdown", "md" },
 			},
 		},
 	},
