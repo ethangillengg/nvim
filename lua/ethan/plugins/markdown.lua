@@ -43,16 +43,16 @@ local box_types = {
 		value = " ",
 	},
 	{
-		value = "~",
+		value = "/",
 	},
 	{
 		value = "x",
 	},
 	{
-		value = "a",
+		value = "-",
 	},
 	{
-		value = "c",
+		value = "?",
 	},
 }
 
@@ -95,6 +95,40 @@ local function find_checkbox(node)
 	return box
 end
 
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+
+local select_course = function(opts)
+	opts = opts or {}
+	pickers
+		.new(opts, {
+			prompt_title = "Choose a course",
+			finder = finders.new_table({
+				results = {
+					"ENCM501 Principles of Computer Architecture",
+					"ENSF544: Data Science for Software Engineers",
+					"ENCM517 Computer Arithmetic and Computational Complexity",
+					"SENG533: Software Performance Evaluation",
+					"ENEL500A Capstone",
+				},
+			}),
+			sorter = conf.generic_sorter(opts),
+			attach_mappings = function(prompt_bufnr, map)
+				actions.select_default:replace(function()
+					actions.close(prompt_bufnr)
+					local selection = action_state.get_selected_entry()
+					-- print(vim.inspect(selection))
+					-- vim.api.nvim_put({ selection[1] }, "", false, true)
+				end)
+				return true
+			end,
+		})
+		:find()
+end
+
 return {
 	{
 		"epwalsh/obsidian.nvim",
@@ -119,10 +153,10 @@ return {
 				enable = true, -- set to false to disable all additional syntax features
 				checkboxes = {
 					[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-					["~"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- done
+					["/"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- done
 					["x"] = { char = "󰄲", hl_group = "ObsidianTodoDone" }, -- done
-					["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- ambiguous
-					["c"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
+					["-"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
+					["?"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- ambiguous
 				},
 				hl_groups = {
 					ObsidianTodo = { bold = true, fg = "#f78c6c" },
@@ -159,6 +193,29 @@ return {
 				end
 				return tostring(os.time()) .. "-" .. suffix
 			end,
+			templates = {
+				-- subdir = "_t",
+				date_format = "%Y-%m-%d-%a",
+				time_format = "%H:%M",
+				substitutions = {
+					yesterday = function()
+						return os.date("%Y-%m-%d", os.time() - 86400)
+					end,
+					course = function()
+						-- return select_course(require("telescope.themes").get_dropdown({}))
+
+						return vim.ui.select({ "tabs", "spaces" }, {
+							prompt = "Select tabs or spaces:",
+						}, function(choice)
+							if choice == "spaces" then
+								vim.o.expandtab = true
+							else
+								vim.o.expandtab = false
+							end
+						end)
+					end,
+				},
+			},
 		},
 
 		keys = {
@@ -276,10 +333,20 @@ return {
 		"iamcco/markdown-preview.nvim",
 		ft = { "markdown" },
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		build = "cd app && npm install",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
 		init = function()
 			vim.g.mkdp_filetypes = { "markdown" }
-			vim.g.mkdp_browser = "chromium"
+		end,
+		config = function()
+			vim.cmd([[
+			    function OpenMarkdownPreview (url)
+			       execute "silent ! qutebrowser --target window '" . a:url . "'"
+			     endfunction
+			     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
+           let g:mkdp_auto_close = 1
+			   ]])
 		end,
 		keys = {
 			{
@@ -313,6 +380,8 @@ return {
 		"NFrid/due.nvim",
 		ft = { "markdown" },
 		opts = {
+			pattern_start = "[due:: ",
+			pattern_end = "]",
 			use_clock_time = true,
 			use_seconds = false,
 		},
