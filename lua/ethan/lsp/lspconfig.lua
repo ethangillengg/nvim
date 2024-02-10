@@ -21,9 +21,11 @@ local lsp_servers = {
 	-- Bash
 	"bashls",
 	-- Markdown
-	"marksman",
+	-- "marksman",
 	-- Latex
 	"texlab",
+	-- Go
+	"gopls",
 }
 
 local M = {}

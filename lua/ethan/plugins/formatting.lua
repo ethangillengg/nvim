@@ -35,6 +35,7 @@ return {
 				sh = { "shfmt" },
 				yaml = { "yamlfmt" },
 				tex = { "latexindent" },
+				asm = { "asmfmt" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
