@@ -24,8 +24,8 @@ map("n", "<leader>q", ":wqa<cr>")
 map("n", "<c-d>", "<c-d>zz")
 map("n", "<c-u>", "<c-u>zz")
 -- Navigate buffers
-map("n", "<tab>", ":bnext<cr>")
-map("n", "<S-tab>", ":bprevious<cr>")
+-- map("n", "<tab>", ":bnext<cr>")
+-- map("n", "<S-tab>", ":bprevious<cr>")
 
 -- Toggle options
 map("n", "<c-t>", ":set wrap!<cr>")

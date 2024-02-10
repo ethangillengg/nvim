@@ -177,7 +177,7 @@ return {
 			vim.g.barbar_auto_setup = false
 		end,
 		opts = {
-			auto_hide = true,
+			auto_hide = 999, -- hidden when less than 999 buffers
 			animation = false,
 			highlight_visible = true,
 			icons = {
@@ -189,15 +189,16 @@ return {
 		},
 
 		keys = {
-			{ "<Tab>", ":BufferNext<CR>", desc = "Next buffer" },
-			{ "<S-Tab>", ":BufferPrevious<CR>", desc = "Previous buffer" },
+			{ "<S-l>", ":BufferNext<CR>", desc = "Next buffer" },
+			{ "<S-h>", ":BufferPrev<CR>", desc = "Prev buffer" },
 			{ "<leader>x", ":BufferClose<CR>", desc = "Close buffer" },
 			{ "<leader>X", ":BufferCloseAllButCurrent<CR>", desc = "Close all buffers (except current)" },
 		},
 	},
 	{
 		"folke/zen-mode.nvim",
-		lazy = false,
+
+		cmd = { "ZenMode" },
 		opts = {
 			window = {
 				width = 1, -- 100% width
