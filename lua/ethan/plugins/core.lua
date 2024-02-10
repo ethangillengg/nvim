@@ -6,6 +6,11 @@ return {
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true }, --bracket pairs
 	{ "windwp/nvim-ts-autotag", event = "InsertEnter", config = true }, -- other auto pairs (html for example)
 	{
+		"kylechui/nvim-surround",
+		event = "VeryLazy",
+		config = true,
+	},
+	{
 		"fedepujol/move.nvim",
 		config = true,
 		init = function()
