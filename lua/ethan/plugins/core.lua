@@ -5,29 +5,45 @@ return {
 
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true }, --bracket pairs
 	{ "windwp/nvim-ts-autotag", event = "InsertEnter", config = true }, -- other auto pairs (html for example)
-
+	{
+		"fedepujol/move.nvim",
+		config = true,
+		init = function()
+			local opts = { noremap = true, silent = true }
+			-- Normal-mode commands
+			vim.keymap.set("n", "<A-j>", ":MoveLine(1)<CR>", opts)
+			vim.keymap.set("n", "<A-k>", ":MoveLine(-1)<CR>", opts)
+			-- Visual-mode commands
+			vim.keymap.set("v", "<A-j>", ":MoveBlock(1)<CR>", opts)
+			vim.keymap.set("v", "<A-k>", ":MoveBlock(-1)<CR>", opts)
+		end,
+		cmd = { "MoveLine", "MoveBlock", "MoveHBlock" },
+	},
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
+				"nvim-telescope/telescope-ui-select.nvim",
 				-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 				build = "make",
 			},
 		},
 		cmd = "Telescope",
 		keys = {
-			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find File" },
-			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep Word" },
-			-- { "<leader>th", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
+			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find file" },
+			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep word" },
+			{ "<leader>tw", "<cmd>Telescope live_grep<cr>", desc = "Grep word" },
+			{ "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
 			{ "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help" },
 			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = "Symbols" },
-			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Telescope Builtins" },
+			{ "<leader>tm", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+			{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Builtins" },
 		},
 		opts = function()
 			local actions = require("telescope.actions")
-
 			return {
 				defaults = {
 					prompt_prefix = " ",
