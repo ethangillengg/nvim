@@ -38,14 +38,15 @@ return {
 		cmd = "Telescope",
 		keys = {
 			{ "<c-p>", "<cmd>Telescope fd<cr>", desc = "Find file" },
-			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Grep word" },
-			{ "<leader>tw", "<cmd>Telescope live_grep<cr>", desc = "Grep word" },
-			{ "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = "Theme" },
-			{ "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = "Symbols" },
-			{ "<leader>tm", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
-			{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Builtins" },
+			{ "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = "Telescope: Grep word" },
+			{ "<leader>tw", "<cmd>Telescope live_grep<cr>", desc = "Telescope: Grep word" },
+			{ "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = "Telescope: Theme" },
+			{ "<leader>tj", "<cmd>Telescope jumplist<cr>", desc = "Telescope: Jumplist" },
+			{ "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Telescope: Help" },
+			{ "<leader>ts", "<cmd>Telescope symbols<cr>", desc = "Telescope: Symbols" },
+			{ "<leader>tm", "<cmd>Telescope keymaps<cr>", desc = "Telescope: Keymaps" },
+			{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "Telescope: Buffers" },
+			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Telescope: Builtins" },
 		},
 		opts = function()
 			local actions = require("telescope.actions")
@@ -118,25 +119,29 @@ return {
 			},
 		},
 	},
-	{ -- for git merge
-		"sindrets/diffview.nvim",
-		cmd = { "DiffviewOpen", "DiffViewFileHistory" },
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
 		opts = {
-			view = {
-				merge_tool = {
-					layout = "diff3_mixed",
-				},
-			},
-			file_panel = {
-
-				win_config = {
-					width = 20,
-				},
+			list_opener = "Telescope quickfix",
+			default_mappings = {
+				ours = "co",
+				theirs = "ct",
+				none = "c0",
+				both = "cb",
+				next = "cn",
+				prev = "cN",
 			},
 		},
+		config = function(_, opts)
+			require("git-conflict").setup(opts)
+			vim.api.nvim_set_hl(0, "GitConflictCurrent", { link = "DiffChange" })
+			vim.api.nvim_set_hl(0, "GitConflictCurrentLabel", { link = "DiffAdd" })
+			vim.api.nvim_set_hl(0, "GitConflictIncoming", { link = "DiffDelete" })
+			vim.api.nvim_set_hl(0, "GitConflictIncomingLabel", { link = "ErrorMsg" })
+			vim.keymap.set("n", "<leader>cl", "<cmd>GitConflictListQf<CR>")
+		end,
 	},
-
-	{ "akinsho/git-conflict.nvim", version = "*", config = {} },
 	-- UI
 	{ "stevearc/dressing.nvim" }, -- styling for lsp rename and code actions
 	{
@@ -177,14 +182,13 @@ return {
 		event = "VimEnter",
 		keys = {
 
-			{ "<leader>gg", ":Git ++curwin<CR>", desc = "Git summary" },
-			{ "<leader>gc", ":Git commit<CR>", desc = "Git commit" },
-			{ "<leader>gp", ":Git push<CR>", desc = "Git push" },
-			{ "<leader>gd", ":Gdiffsplit<CR>", desc = "Git diff" },
-
-			{ "<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "Git branches" },
-			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Git status" },
-			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git log" },
+			{ "<leader>gg", ":Git ++curwin<CR>", desc = "Git: Summary" },
+			{ "<leader>gc", ":Git commit<CR>", desc = "Git: Commit" },
+			{ "<leader>gp", ":Git push<CR>", desc = "Git: Push" },
+			{ "<leader>gd", ":Gdiffsplit<CR>", desc = "Git: Diff" },
+			{ "<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "Git: Branches" },
+			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Git: Status" },
+			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git: Log" },
 		},
 	},
 	{
