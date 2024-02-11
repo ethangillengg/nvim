@@ -39,7 +39,7 @@ return {
 				update_in_insert = true,
 				severity_sort = true,
 				float = {
-					-- title = "Diagnostic",
+					title = "Diagnostic",
 					header = false,
 					focusable = false,
 					source = "always",
@@ -49,9 +49,9 @@ return {
 			})
 
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				-- title = "Hover",
+				title = "Hover",
 				border = "rounded",
-				max_width = 60,
+				max_width = 80,
 				max_height = 30,
 			})
 
