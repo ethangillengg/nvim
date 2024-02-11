@@ -82,13 +82,10 @@ return {
 		config = true,
 		event = { "BufReadPre", "BufNewFile" },
 	},
-
 	{
 		"simrat39/rust-tools.nvim",
-		lazy = true,
 		config = false,
 	},
-
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
@@ -104,10 +101,23 @@ return {
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
-		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		config = {
 			"*", -- highlight all files
+		},
+	},
+	{
+		"smjonas/inc-rename.nvim",
+		cmd = { "IncRename" },
+		dependencies = { { "stevearc/dressing.nvim", config = true } },
+		opts = {
+			input_buffer_type = "dressing",
+		},
+		keys = {
+			{
+				"<F2>",
+				":IncRename ",
+			},
 		},
 	},
 }
