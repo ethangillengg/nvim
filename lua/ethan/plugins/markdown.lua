@@ -207,22 +207,29 @@ return {
 			require("nabla").enable_virt({
 				autogen = true,
 			})
+		end,
+		keys = {
+			{
+				"<S-k>",
+				function()
+					require("nabla").popup({
+						border = "rounded",
+						title = "LaTeX",
+					})
+				end,
+				desc = "Show LaTeX preview",
+				ft = { "markdown" },
+			},
 
-			vim.api.nvim_create_autocmd("BufRead", {
-				pattern = "*.md",
-				callback = function()
+			{
+				"<C-k>",
+				function()
 					require("nabla").toggle_virt()
 				end,
-			})
-
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "markdown",
-				callback = function()
-					-- Clear conceal for Treesitter markdown code fences
-					vim.cmd([[highlight! link markdownCodeDelimiter Normal]])
-				end,
-			})
-		end,
+				desc = "Toggle virtual LaTeX",
+				ft = { "markdown" },
+			},
+		},
 	},
 	{
 		"3rd/image.nvim",
