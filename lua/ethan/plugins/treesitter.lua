@@ -56,6 +56,19 @@ return {
 		config = function(_, opts)
 			require("nvim-treesitter.configs").setup(opts)
 		end,
+		keys = {
+			{
+				"<leader>st",
+				"<cmd>InspectTree<CR>",
+				desc = "TS: Inspect tree",
+			},
+
+			{
+				"<leader>si",
+				"<cmd>Inspect<CR>",
+				desc = "TS: Inspect under cursor",
+			},
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",

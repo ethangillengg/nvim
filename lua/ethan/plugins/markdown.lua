@@ -9,8 +9,8 @@ local checkbox_types = {
 return {
 	{
 		"epwalsh/obsidian.nvim",
-		version = "*", -- recommended, use latest release instead of latest commit
 		ft = "markdown",
+		version = "*", -- recommended, use latest release instead of latest commit
 		cmd = { "ObsidianQuickSwitch", "ObsidianToday" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -89,11 +89,7 @@ return {
 		},
 
 		keys = {
-			{
-				"<leader>on",
-				":ObsidianNew ",
-				desc = "Note: New note",
-			},
+			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
 			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
 			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
 			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
@@ -152,7 +148,6 @@ return {
 			},
 		},
 	},
-
 	{
 		"iamcco/markdown-preview.nvim",
 		ft = { "markdown" },
@@ -169,7 +164,7 @@ return {
 			       execute "silent ! swaymsg exec qutebrowser -- --target window '" . a:url . "'"
 			     endfunction
 			     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
-	          let g:mkdp_auto_close = 1
+	         let g:mkdp_auto_close = 1
 			   ]])
 		end,
 		keys = {
@@ -185,10 +180,8 @@ return {
 		"bullets-vim/bullets.vim",
 		ft = { "markdown" },
 		config = function()
-			vim.cmd([[
-        let g:bullets_set_mappings = 0
-        let g:bullets_checkbox_markers = ' ix'
-      ]])
+			vim.g.bullets_set_mappings = 0
+			vim.g.bullets_checkbox_markers = " ix"
 		end,
 		keys = {
 
@@ -199,6 +192,46 @@ return {
 				ft = { "markdown" },
 			},
 		},
+	},
+	{
+		"lukas-reineke/headlines.nvim",
+		ft = { "markdown" },
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		opts = {
+			markdown = {
+				headline_highlights = {
+					"Headline1",
+					"Headline2",
+					"Headline3",
+					"Headline4",
+					"Headline5",
+					"Headline6",
+				},
+				bullet_highlights = {
+					"Headline1",
+					"Headline2",
+					"Headline3",
+					"Headline4",
+					"Headline5",
+					"Headline6",
+				},
+				dash_highlight = "Dash",
+				dash_string = "-",
+				fat_headlines = false,
+				bullets = { "●", "◉", "○", "✸", "✿" },
+			},
+		},
+		config = function(_, opts)
+			-- Colors for markdown headers
+			vim.api.nvim_set_hl(0, "Headline1", { link = "Function" })
+			vim.api.nvim_set_hl(0, "Headline2", { link = "Constant" })
+			vim.api.nvim_set_hl(0, "Headline3", { link = "Operator" })
+			vim.api.nvim_set_hl(0, "Headline4", { link = "Identifier" })
+			vim.api.nvim_set_hl(0, "Headline5", { link = "Keyword" })
+			vim.api.nvim_set_hl(0, "Headline6", { link = "ObsidianTodo" })
+
+			require("headlines").setup(opts)
+		end,
 	},
 	{
 		"jbyuki/nabla.nvim",
@@ -242,7 +275,7 @@ return {
 					clear_in_insert_mode = true,
 					download_remote_images = true,
 					only_render_image_at_cursor = false,
-					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+					filetypes = { "markdown" },
 				},
 			},
 

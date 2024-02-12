@@ -3,7 +3,7 @@ local options = {
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
 	-- cmdheight = 1, -- more space in the neovim command line for displaying messages
 	completeopt = { "menuone", "noselect", "noinsert" }, -- mostly just for cmp
-	conceallevel = 0, -- so that `` is visible in markdown files
+	conceallevel = 0,
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = false, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
@@ -74,11 +74,7 @@ vim.cmd([[
   augroup END
 ]])
 
--- vim.cmd(
--- 	[[au BufRead,BufNewFile *.md setlocal shiftwidth=0 | setlocal tabstop=2 | setlocal softtabstop=2 | setlocal expandtab]]
--- )
-
---[[ Highlight on yank ]]
+-- Highlight on yank
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	callback = function()
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 125 })
