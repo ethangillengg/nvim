@@ -1,133 +1,10 @@
---- Find parent node of given type.
----@param node TSNode
----@param type string | nil
----@return TSNode | nil
-local function find_parent_node(node, type)
-	if node == node:root() then
-		return nil
-	end
-	if node:type() == type or node:type() == nil then
-		return node
-	end
-	return find_parent_node(node:parent(), type)
-end
-
---- Find child node of given type.
----@param node TSNode
----@param node_type string | table
----@return TSNode | nil
-local function find_child_node(node, node_type)
-	local child = node:child(0)
-	while child do
-		if type(node_type) == "table" then
-			if node_type[child:type()] then
-				return child
-			end
-		else
-			if child:type() == node_type then
-				return child
-			end
-		end
-		child = child:next_sibling()
-	end
-	return nil
-end
-
----@class CheckToggleState
----@field value string
----@field node_name string | nil
-
---- @type  CheckToggleState[]
-local box_types = {
-	{
-		value = " ",
-	},
-	{
-		value = "/",
-	},
-	{
-		value = "x",
-	},
-	{
-		value = "-",
-	},
-	{
-		value = "?",
-	},
+local checkbox_types = {
+	[" "] = { char = "󰄱", hl_group = "ObsidianTodo" }, -- Not Done
+	["i"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- In Progress
+	["x"] = { char = "󰄲", hl_group = "ObsidianTodoDone" }, -- Done
+	["c"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- Cancelled
+	["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- Ambiguous
 }
-
-local function toggle_checkbox(checkbox_node, bufnr)
-	local box_text = vim.treesitter.get_node_text(checkbox_node, bufnr or 0):sub(1, 3)
-
-	-- find which node is next in the table and use that
-	for i, v in pairs(box_types) do
-		-- if the state matches the char in the box
-		if v.value == box_text:sub(2, 2) then
-			-- get the next todo state
-			local next_node = box_types[(i % #box_types) + 1]
-
-			local sr, sc = checkbox_node:range()
-			local content = { next_node.value }
-			-- only replace the todo char within the box
-			sc = sc + 1
-			vim.api.nvim_buf_set_text(bufnr, sr, sc, sr, sc + 1, content)
-		end
-	end
-
-	-- list that contains node
-	local list_node = find_parent_node(checkbox_node, "list")
-	local parent_list = find_parent_node(list_node, "list")
-	print(list_node, parent_list)
-end
-
-local function find_checkbox(node)
-	local item = find_parent_node(node, "list_item")
-
-	if item == nil then
-		return
-	end
-
-	local box = find_child_node(item, {
-		task_list_marker_checked = true,
-		task_list_marker_unchecked = true,
-		paragraph = true, -- for the extended markdown todo states
-	})
-	return box
-end
-
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local conf = require("telescope.config").values
-local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
-
-local select_course = function(opts)
-	opts = opts or {}
-	pickers
-		.new(opts, {
-			prompt_title = "Choose a course",
-			finder = finders.new_table({
-				results = {
-					"ENCM501 Principles of Computer Architecture",
-					"ENSF544: Data Science for Software Engineers",
-					"ENCM517 Computer Arithmetic and Computational Complexity",
-					"SENG533: Software Performance Evaluation",
-					"ENEL500A Capstone",
-				},
-			}),
-			sorter = conf.generic_sorter(opts),
-			attach_mappings = function(prompt_bufnr, map)
-				actions.select_default:replace(function()
-					actions.close(prompt_bufnr)
-					local selection = action_state.get_selected_entry()
-					-- print(vim.inspect(selection))
-					-- vim.api.nvim_put({ selection[1] }, "", false, true)
-				end)
-				return true
-			end,
-		})
-		:find()
-end
 
 return {
 	{
@@ -151,13 +28,7 @@ return {
 			},
 			ui = {
 				enable = true, -- set to false to disable all additional syntax features
-				checkboxes = {
-					[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-					["/"] = { char = "󰐖", hl_group = "ObsidianTodoStarted" }, -- done
-					["x"] = { char = "󰄲", hl_group = "ObsidianTodoDone" }, -- done
-					["-"] = { char = "󱋬", hl_group = "ObsidianTodoCancelled" }, -- cancelled
-					["?"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- ambiguous
-				},
+				checkboxes = checkbox_types,
 				hl_groups = {
 					ObsidianTodo = { bold = true, fg = "#f78c6c" },
 					ObsidianTodoStarted = { bold = true, fg = "#f7d26c" },
@@ -166,6 +37,17 @@ return {
 					ObsidianTodoCancelled = { bold = true, fg = "#ff5370" },
 				},
 			},
+			note_frontmatter_func = function(note)
+				local out = { aliases = note.aliases, tags = note.tags }
+				-- `note.metadata` contains any manually added fields in the frontmatter.
+				-- So here we just make sure those fields are kept in the frontmatter.
+				if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+					for k, v in pairs(note.metadata) do
+						out[k] = v
+					end
+				end
+				return out
+			end,
 			follow_url_func = function(url)
 				local this_os = vim.loop.os_uname().sysname
 
@@ -178,41 +60,29 @@ return {
 				end
 			end,
 			note_id_func = function(title)
-				-- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-				-- In this case a note with the title 'My new note' will be given an ID that looks
-				-- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-				local suffix = ""
-				if title ~= nil then
-					-- If title is given, transform it into valid file name.
-					suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-				else
-					-- If title is nil, just add 4 random uppercase letters to the suffix.
-					for _ = 1, 4 do
-						suffix = suffix .. string.char(math.random(65, 90))
-					end
-				end
-				return tostring(os.time()) .. "-" .. suffix
+				return "Inbox/" .. title
+				-- 	-- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+				-- 	-- In this case a note with the title 'My new note' will be given an ID that looks
+				-- 	-- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+				-- 	local suffix = ""
+				-- 	if title ~= nil then
+				-- 		-- If title is given, transform it into valid file name.
+				-- 		suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+				-- 	else
+				-- 		-- If title is nil, just add 4 random uppercase letters to the suffix.
+				-- 		for _ = 1, 4 do
+				-- 			suffix = suffix .. string.char(math.random(65, 90))
+				-- 		end
+				-- 	end
+				-- 	return tostring(os.time()) .. "-" .. suffix
 			end,
 			templates = {
-				-- subdir = "_t",
+				subdir = "_t",
 				date_format = "%Y-%m-%d-%a",
 				time_format = "%H:%M",
 				substitutions = {
-					yesterday = function()
-						return os.date("%Y-%m-%d", os.time() - 86400)
-					end,
-					course = function()
-						-- return select_course(require("telescope.themes").get_dropdown({}))
-
-						return vim.ui.select({ "tabs", "spaces" }, {
-							prompt = "Select tabs or spaces:",
-						}, function(choice)
-							if choice == "spaces" then
-								vim.o.expandtab = true
-							else
-								vim.o.expandtab = false
-							end
-						end)
+					date = function()
+						return os.date("%Y-%m-%d", os.time())
 					end,
 				},
 			},
@@ -220,44 +90,16 @@ return {
 
 		keys = {
 			{
-				"<leader>ot",
-				function()
-					vim.cmd(":ObsidianToday")
-					vim.cmd(":ZenMode")
-				end,
-				desc = "Daily Note",
+				"<leader>on",
+				":ObsidianNew ",
+				desc = "Note: New note",
 			},
-
-			{
-				"ol",
-				":ObsidianLink<CR>",
-				mode = "v",
-				desc = "Link selection",
-			},
-			{
-				"<leader>of",
-				":ObsidianQuickSwitch<CR>",
-				desc = "Find Note",
-			},
-			{
-				"<leader>os",
-				":ObsidianSearch<CR>",
-				desc = "Grep Notes",
-				ft = { "markdown" },
-			},
-
-			{
-				"<leader>ob",
-				":ObsidianBacklinks<CR>",
-				desc = "Obsidian Backlinks",
-				ft = { "markdown" },
-			},
-			{
-				"<leader>op",
-				":ObsidianPasteImg<CR>",
-				desc = "Paste Image",
-			},
-
+			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
+			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
+			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
+			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = { "markdown" } },
+			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = { "markdown" } },
+			{ "<leader>op", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image" },
 			{
 				"<CR>",
 				function()
@@ -305,31 +147,13 @@ return {
 					end
 				end,
 				mode = "n",
-				desc = "Follow Link",
-				ft = { "markdown" },
-			},
-
-			{
-				"<C-]>",
-				function()
-					local bufnr = 0 -- current buf
-					local cur_node = vim.treesitter.get_node({ lang = "markdown" })
-					local box = find_checkbox(cur_node)
-					print(box)
-					if box then
-						toggle_checkbox(box, bufnr)
-					else
-						vim.api.nvim_echo({ { "Item below cursor is not a todo", "WarningMsg" } }, true, {})
-					end
-				end,
-				desc = "Toggle Checkbox",
+				desc = "Note: Follow Link",
 				ft = { "markdown" },
 			},
 		},
 	},
 
 	{
-
 		"iamcco/markdown-preview.nvim",
 		ft = { "markdown" },
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -342,10 +166,10 @@ return {
 		config = function()
 			vim.cmd([[
 			    function OpenMarkdownPreview (url)
-			       execute "silent ! qutebrowser --target window '" . a:url . "'"
+			       execute "silent ! swaymsg exec qutebrowser -- --target window '" . a:url . "'"
 			     endfunction
 			     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
-           let g:mkdp_auto_close = 1
+	          let g:mkdp_auto_close = 1
 			   ]])
 		end,
 		keys = {
@@ -353,37 +177,73 @@ return {
 				"<leader>p",
 				":MarkdownPreviewToggle<CR>",
 				desc = "Markdown Preview",
-				ft = { "markdown", "md" },
+				ft = { "markdown" },
 			},
 		},
 	},
 	{
-
-		"tadmccorkle/markdown.nvim",
-		event = "VeryLazy",
+		"bullets-vim/bullets.vim",
 		ft = { "markdown" },
+		config = function()
+			vim.cmd([[
+        let g:bullets_set_mappings = 0
+        let g:bullets_checkbox_markers = ' ix'
+      ]])
+		end,
+		keys = {
 
-		opts = {
-			on_attach = function(bufnr)
-				local function toggle(key)
-					return "<Esc>gv<Cmd>lua require'markdown.inline'" .. ".toggle_emphasis_visual'" .. key .. "'<CR>"
-				end
-				local opts = { buffer = bufnr }
-
-				vim.keymap.set({ "n", "i" }, "<M-o>", "<Cmd>MDListItemBelow<CR>", opts)
-				vim.keymap.set("x", "<C-b>", toggle("b"), opts)
-				vim.keymap.set("x", "<C-i>", toggle("i"), opts)
-			end,
+			{
+				"<C-]>",
+				"<cmd>ToggleCheckbox<CR>",
+				desc = "Toggle checkbox",
+				ft = { "markdown" },
+			},
 		},
 	},
 	{
-		"NFrid/due.nvim",
+		"jbyuki/nabla.nvim",
+		ft = { "markdown" },
+		config = function()
+			require("nabla").enable_virt({
+				autogen = true,
+			})
+
+			vim.api.nvim_create_autocmd("BufRead", {
+				pattern = "*.md",
+				callback = function()
+					require("nabla").toggle_virt()
+				end,
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "markdown",
+				callback = function()
+					-- Clear conceal for Treesitter markdown code fences
+					vim.cmd([[highlight! link markdownCodeDelimiter Normal]])
+				end,
+			})
+		end,
+	},
+	{
+		"3rd/image.nvim",
 		ft = { "markdown" },
 		opts = {
-			pattern_start = "[due:: ",
-			pattern_end = "]",
-			use_clock_time = true,
-			use_seconds = false,
+			backend = "kitty",
+			integrations = {
+				markdown = {
+					enabled = true,
+					clear_in_insert_mode = true,
+					download_remote_images = true,
+					only_render_image_at_cursor = false,
+					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+				},
+			},
+
+			max_width = nil,
+			max_height = nil,
+			max_width_window_percentage = nil,
+			max_height_window_percentage = 50,
+			window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
 		},
 	},
 }

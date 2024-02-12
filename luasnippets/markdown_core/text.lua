@@ -38,13 +38,13 @@ return {
 	------------------------
 
 	----- HEADERS -----
-	as({ trig = "h1", dscr = "Section" }, fmta("# <>", { i(1) }), { condition = line_begin }),
-	as({ trig = "h2", dscr = "Subsection" }, fmta("## <>", { i(1) }), { condition = line_begin }),
-	as({ trig = "h3", dscr = "Sub-subsection" }, fmta("### <>", { i(1) }), { condition = line_begin }),
+	as({ trig = "h1", dscr = "Section" }, fmta("# <>", { i(0) }), { condition = line_begin }),
+	as({ trig = "h2", dscr = "Subsection" }, fmta("## <>", { i(0) }), { condition = line_begin }),
+	as({ trig = "h3", dscr = "Sub-subsection" }, fmta("### <>", { i(0) }), { condition = line_begin }),
 	-------------------
 
 	----- LISTS -----
-	as({ trig = "it", dscr = "List item" }, fmta("- <>", { i(1) }), { condition = line_begin }),
-	as({ trig = "ij", dscr = "List checkbox" }, fmta("- [ ] <>", { i(1) }), { condition = line_begin }),
+	as({ trig = "it", dscr = "List item" }, fmta("- <>", { i(0) }), { condition = line_begin }),
+	as({ trig = "ic", dscr = "List checkbox" }, fmta("- [ ] <>", { i(0) }), { condition = line_begin }),
 	-----------------
 }
