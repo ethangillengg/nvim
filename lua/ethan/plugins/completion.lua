@@ -1,9 +1,47 @@
-local cmp_copilot = {
-	"zbirenbaum/copilot-cmp",
-	opts = true, -- auto setup
-}
-
 return {
+	{
+		"L3MON4D3/LuaSnip",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		build = "make install_jsregexp",
+		event = "InsertEnter",
+		config = function()
+			require("luasnip").config.set_config({
+				enable_autosnippets = true,
+				store_selection_keys = "<Tab>",
+				update_events = "TextChanged,TextChangedI",
+
+				ft_func = function(...)
+					local snip_at_cursor = require("luasnip.extras.filetype_functions").from_cursor_pos(...)
+					if vim.tbl_contains(snip_at_cursor, "latex") then
+						return snip_at_cursor
+					end
+					if
+						vim.tbl_contains(snip_at_cursor, "markdown")
+						or vim.tbl_contains(snip_at_cursor, "markdown_inline")
+					then
+						-- set both markdown and inline to the same filetype
+						table.insert(snip_at_cursor, "markdown_core")
+					end
+					return snip_at_cursor
+				end,
+				load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
+					-- load latex for inline math
+					markdown = { "markdown_core", "latex" },
+					tex = { "latex" },
+				}),
+			})
+
+			require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/luasnippets" })
+		end,
+		keys = {
+			{
+				"<leader>L",
+				function()
+					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets" })
+				end,
+			},
+		},
+	},
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -42,11 +80,15 @@ return {
 					})
 				end,
 			},
-			cmp_copilot,
+			{
+				"zbirenbaum/copilot-cmp",
+				opts = true, -- auto setup
+			},
 		},
 		opts = function()
 			local cmp = require("cmp")
 			local icons = require("ethan.icons")
+			local ls = require("luasnip")
 
 			return {
 				snippet = {
@@ -60,8 +102,29 @@ return {
 					["<C-k>"] = cmp.mapping.select_prev_item(),
 					["<C-u>"] = cmp.mapping.scroll_docs(-4),
 					["<C-d>"] = cmp.mapping.scroll_docs(4),
-					["<Tab>"] = cmp.mapping.select_next_item(),
-					["<S-Tab>"] = cmp.mapping.select_prev_item(),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+						-- that way you will only jump inside the snippet region
+						elseif ls.expand_or_jumpable() then
+							ls.expand_or_jump()
+						-- elseif has_words_before() then
+						-- 	cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif ls.jumpable(-1) then
+							ls.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<C-c>"] = cmp.mapping.abort(),
 
