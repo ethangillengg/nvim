@@ -16,6 +16,17 @@ return {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
 		},
+		init = function()
+			local set_header_hl = function(level, hl_group)
+				vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".markdown", hl_group)
+				vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".marker.markdown", hl_group)
+			end
+			set_header_hl("1", { link = "Function" })
+			set_header_hl("2", { link = "Constant" })
+			set_header_hl("3", { link = "Identifier" })
+			set_header_hl("4", { link = "Operator" })
+			set_header_hl("5", { link = "Keyword" })
+		end,
 		opts = {
 			workspaces = {
 				{
@@ -193,46 +204,44 @@ return {
 			},
 		},
 	},
-	{
-		"lukas-reineke/headlines.nvim",
-		ft = { "markdown" },
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		opts = {
-			markdown = {
-				headline_highlights = {
-					"Headline1",
-					"Headline2",
-					"Headline3",
-					"Headline4",
-					"Headline5",
-					"Headline6",
-				},
-				bullet_highlights = {
-					"Headline1",
-					"Headline2",
-					"Headline3",
-					"Headline4",
-					"Headline5",
-					"Headline6",
-				},
-				dash_highlight = "Dash",
-				dash_string = "-",
-				fat_headlines = false,
-				bullets = { "●", "◉", "○", "✸", "✿" },
-			},
-		},
-		config = function(_, opts)
-			-- Colors for markdown headers
-			vim.api.nvim_set_hl(0, "Headline1", { link = "Function" })
-			vim.api.nvim_set_hl(0, "Headline2", { link = "Constant" })
-			vim.api.nvim_set_hl(0, "Headline3", { link = "Operator" })
-			vim.api.nvim_set_hl(0, "Headline4", { link = "Identifier" })
-			vim.api.nvim_set_hl(0, "Headline5", { link = "Keyword" })
-			vim.api.nvim_set_hl(0, "Headline6", { link = "ObsidianTodo" })
-
-			require("headlines").setup(opts)
-		end,
-	},
+	-- {
+	-- 	"lukas-reineke/headlines.nvim",
+	-- 	ft = { "markdown" },
+	-- 	opts = {
+	-- 		markdown = {
+	-- 			headline_highlights = {
+	-- 				"Headline1",
+	-- 				"Headline2",
+	-- 				"Headline3",
+	-- 				"Headline4",
+	-- 				"Headline5",
+	-- 				"Headline6",
+	-- 			},
+	-- 			bullet_highlights = {
+	-- 				"Headline1",
+	-- 				"Headline2",
+	-- 				"Headline3",
+	-- 				"Headline4",
+	-- 				"Headline5",
+	-- 				"Headline6",
+	-- 			},
+	-- 			dash_highlight = "Dash",
+	-- 			dash_string = "-",
+	-- 			fat_headlines = false,
+	-- 			bullets = { "●", "◉", "○", "✸", "✿" },
+	-- 		},
+	-- 	},
+	-- 	init = function()
+	-- 		-- Colors for markdown headers + dash
+	-- 		vim.api.nvim_set_hl(0, "Headline1", { link = "Function" })
+	-- 		vim.api.nvim_set_hl(0, "Headline2", { link = "Constant" })
+	-- 		vim.api.nvim_set_hl(0, "Headline3", { link = "Operator" })
+	-- 		vim.api.nvim_set_hl(0, "Headline4", { link = "Identifier" })
+	-- 		vim.api.nvim_set_hl(0, "Headline5", { link = "Keyword" })
+	-- 		vim.api.nvim_set_hl(0, "Headline6", { link = "ObsidianTodo" })
+	-- 		vim.api.nvim_set_hl(0, "Dash", { link = "Type" })
+	-- 	end,
+	-- },
 	{
 		"jbyuki/nabla.nvim",
 		ft = { "markdown" },
@@ -266,7 +275,6 @@ return {
 	},
 	{
 		"3rd/image.nvim",
-		ft = { "markdown" },
 		opts = {
 			backend = "kitty",
 			integrations = {
