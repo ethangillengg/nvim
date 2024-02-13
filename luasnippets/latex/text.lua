@@ -10,7 +10,7 @@ local line_begin = require("luasnip.extras.expand_conditions").line_begin
 return {
 	----- TEXT FORMAT -----
 	as({ trig = "fj", dscr = "Text" }, fmta("\\text{<>}", { d(1, get_visual) })),
-	as({ trig = "fi", dscr = "Italic" }, fmta("\\textit{<>}", { d(1, get_visual) })),
+	as({ trig = "fl", dscr = "Italic" }, fmta("\\textit{<>}", { d(1, get_visual) })),
 	as({ trig = "fb", dscr = "Bold" }, fmta("\\textbf{<>}", { d(1, get_visual) })),
 	as({ trig = "fk", dscr = "Code" }, fmta("\\texttt{<>}", { d(1, get_visual) })),
 	as({ trig = "fn", dscr = "Inline math" }, fmta("$<>$", { d(1, get_visual) })),
