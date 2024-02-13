@@ -94,7 +94,9 @@ return {
 			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
 			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = { "markdown" } },
 			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = { "markdown" } },
-			{ "<leader>op", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image" },
+			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
+			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image" },
+			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename" },
 			{
 				"<CR>",
 				function()
