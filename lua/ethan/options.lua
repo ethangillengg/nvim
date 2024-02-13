@@ -69,7 +69,6 @@ vim.cmd([[
     autocmd!
     autocmd FileType markdown setlocal wrap
     autocmd FileType markdown setlocal conceallevel=2
-    autocmd FileType markdown setlocal textwidth=80
     autocmd FileType markdown setlocal spell
   augroup END
 ]])
