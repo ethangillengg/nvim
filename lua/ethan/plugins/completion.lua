@@ -9,7 +9,7 @@ return {
 				enable_autosnippets = true,
 				store_selection_keys = "<Tab>",
 				update_events = "TextChanged,TextChangedI",
-
+				region_check_events = "CursorMoved",
 				ft_func = function(...)
 					local snip_at_cursor = require("luasnip.extras.filetype_functions").from_cursor_pos(...)
 					if vim.tbl_contains(snip_at_cursor, "latex") then
@@ -132,7 +132,6 @@ return {
 				}),
 
 				sources = cmp.config.sources({
-					{ name = "mkdnflow" },
 					{ name = "nvim_lsp" },
 					{ name = "copilot" },
 					-- { name = "nvim_lsp_signature_help" },
@@ -166,7 +165,6 @@ return {
 						-- Kind icons
 						vim_item.kind = icons.kind[vim_item.kind]
 						vim_item.menu = ({
-							mkdnflow = "[Flow]",
 							copilot = "[Copilot]",
 							nvim_lsp = "[LSP]",
 							luasnip = "[Snippet]",
@@ -197,6 +195,9 @@ return {
 		config = function(_, opts)
 			vim.g.cmp_active = true
 			require("cmp").setup(opts)
+
+			opts.sources = {} -- no sources so we can write snippets easier
+			require("cmp").setup.filetype("markdown", opts)
 		end,
 	},
 }
