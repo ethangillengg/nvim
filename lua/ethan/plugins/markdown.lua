@@ -185,65 +185,43 @@ return {
 			vim.g.bullets_checkbox_markers = " ix"
 		end,
 		keys = {
-
 			{
 				"<C-]>",
 				"<cmd>ToggleCheckbox<CR>",
 				desc = "Toggle checkbox",
 				ft = { "markdown" },
 			},
+			{
+				">",
+				"<cmd>BulletDemote<CR>",
+				desc = "Demote Bullet",
+				ft = { "markdown" },
+			},
+			{
+				"<",
+				"<cmd>BulletPromote<CR>",
+				desc = "Promote Bullet",
+				ft = { "markdown" },
+			},
 		},
 	},
-	-- {
-	-- 	"lukas-reineke/headlines.nvim",
-	-- 	ft = { "markdown" },
-	-- 	opts = {
-	-- 		markdown = {
-	-- 			headline_highlights = {
-	-- 				"Headline1",
-	-- 				"Headline2",
-	-- 				"Headline3",
-	-- 				"Headline4",
-	-- 				"Headline5",
-	-- 				"Headline6",
-	-- 			},
-	-- 			bullet_highlights = {
-	-- 				"Headline1",
-	-- 				"Headline2",
-	-- 				"Headline3",
-	-- 				"Headline4",
-	-- 				"Headline5",
-	-- 				"Headline6",
-	-- 			},
-	-- 			dash_highlight = "Dash",
-	-- 			dash_string = "-",
-	-- 			fat_headlines = false,
-	-- 			bullets = { "●", "◉", "○", "✸", "✿" },
-	-- 		},
-	-- 	},
-	-- 	init = function()
-	-- 		-- Colors for markdown headers + dash
-	-- 		vim.api.nvim_set_hl(0, "Headline1", { link = "Function" })
-	-- 		vim.api.nvim_set_hl(0, "Headline2", { link = "Constant" })
-	-- 		vim.api.nvim_set_hl(0, "Headline3", { link = "Operator" })
-	-- 		vim.api.nvim_set_hl(0, "Headline4", { link = "Identifier" })
-	-- 		vim.api.nvim_set_hl(0, "Headline5", { link = "Keyword" })
-	-- 		vim.api.nvim_set_hl(0, "Headline6", { link = "ObsidianTodo" })
-	-- 		vim.api.nvim_set_hl(0, "Dash", { link = "Type" })
-	-- 	end,
-	-- },
 	{
 		"jbyuki/nabla.nvim",
 		ft = { "markdown" },
 		config = function()
-			require("nabla").enable_virt({
-				autogen = true,
-			})
+			local nb = require("nabla")
 
-			--on every buffer enter
-			vim.cmd([[
-        autocmd BufEnter *.md lua require("nabla").enable_virt({autogen = true})
-      ]])
+			vim.api.nvim_create_autocmd({ "BufEnter" }, {
+				pattern = { "*.md" },
+				callback = function()
+					local wrap = vim.o.wrap
+					nb.enable_virt({ autogen = true })
+					-- fix since nabla sets wrap to off
+					if wrap then
+						vim.cmd("set wrap")
+					end
+				end,
+			})
 		end,
 		keys = {
 			{
@@ -261,7 +239,13 @@ return {
 			{
 				"<C-k>",
 				function()
+					-- check if wrap was on
+					local wrap = vim.o.wrap
 					require("nabla").toggle_virt()
+					-- fix since nabla sets wrap to off
+					if wrap then
+						vim.cmd("set wrap")
+					end
 				end,
 				desc = "Toggle virtual LaTeX",
 				ft = { "markdown" },
