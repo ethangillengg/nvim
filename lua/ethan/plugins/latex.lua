@@ -1,5 +1,9 @@
 return {
 	{
+		ft = { "tex", "markdown" },
+		"lervag/vimtex",
+	},
+	{
 		"frabjous/knap",
 		ft = { "tex" },
 		opts = {
