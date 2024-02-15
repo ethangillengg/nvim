@@ -197,19 +197,22 @@ return {
 	},
 	{
 		"folke/zen-mode.nvim",
-
-		keys = { {
-			"<leader>Z",
-			"<cmd>ZenMode<CR>",
-			desc = "Toggle zen mode",
-		} },
+		keys = {
+			{
+				"<C-'>",
+				"<cmd>ZenMode<CR>",
+				desc = "Toggle zen mode",
+			},
+		},
 		cmd = { "ZenMode" },
 		opts = {
 			window = {
 				width = 1, -- 100% width
 				options = {
 					signcolumn = "no", -- hide gitsigns, and column
+					number = false,
 				},
+				laststatus = 0,
 			},
 			on_open = function()
 				require("barbecue.ui").toggle(false)

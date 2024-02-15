@@ -85,7 +85,6 @@ return {
 		-- dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = true,
 	}, -- Easily comment stuff
-
 	-- git integration
 	{
 		"lewis6991/gitsigns.nvim",
