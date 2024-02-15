@@ -35,9 +35,13 @@ return {
 				},
 			},
 			notes_subdir = "University/Winter 2024/Notes/", -- default to current semester
+			attachments = {
+				img_folder = "_attachments/imgs", -- This is the default
+			},
 			completion = {
 				min_chars = 0,
 				new_notes_location = "notes_subdir",
+				prepend_note_path = false,
 			},
 			ui = {
 				enable = true, -- set to false to disable all additional syntax features
@@ -91,12 +95,13 @@ return {
 			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
 			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
 			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
+			{ "<C-p>", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note", ft = "markdown" },
 			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
-			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = { "markdown" } },
-			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = { "markdown" } },
+			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
+			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
 			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
-			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image" },
-			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename" },
+			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
+			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
 			{
 				"<CR>",
 				function()
