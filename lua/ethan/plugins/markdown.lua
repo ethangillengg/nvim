@@ -155,29 +155,25 @@ return {
 		},
 	},
 	{
-		"iamcco/markdown-preview.nvim",
+		"toppair/peek.nvim",
+		event = { "VeryLazy" },
 		ft = { "markdown" },
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
+		build = "deno task --quiet build:fast",
+		opts = {
+			app = { "qutebrowser", "--target", "window" },
+		},
+		config = function(_, opts)
+			require("peek").setup(opts)
+			-- refer to `configuration to change defaults`
+			vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+			vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
 		end,
-		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
-		end,
-		config = function()
-			vim.cmd([[
-			    function OpenMarkdownPreview (url)
-			       execute "silent ! swaymsg exec qutebrowser -- --target window '" . a:url . "'"
-			     endfunction
-			     let g:mkdp_browserfunc = 'OpenMarkdownPreview'
-	         let g:mkdp_auto_close = 1
-			   ]])
-		end,
+
 		keys = {
 			{
-				"<leader>p",
-				":MarkdownPreviewToggle<CR>",
-				desc = "Markdown Preview",
+				"<leader>op",
+				":PeekOpen<CR>",
+				desc = "Notes: Markdown preview",
 				ft = { "markdown" },
 			},
 		},
