@@ -13,11 +13,20 @@ return {
 	as({ trig = "fb", dscr = "Bold" }, fmta("**<>**", { d(1, get_visual) })),
 	as({ trig = "fk", dscr = "Code" }, fmta("`<>`", { d(1, get_visual) })),
 	as({ trig = "fn", dscr = "Inline math" }, fmta("$<>$", { d(1, get_visual) })),
-	as({ trig = "en", dscr = "Math" }, fmta("$$<>$$", { d(1, get_visual) })),
+	-----------------------
+
+	-------- OTHER --------
+	as(
+		{ trig = "lk", dscr = "Link" },
+		fmta("[<>](<>)", {
+			i(1, "display text"),
+			i(2, "url"),
+		})
+	),
 	-----------------------
 
 	----- ENVIRONMENTS -----
-	-- as({ trig = "ek", dscr = "Code environment" }, "verbatim"),
+	as({ trig = "en", dscr = "Math" }, fmta("$$<>$$", { i(1) }), { condition = line_begin }),
 	as(
 		{ trig = "ek", dscr = "Code fenced" },
 		fmta(
@@ -33,8 +42,6 @@ return {
 			{ condition = line_begin }
 		)
 	),
-	-- env_snippet({ trig = "en", dscr = "Equation environment" }, "equation"),
-	-- env_snippet({ trig = "ei", dscr = "Itemize environment" }, "itemize"),
 	------------------------
 
 	----- HEADERS -----

@@ -29,6 +29,7 @@ local options = {
 	numberwidth = 4, -- set number column width to 2 {default 4}
 	signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
 	wrap = false, -- display lines as one long line
+	-- wrapscan = false, -- dont wrap files when searching
 	scrolloff = 8, -- is one of my fav
 	sidescrolloff = 8,
 	helpheight = 100, -- open larger help window
@@ -54,19 +55,9 @@ vim.cmd([[au FileType * set fo-=c fo-=r fo-=o]])
 
 vim.cmd([[au BufRead,BufNewFile *.norg,COMMIT_EDITMSG setlocal spell]])
 vim.cmd([[au BufRead,BufNewFile *.tex setlocal wrap | setlocal spell]])
--- vim.cmd([[au BufRead,BufNewFile *.md setlocal conceallevel=2 | setlocal wrap | setlocal spell]])
--- don't conceal code fences
--- vim.cmd([[
---   let g:pandoc#syntax#conceal#use = 0
---   let g:pandoc#syntax#codeblocks#embeds#langs#prefix = "```"
---   let g:pandoc#syntax#codeblocks#embeds#langs#suffix = "```"
--- ]])
-
--- vim.cmd([[autocmd FileType markdown setlocal syntax=pandoc]])
 
 vim.cmd([[
   augroup markdown
-    autocmd!
     autocmd FileType markdown setlocal wrap
     autocmd FileType markdown setlocal conceallevel=2
     autocmd FileType markdown setlocal spell

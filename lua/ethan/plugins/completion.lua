@@ -1,43 +1,47 @@
 return {
 	{
 		"L3MON4D3/LuaSnip",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		dependencies = { "nvim-treesitter/nvim-treesitter", "lervag/vimtex" },
 		build = "make install_jsregexp",
 		event = "InsertEnter",
 		config = function()
 			require("luasnip").config.set_config({
 				enable_autosnippets = true,
 				store_selection_keys = "<Tab>",
-				update_events = "TextChanged,TextChangedI",
-				region_check_events = "CursorMoved",
+				update_events = { "TextChanged", "TextChangedI" },
+				region_check_events = { "CursorMoved", "CursorMovedI", "CursorHold", "InsertEnter", "TextChanged" },
+				-- ft_func = require("luasnip.extras.filetype_functions").from_cursor_pos,
 				ft_func = function(...)
 					local snip_at_cursor = require("luasnip.extras.filetype_functions").from_cursor_pos(...)
 					if vim.tbl_contains(snip_at_cursor, "latex") then
 						return snip_at_cursor
 					end
-					if
-						vim.tbl_contains(snip_at_cursor, "markdown")
-						or vim.tbl_contains(snip_at_cursor, "markdown_inline")
-					then
-						-- set both markdown and inline to the same filetype
+
+					-- set both markdown and inline to the same filetype
+					if vim.tbl_contains(snip_at_cursor, "markdown") then
 						table.insert(snip_at_cursor, "markdown_core")
+					elseif vim.tbl_contains(snip_at_cursor, "markdown_inline") then
+						table.insert(snip_at_cursor, "markdown_core")
+						table.insert(snip_at_cursor, "latex")
 					end
+
 					return snip_at_cursor
 				end,
 				load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
 					-- load latex for inline math
 					markdown = { "markdown_core", "latex" },
+					markdown_inline = { "markdown_core", "latex" },
 					tex = { "latex" },
 				}),
 			})
 
-			require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/luasnippets" })
+			require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/luasnippets/" })
 		end,
 		keys = {
 			{
 				"<leader>L",
 				function()
-					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets" })
+					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/luasnippets/latex" })
 				end,
 			},
 		},
