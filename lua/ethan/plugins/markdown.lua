@@ -212,12 +212,12 @@ return {
 		config = function()
 			local nb = require("nabla")
 
+			-- fix since nabla sets wrap to off
 			vim.api.nvim_create_autocmd({ "BufEnter" }, {
 				pattern = { "*.md" },
 				callback = function()
 					local wrap = vim.o.wrap
-					nb.enable_virt({ autogen = true })
-					-- fix since nabla sets wrap to off
+					nb.enable_virt({ autogen = false })
 					if wrap then
 						vim.cmd("set wrap")
 					end
@@ -242,10 +242,17 @@ return {
 				function()
 					-- check if wrap was on
 					local wrap = vim.o.wrap
+					local conceallevel = vim.o.conceallevel
 					require("nabla").toggle_virt()
 					-- fix since nabla sets wrap to off
 					if wrap then
 						vim.cmd("set wrap")
+					end
+
+					if conceallevel == 2 then
+						vim.cmd("set conceallevel=0")
+					else
+						vim.cmd("set conceallevel=2")
 					end
 				end,
 				desc = "Toggle virtual LaTeX",
@@ -253,25 +260,26 @@ return {
 			},
 		},
 	},
-	{
-		"3rd/image.nvim",
-		opts = {
-			backend = "kitty",
-			integrations = {
-				markdown = {
-					enabled = true,
-					clear_in_insert_mode = true,
-					download_remote_images = true,
-					only_render_image_at_cursor = false,
-					filetypes = { "markdown" },
-				},
-			},
-
-			max_width = nil,
-			max_height = nil,
-			max_width_window_percentage = nil,
-			max_height_window_percentage = 50,
-			window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-		},
-	},
+	-- {
+	-- 	"3rd/image.nvim",
+	-- 	-- enabled = false,
+	-- 	opts = {
+	-- 		backend = "kitty",
+	-- 		integrations = {
+	-- 			markdown = {
+	-- 				enabled = true,
+	-- 				clear_in_insert_mode = true,
+	-- 				download_remote_images = true,
+	-- 				only_render_image_at_cursor = false,
+	-- 				filetypes = { "markdown" },
+	-- 			},
+	-- 		},
+	--
+	-- 		max_width = nil,
+	-- 		max_height = nil,
+	-- 		max_width_window_percentage = nil,
+	-- 		max_height_window_percentage = 50,
+	-- 		window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+	-- 	},
+	-- },
 }
