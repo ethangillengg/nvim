@@ -26,7 +26,7 @@ end
 return {
 	--- ENVIRONMENTS -----
 	env_snippet({ trig = "ek", dscr = "Code environment" }, "verbatim"),
-	env_snippet({ trig = "en", dscr = "Equation environment" }, "equation"),
+	env_snippet({ trig = "eq", dscr = "Equation environment" }, "equation"),
 	env_snippet({ trig = "ei", dscr = "Itemize environment" }, "itemize"),
 
 	as(
