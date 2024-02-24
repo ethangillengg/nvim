@@ -177,20 +177,6 @@ return {
 		end,
 	},
 	{
-		"tpope/vim-fugitive",
-		event = "VimEnter",
-		keys = {
-
-			{ "<leader>gg", ":Git ++curwin<CR>", desc = "Git: Summary" },
-			{ "<leader>gc", ":Git commit<CR>", desc = "Git: Commit" },
-			{ "<leader>gp", ":Git push<CR>", desc = "Git: Push" },
-			{ "<leader>gd", ":Gdiffsplit<CR>", desc = "Git: Diff" },
-			{ "<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "Git: Branches" },
-			{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Git: Status" },
-			{ "<leader>gl", "<cmd>Gllog<CR>", desc = "Git: Log" },
-		},
-	},
-	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
