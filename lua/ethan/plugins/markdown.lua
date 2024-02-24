@@ -92,16 +92,16 @@ return {
 		},
 
 		keys = {
-			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
-			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
-			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
+			{ "<leader>nn", ":ObsidianNew ", desc = "Note: New note" },
+			{ "nl", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
+			{ "<leader>nt", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
 			{ "<C-p>", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note", ft = "markdown" },
-			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
-			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
-			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
-			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
-			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
-			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
+			{ "<leader>nf", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
+			{ "<leader>ns", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
+			{ "<leader>nb", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
+			{ "<leader>ng", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
+			{ "<leader>ni", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
+			{ "<leader>nr", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
 			{
 				"<CR>",
 				function()
@@ -171,7 +171,7 @@ return {
 
 		keys = {
 			{
-				"<leader>op",
+				"<leader>np",
 				":PeekOpen<CR>",
 				desc = "Notes: Markdown preview",
 				ft = { "markdown" },
