@@ -1,21 +1,5 @@
 return {
 	-- { "sindrets/diffview.nvim", opts = {} },
-
-	{
-		"pwntester/octo.nvim",
-		cmd = "Octo",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			-- OR 'ibhagwan/fzf-lua',
-			"nvim-tree/nvim-web-devicons",
-		},
-		opts = {},
-
-		keys = {
-			{ "<leader>op", "<cmd>Octo pr list<CR>", desc = "Octo: List PRs" },
-		},
-	},
 	{
 		"tpope/vim-fugitive",
 		event = "VimEnter",

@@ -34,13 +34,9 @@ return {
 					path = "~/Notes",
 				},
 			},
-			notes_subdir = "University/Winter 2024/Notes/", -- default to current semester
-			attachments = {
-				img_folder = "_attachments/imgs", -- This is the default
-			},
+			notes_subdir = "Inbox",
 			completion = {
 				min_chars = 0,
-				new_notes_location = "notes_subdir",
 				prepend_note_path = false,
 			},
 			ui = {
@@ -77,31 +73,52 @@ return {
 				end
 			end,
 			note_id_func = function(title)
-				return title
+				local suffix = ""
+				if title ~= nil then
+					-- If title is given, transform it into valid file name.
+					suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+				else
+					-- If title is nil, just add 4 random uppercase letters to the suffix.
+					for _ = 1, 4 do
+						suffix = suffix .. string.char(math.random(65, 90))
+					end
+				end
+
+				-- 2024 February 25th, 12:45 -> 2402251245
+				return tostring(os.date("%y%m%d%H%M") .. "-" .. suffix)
 			end,
+
+			image_name_func = function()
+				-- 2024 February 25th, 12:45 -> 2402251245
+				return string.format("%s-", os.time())
+			end,
+			attachments = {
+				img_folder = "img",
+			},
+
 			templates = {
 				subdir = "_t",
 				date_format = "%Y-%m-%d-%a",
 				time_format = "%H:%M",
 				substitutions = {
 					date = function()
-						return os.date("%Y-%m-%d", os.time())
+						return tostring(os.date("%y%m%d%H%M") .. "-")
 					end,
 				},
 			},
 		},
 
 		keys = {
-			{ "<leader>nn", ":ObsidianNew ", desc = "Note: New note" },
-			{ "nl", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
-			{ "<leader>nt", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
+			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
+			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
+			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
 			{ "<C-p>", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note", ft = "markdown" },
-			{ "<leader>nf", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
-			{ "<leader>ns", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
-			{ "<leader>nb", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
-			{ "<leader>ng", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
-			{ "<leader>ni", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
-			{ "<leader>nr", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
+			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
+			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
+			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
+			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
+			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
+			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
 			{
 				"<CR>",
 				function()
@@ -171,7 +188,7 @@ return {
 
 		keys = {
 			{
-				"<leader>np",
+				"<leader>op",
 				":PeekOpen<CR>",
 				desc = "Notes: Markdown preview",
 				ft = { "markdown" },
