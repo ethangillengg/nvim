@@ -93,7 +93,7 @@ return {
 				return string.format("%s-", os.time())
 			end,
 			attachments = {
-				img_folder = "img",
+				img_folder = "_attachments",
 			},
 
 			templates = {
@@ -111,6 +111,7 @@ return {
 		keys = {
 			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
 			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
+			{ "oe", "<cmd>:ObsidianExtractNote<CR>", mode = "v", desc = "Note: Extract New Note" },
 			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
 			{ "<C-p>", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note", ft = "markdown" },
 			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
