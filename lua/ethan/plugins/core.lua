@@ -118,29 +118,6 @@ return {
 			},
 		},
 	},
-	{
-		"akinsho/git-conflict.nvim",
-		version = "*",
-		opts = {
-			list_opener = "Telescope quickfix",
-			default_mappings = {
-				ours = "co",
-				theirs = "ct",
-				none = "c0",
-				both = "cb",
-				next = "cn",
-				prev = "cN",
-			},
-		},
-		config = function(_, opts)
-			require("git-conflict").setup(opts)
-			vim.api.nvim_set_hl(0, "GitConflictCurrent", { link = "DiffChange" })
-			vim.api.nvim_set_hl(0, "GitConflictCurrentLabel", { link = "DiffAdd" })
-			vim.api.nvim_set_hl(0, "GitConflictIncoming", { link = "DiffDelete" })
-			vim.api.nvim_set_hl(0, "GitConflictIncomingLabel", { link = "ErrorMsg" })
-			vim.keymap.set("n", "<leader>cl", "<cmd>GitConflictListQf<CR>")
-		end,
-	},
 	-- UI
 	{ "stevearc/dressing.nvim" }, -- styling for lsp rename and code actions
 	{

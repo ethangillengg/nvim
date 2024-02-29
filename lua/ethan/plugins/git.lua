@@ -55,7 +55,9 @@ return {
 			vim.api.nvim_set_hl(0, "GitConflictCurrentLabel", { link = "DiffAdd" })
 			vim.api.nvim_set_hl(0, "GitConflictIncoming", { link = "DiffDelete" })
 			vim.api.nvim_set_hl(0, "GitConflictIncomingLabel", { link = "ErrorMsg" })
-			vim.keymap.set("n", "<leader>cl", "<cmd>GitConflictListQf<CR>")
 		end,
+		keys = {
+			{ "<leader>gq", "<cmd>GitConflictListQf<CR>", desc = "Git: Conflicts" },
+		},
 	},
 }
