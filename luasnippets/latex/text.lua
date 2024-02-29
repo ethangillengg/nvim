@@ -9,14 +9,14 @@ local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 return {
 	----- TEXT FORMAT -----
-	as({ trig = "fj", dscr = "Text" }, fmta("\\text{<>}", { d(1, get_visual) })),
-	as({ trig = "fl", dscr = "Italic" }, fmta("\\textit{<>}", { d(1, get_visual) })),
-	as({ trig = "fb", dscr = "Bold" }, fmta("\\textbf{<>}", { d(1, get_visual) })),
+	as({ trig = "fj", dscr = "Italic" }, fmta("\\textit{<>}", { d(1, get_visual) })),
+	as({ trig = "jf", dscr = "Bold" }, fmta("\\textbf{<>}", { d(1, get_visual) })),
 	as({ trig = "fk", dscr = "Code" }, fmta("\\texttt{<>}", { d(1, get_visual) })),
-	as({ trig = "fn", dscr = "Inline math" }, fmta("$<>$", { d(1, get_visual) })),
+	as({ trig = "fm", dscr = "Inline math" }, fmta("$<>$", { d(1, get_visual) })),
+	as({ trig = "fn", dscr = "Text" }, fmta("\\text{ <>}", { d(1, get_visual) })),
 	-----------------------
 	----- SCRIPTS -----
-	as({ trig = "ss", dscr = "Subscript", wordTrig = false }, fmta("_{<>}", { i(0) }), { condition = in_any_mathzone }),
+	as({ trig = "ss", dscr = "Subscript", wordTrig = false }, fmta("_{<>}", { i(1) }), { condition = in_any_mathzone }),
 	as(
 		{ trig = "sd", dscr = "Vert subscript", wordTrig = false },
 		fmta("_{\\mathrm{<>}}", { i(0) }),

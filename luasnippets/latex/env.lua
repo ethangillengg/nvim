@@ -4,6 +4,7 @@ local i = ls.insert_node
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 local as = require("snippets.utils").as
+local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 local env_snippet = function(args, name)
 	return as(
@@ -19,15 +20,32 @@ local env_snippet = function(args, name)
 				name
 			),
 			{ i(0) }
-		)
+		),
+		{ condition = line_begin }
 	)
 end
 
 return {
 	--- ENVIRONMENTS -----
 	env_snippet({ trig = "ek", dscr = "Code environment" }, "verbatim"),
-	env_snippet({ trig = "eq", dscr = "Equation environment" }, "equation"),
 	env_snippet({ trig = "ei", dscr = "Itemize environment" }, "itemize"),
+	env_snippet({ trig = "sln", dscr = "Solution environment" }, "sol"),
+	env_snippet({ trig = "eqn", dscr = "Equation environment" }, "equation"),
+	as({ trig = "qq", descr = "Equation environment" }, fmta("\\[ <> \\]", { i(0) }), { condition = line_begin }),
+	as(
+		{ trig = "qs", descr = "Aligned Equation environment" },
+		fmta(
+			[[\[
+\begin{aligned}
+  <>
+\end{aligned}
+\] ]],
+			{
+				i(0),
+			}
+		),
+		{ condition = line_begin }
+	),
 
 	as(
 		{ trig = "etb", dscr = "Tabular environment" },
@@ -67,7 +85,8 @@ return {
 				i(2),
 				rep(1), -- this node repeats insert node i(1)
 			}
-		)
+		),
+		{ condition = line_begin }
 	),
 	s(
 		{ trig = "hr", dscr = "Hyprref" },
