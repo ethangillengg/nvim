@@ -210,6 +210,21 @@ return {
 				desc = "Toggle checkbox",
 				ft = { "markdown" },
 			},
+
+			{
+				"<C-.>",
+				"<cmd>BulletDemote<CR>",
+				mode = { "i", "n", "v" },
+				desc = "Demote Bullet",
+				ft = { "markdown" },
+			},
+			{
+				"<C-,>",
+				"<cmd>BulletPromote<CR>",
+				mode = { "i", "n", "v" },
+				desc = "Promote Bullet",
+				ft = { "markdown" },
+			},
 			{
 				">",
 				"<cmd>BulletDemote<CR>",
