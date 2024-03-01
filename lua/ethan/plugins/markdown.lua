@@ -90,7 +90,7 @@ return {
 
 			image_name_func = function()
 				-- 2024 February 25th, 12:45 -> 2402251245
-				return string.format("%s-", os.time())
+				return string.format("%s-", os.date("%y%m%d%H%M"))
 			end,
 			attachments = {
 				img_folder = "_attachments",
