@@ -11,4 +11,10 @@ return {
 	s({ trig = ";g", snippetType = "autosnippet" }, {
 		t("\\gamma"),
 	}),
+	s({ trig = ";l", snippetType = "autosnippet" }, {
+		t("\\lambda"),
+	}),
+	s({ trig = ";p", snippetType = "autosnippet" }, {
+		t("\\phi"),
+	}),
 }

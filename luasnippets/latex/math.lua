@@ -19,10 +19,7 @@ return {
 
 	as(
 		{ trig = "([^%a])ff", dscr = "Fraction", regTrig = true, wordTrig = false },
-		fmta("\\frac{<>}{<>}", {
-			i(1),
-			i(2),
-		}),
+		fmta("\\frac{<>}{<>}", { i(1), i(2) }),
 		{ condition = in_any_mathzone }
 	),
 
@@ -38,11 +35,13 @@ return {
 
 	as(
 		{ trig = "sm", dscr = "Sum" },
-		fmta([[\sum_{<>}^{<>}{<>}]], {
-			i(1, "from"),
-			i(2, "to"),
-			i(3),
-		}),
+		fmta([[\sum_{<>}^{<>}{<>}]], { i(1, "from"), i(2, "to"), i(3) }),
+		{ condition = in_any_mathzone }
+	),
+
+	as(
+		{ trig = "flr", dscr = "Floor", wordTrig = false },
+		fmta("\\lfloor{<>}\\rfloor", { i(1) }),
 		{ condition = in_any_mathzone }
 	),
 

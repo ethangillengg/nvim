@@ -16,15 +16,11 @@ return {
 	as({ trig = "fn", dscr = "Text" }, fmta("\\text{ <>}", { d(1, get_visual) })),
 	-----------------------
 	----- SCRIPTS -----
-	as({ trig = "ss", dscr = "Subscript", wordTrig = false }, fmta("_{<>}", { i(1) }), { condition = in_any_mathzone }),
+	as({ trig = "ss", dscr = "S_2", wordTrig = false }, fmta("_{<>}", { i(1) }), { condition = in_any_mathzone }),
+	as({ trig = "su", dscr = "S^2", wordTrig = false }, fmta("^{<>}", { i(1) }), { condition = in_any_mathzone }),
 	as(
-		{ trig = "sd", dscr = "Vert subscript", wordTrig = false },
-		fmta("_{\\mathrm{<>}}", { i(0) }),
-		{ condition = in_any_mathzone }
-	),
-	as(
-		{ trig = "su", dscr = "Superscript", wordTrig = false },
-		fmta("^{<>}", { i(0) }),
+		{ trig = "sd", dscr = "Vertical Subscript", wordTrig = false },
+		fmta("_{\\mathrm{<>}}", { i(1) }),
 		{ condition = in_any_mathzone }
 	),
 	-------------------
