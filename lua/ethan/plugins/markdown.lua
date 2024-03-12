@@ -92,8 +92,15 @@ return {
 				-- 2024 February 25th, 12:45 -> 2402251245
 				return string.format("%s-", os.date("%y%m%d%H%M"))
 			end,
+
 			attachments = {
-				img_folder = "_attachments",
+				img_folder = "_attachments/imgs",
+				img_text_func = function(_, path)
+					-- Always use the the absolute path.
+					local link_path = tostring(path)
+					local display_name = vim.fs.basename(link_path)
+					return string.format("![%s](%s)", display_name, link_path)
+				end,
 			},
 
 			templates = {
