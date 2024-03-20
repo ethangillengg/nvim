@@ -13,7 +13,7 @@ return {
 	as({ trig = "jf", dscr = "Bold" }, fmta("\\textbf{<>}", { d(1, get_visual) })),
 	as({ trig = "fk", dscr = "Code" }, fmta("\\texttt{<>}", { d(1, get_visual) })),
 	as({ trig = "fm", dscr = "Inline math" }, fmta("$<>$", { d(1, get_visual) })),
-	as({ trig = "fn", dscr = "Text" }, fmta("\\text{ <>}", { d(1, get_visual) })),
+	as({ trig = "fn", dscr = "Text" }, fmta("\\text{<>}", { d(1, get_visual) })),
 	-----------------------
 	----- SCRIPTS -----
 	as({ trig = "ss", dscr = "S_2", wordTrig = false }, fmta("_{<>}", { i(1) }), { condition = in_any_mathzone }),

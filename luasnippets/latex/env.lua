@@ -29,6 +29,7 @@ return {
 	--- ENVIRONMENTS -----
 	env_snippet({ trig = "ek", dscr = "Code environment" }, "verbatim"),
 	env_snippet({ trig = "ei", dscr = "Itemize environment" }, "itemize"),
+	env_snippet({ trig = "eI", dscr = "Enumerate environment" }, "enumerate"),
 	env_snippet({ trig = "sln", dscr = "Solution environment" }, "sol"),
 	env_snippet({ trig = "eqn", dscr = "Equation environment" }, "equation"),
 	as({ trig = "qq", descr = "Equation environment" }, fmta("\\[ <> \\]", { i(0) }), { condition = line_begin }),

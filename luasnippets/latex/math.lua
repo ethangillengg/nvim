@@ -17,6 +17,9 @@ return {
 		})
 	),
 
+	as({ trig = "rr", dscr = "Right Arrow" }, fmta("\\rightarrow <>", { i(0) }), { condition = in_any_mathzone }),
+	as({ trig = "ll", dscr = "Left Arrow" }, fmta("\\leftarrow <>", { i(0) }), { condition = in_any_mathzone }),
+
 	as(
 		{ trig = "([^%a])ff", dscr = "Fraction", regTrig = true, wordTrig = false },
 		fmta("\\frac{<>}{<>}", { i(1), i(2) }),
