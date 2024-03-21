@@ -26,6 +26,8 @@ local lsp_servers = {
 	"texlab",
 	-- Go
 	"gopls",
+	-- XML
+	"lemminx",
 }
 
 local M = {}

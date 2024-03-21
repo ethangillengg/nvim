@@ -36,6 +36,7 @@ return {
 				yaml = { "yamlfmt" },
 				tex = { "latexindent" },
 				asm = { "asmfmt" },
+				xml = { "xmlformat" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
