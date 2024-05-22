@@ -34,6 +34,7 @@ return {
 				build = "make",
 			},
 			"nvim-telescope/telescope-ui-select.nvim",
+			"piersolenski/telescope-import.nvim",
 		},
 		cmd = "Telescope",
 		keys = {
@@ -47,6 +48,7 @@ return {
 			{ "<leader>tm", "<cmd>Telescope keymaps<cr>", desc = "Telescope: Keymaps" },
 			{ "<leader>tb", "<cmd>Telescope buffers<cr>", desc = "Telescope: Buffers" },
 			{ "<leader>tt", "<cmd>Telescope builtin<cr>", desc = "Telescope: Builtins" },
+			{ "<leader>ti", "<cmd>Telescope import<cr>", desc = "Telescope: Import" },
 		},
 		opts = function()
 			local actions = require("telescope.actions")
@@ -69,15 +71,34 @@ return {
 						},
 					},
 				},
+				extensions = {
+					import = {
+						-- Add imports to the top of the file keeping the cursor in place
+						insert_at_top = false,
+						-- Support additional languages
+						custom_languages = {
+							{
+								-- The regex pattern for the import statement
+								regex = [[^(?:import(?:[\"'\s]*([\w*{}\n, ]+)from\s*)?[\"'\s](.*?)[\"'\s].*)]],
+								-- The Vim filetypes
+								filetypes = { "vue" },
+								-- The filetypes that ripgrep supports (find these via `rg --type-list`)
+								extensions = { "js", "ts" },
+							},
+						},
+					},
+				},
 			}
 		end,
 		config = function(_, opts)
 			local ts = require("telescope")
 			ts.setup(opts)
 			ts.load_extension("fzf")
+			ts.load_extension("import")
 			-- require("telescope.builtin").symbols({ sources = { "math", "latex", "nerd" } })
 		end,
-	}, --telescope
+	},
+	-- },
 	{
 		"numToStr/Comment.nvim",
 		event = "BufReadPost",
@@ -85,7 +106,6 @@ return {
 		-- dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = true,
 	}, -- Easily comment stuff
-	-- git integration
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
