@@ -1,5 +1,29 @@
 return {
-	-- { "sindrets/diffview.nvim", opts = {} },
+	{
+		"sindrets/diffview.nvim",
+		opts = {
+			view = {
+				merge_tool = { layout = "diff1_plain" },
+			},
+		},
+		keys = {
+			{
+				"<leader>gD",
+				function()
+					local lib = require("diffview.lib")
+					local view = lib.get_current_view()
+					if view then
+						-- Current tabpage is a Diffview; close it
+						vim.cmd.DiffviewClose()
+					else
+						-- No open Diffview exists: open a new one
+						vim.cmd.DiffviewOpen()
+					end
+				end,
+				desc = "Git: Diffview",
+			},
+		},
+	},
 	{
 		"tpope/vim-fugitive",
 		event = "VimEnter",
@@ -38,6 +62,10 @@ return {
 	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
+		event = "BufReadPost",
+		init = function()
+			vim.api.nvim_create_autocmd("BufReadPre", { command = "GitConflictRefresh" })
+		end,
 		opts = {
 			list_opener = "Telescope quickfix",
 			default_mappings = {
@@ -48,14 +76,26 @@ return {
 				next = "cn",
 				prev = "cN",
 			},
+			highlights = {
+				incoming = "DiffAdd",
+				current = "DiffChange",
+			},
 		},
-		config = function(_, opts)
-			require("git-conflict").setup(opts)
-			vim.api.nvim_set_hl(0, "GitConflictCurrent", { link = "DiffChange" })
-			vim.api.nvim_set_hl(0, "GitConflictCurrentLabel", { link = "DiffAdd" })
-			vim.api.nvim_set_hl(0, "GitConflictIncoming", { link = "DiffDelete" })
-			vim.api.nvim_set_hl(0, "GitConflictIncomingLabel", { link = "ErrorMsg" })
-		end,
+		cmd = {
+			"GitConflictChooseBase",
+			"GitConflictChooseTheirs",
+			"GitConflictChooseOurs",
+			"GitConflictChooseBoth",
+			"GitConflictChooseNone",
+			"GitConflictIncoming",
+			"GitConflictIncomingLabel",
+			"GitConflictListQf",
+			"GitConflictNextConflict",
+			"GitConflictPrevConflict",
+			"GitConflictRefresh",
+		},
+
+		config = true,
 		keys = {
 			{ "<leader>gq", "<cmd>GitConflictListQf<CR>", desc = "Git: Conflicts" },
 		},
