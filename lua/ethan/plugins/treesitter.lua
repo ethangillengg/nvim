@@ -34,6 +34,7 @@ return {
 				"glsl",
 				"query",
 				"latex",
+				"c_sharp",
 			},
 			sync_install = false,
 			highlight = {
