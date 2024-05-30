@@ -45,6 +45,37 @@ for opt, val in pairs(options) do
 	vim.opt[opt] = val
 end
 
+local is_wsl = vim.uv.os_uname()["release"]:lower():match("microsoft") and true or false
+if is_wsl then
+	-- this is the one recommended by the docs...
+	-- but it is slow to paste
+	-- vim.g.clipboard = {
+	-- 	name = "WslClipboard",
+	-- 	copy = {
+	-- 		["+"] = "clip.exe",
+	-- 		["*"] = "clip.exe",
+	-- 	},
+	-- 	paste = {
+	-- 		["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+	-- 		["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+	-- 	},
+	-- 	cache_enabled = 0,
+	-- }
+
+	vim.g.clipboard = {
+		name = "win32yank-wsl",
+		copy = {
+			["+"] = "win32yank.exe -i --crlf",
+			["*"] = "win32yank.exe -i --crlf",
+		},
+		paste = {
+			["+"] = "win32yank.exe -o --crlf",
+			["*"] = "win32yank.exe -o --crlf",
+		},
+		cache_enabled = 0,
+	}
+end
+
 vim.g.markdown_folding = 1 -- enable markdown folding
 vim.opt.shortmess:append("c")
 vim.opt.diffopt:append("vertical") --vertical diff
