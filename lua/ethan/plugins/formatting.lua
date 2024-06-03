@@ -20,13 +20,13 @@ return {
 				scss = { { "prettierd", "prettier" } },
 				vue = { { "prettierd", "prettier" } },
 
-				javascript = { "biome" },
-				typescript = { "biome" },
-				javascriptreact = { "biome" },
-				typescriptreact = { "biome" },
+				javascript = { "prettierd" },
+				typescript = { "prettierd" },
+				javascriptreact = { "prettierd" },
+				typescriptreact = { "prettierd" },
 
 				nix = { "alejandra" },
-				cs = { "charpier" },
+				-- cs = { "charpier" },
 				lua = { "stylua" },
 				cpp = { "clang_format" },
 				glsl = { "clang_format" },
