@@ -37,10 +37,12 @@ return {
 				tex = { "latexindent" },
 				asm = { "asmfmt" },
 				xml = { "xmlformat" },
+				go = { "gopls" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
-				lsp_fallback = false,
+				async = true,
+				lsp_fallback = true,
 			},
 		},
 	},

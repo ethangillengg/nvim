@@ -34,6 +34,8 @@ return {
 				"glsl",
 				"query",
 				"latex",
+				"go",
+				"templ",
 				"c_sharp",
 			},
 			sync_install = false,
@@ -75,7 +77,7 @@ return {
 		"nvim-treesitter/nvim-treesitter-context",
 		event = "BufEnter",
 		opts = {
-			enable = false,
+			enable = true,
 		},
 		init = function()
 			vim.api.nvim_set_hl(0, "TreesitterContext", {

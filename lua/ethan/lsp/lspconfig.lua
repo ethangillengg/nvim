@@ -5,9 +5,11 @@ local lsp_servers = {
 	-- Web Dev
 	"html",
 	"cssls",
-	"tsserver",
+	"tailwindcss",
+	-- "tsserver",
 	"volar",
-	"biome",
+	-- "biome",
+	"denols",
 	-- Rust
 	"rust_analyzer",
 	-- Python
@@ -26,6 +28,8 @@ local lsp_servers = {
 	"texlab",
 	-- Go
 	"gopls",
+	"templ",
+	"htmx",
 	-- XML
 	"lemminx",
 }
@@ -59,6 +63,19 @@ M.setup = function()
 				},
 			}
 			rt.setup(opts)
+		elseif lsp == "html" or lsp == "htmx" then
+			lspconfig[lsp].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "html", "templ" },
+			})
+		elseif lsp == "tailwindcss" then
+			lspconfig[lsp].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "templ", "javascript", "typescript", "react", "vue" },
+				init_options = { userLanguages = { templ = "html" } },
+			})
 		else
 			lspconfig[lsp].setup({
 				on_attach = on_attach,
