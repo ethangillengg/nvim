@@ -190,13 +190,13 @@ return {
 				window = {
 					completion = {
 						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-						border = "rounded",
+						-- border = "rounded",
 						scrollbar = true,
 						max_width = 60,
 					},
 					documentation = {
 						winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
-						border = "rounded",
+						-- border = "rounded",
 						scrollbar = true,
 						max_width = 60,
 					},
