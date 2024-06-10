@@ -3,3 +3,4 @@
 /plugin
 *.ts
 lazy-lock.json
+.direnv/
