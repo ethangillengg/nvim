@@ -827,6 +827,14 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 		},
 		opts = {},
+		keys = {
+			{
+				"<leader>tc",
+				"<cmd>Barbecue toggle<cr>",
+				mode = "n",
+				desc = "[T]oggle barbe[C]ue",
+			},
+		},
 	},
 	{
 		"luckasRanarison/tailwind-tools.nvim",
