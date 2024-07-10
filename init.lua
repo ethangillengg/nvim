@@ -468,6 +468,7 @@ require("lazy").setup({
 					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
 					init_options = { userLanguages = { templ = "html" } },
 				},
+				eslint = {},
 				volar = {},
 				-- Rust
 				rust_analyzer = {},
