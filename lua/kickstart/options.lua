@@ -15,6 +15,8 @@ vim.opt.showmode = false -- Don't show the mode, since it's already in the statu
 vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true -- Enable break indent
 vim.opt.undofile = true -- Save undo history
+vim.opt.swapfile = false -- creates a swapfile
+vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
