@@ -51,6 +51,9 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- Toggle options
+vim.keymap.set("n", "<leader>tw", "<cmd>set wrap!<CR>", { desc = "[T]oggle [W]rap" })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -464,11 +467,11 @@ require("lazy").setup({
 				html = {},
 				cssls = {},
 				tsserver = {},
-				tailwindcss = {
-					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
-					init_options = { userLanguages = { templ = "html" } },
-				},
-				eslint = {},
+				-- tailwindcss = {
+				-- 	filetypes = { "templ", "javascript", "typescript", "react", "vue" },
+				-- 	init_options = { userLanguages = { templ = "html" } },
+				-- },
+				-- eslint = {},
 				volar = {},
 				-- Rust
 				rust_analyzer = {},
@@ -607,7 +610,6 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
 			"onsails/lspkind.nvim",
-			"luckasRanarison/tailwind-tools.nvim",
 		},
 		config = function()
 			-- See `:help cmp`
@@ -674,7 +676,6 @@ require("lazy").setup({
 						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 						-- can also be a function to dynamically calculate max width such as
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-						before = require("tailwind-tools.cmp").lspkind_format,
 					}),
 				},
 			})
@@ -833,16 +834,6 @@ require("lazy").setup({
 				"<cmd>Barbecue toggle<cr>",
 				mode = "n",
 				desc = "[T]oggle barbe[C]ue",
-			},
-		},
-	},
-	{
-		"luckasRanarison/tailwind-tools.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = {
-			conceal = {
-				enabled = true,
-				min_length = "40",
 			},
 		},
 	},
