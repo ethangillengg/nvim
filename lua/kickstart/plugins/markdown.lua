@@ -204,7 +204,7 @@ return {
 			{
 				"<leader>op",
 				":PeekOpen<CR>",
-				desc = "Notes: Markdown preview",
+				desc = "Note: Markdown preview",
 				ft = { "markdown" },
 			},
 		},
