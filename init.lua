@@ -313,6 +313,9 @@ require("lazy").setup({
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
+
+			-- Extended 'textDocument/definition' handler for OmniSharp Neovim LSP
+			{ "Hoffs/omnisharp-extended-lsp.nvim" },
 		},
 		config = function()
 			vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "[L]SP [i]nfo" })
@@ -451,6 +454,17 @@ require("lazy").setup({
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 						end, "[T]oggle Inlay [H]ints")
 					end
+
+					if client and client.name == "omnisharp" then
+						map("gd", require("omnisharp_extended").telescope_lsp_definition, "[G]oto [D]efinition")
+						map("gr", require("omnisharp_extended").telescope_lsp_references, "[G]oto [R]eferences")
+						map("gI", require("omnisharp_extended").telescope_lsp_implementation, "[G]oto [I]mplementation")
+						map(
+							"<leader>D",
+							require("omnisharp_extended").telescope_lsp_type_definition,
+							"Type [D]efinition"
+						)
+					end
 				end,
 			})
 
@@ -489,7 +503,9 @@ require("lazy").setup({
 				pyright = {},
 				ruff_lsp = {},
 				-- C#
-				csharp_ls = {},
+				omnisharp = {
+					cmd = { "OmniSharp" },
+				},
 				-- C/C++
 				clangd = {},
 				glslls = {},
@@ -894,7 +910,6 @@ require("lazy").setup({
 	require("kickstart.plugins.neo-tree"),
 	require("kickstart.plugins.gitsigns"), -- adds gitsigns recommend keymaps
 	require("custom.plugins.init"),
-	-- require("kickstart.plugins.csharp"),
 	require("kickstart.plugins.markdown"),
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
