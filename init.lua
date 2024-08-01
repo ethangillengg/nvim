@@ -3,6 +3,12 @@ require("kickstart.options") -- default vim options
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+vim.keymap.set(
+	"n",
+	"<leader>rq",
+	'<cmd>w | new | setlocal buftype=nofile filetype=sql | 0r ++edit !sqlcmd query -q "$(cat #)"<CR>',
+	{ desc = "Show diagnostic [E]rror messages" }
+)
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
