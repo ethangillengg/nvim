@@ -490,7 +490,22 @@ require("lazy").setup({
 				-- Web Dev
 				html = {},
 				cssls = {},
-				tsserver = {},
+				tsserver = {
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = "/home/ethan/.npm-global/lib/node_modules/@vue/typescript-plugin",
+								languages = { "javascript", "typescript", "vue" },
+							},
+						},
+					},
+					filetypes = {
+						"javascript",
+						"typescript",
+						"vue",
+					},
+				},
 				-- tailwindcss = {
 				-- 	filetypes = { "templ", "javascript", "typescript", "react", "vue" },
 				-- 	init_options = { userLanguages = { templ = "html" } },
