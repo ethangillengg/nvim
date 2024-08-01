@@ -829,6 +829,30 @@ require("lazy").setup({
 			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
 	},
+
+	{
+		"Wansmer/treesj",
+		dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
+		opts = { use_default_keymaps = false },
+		keys = {
+			{
+				"<leader>m",
+				function()
+					require("treesj").toggle()
+				end,
+				mode = "n",
+				desc = "Treesj: Toggle Block",
+			},
+			{
+				"<leader>M",
+				function()
+					require("treesj").toggle({ split = { recursive = true } })
+				end,
+				mode = "n",
+				desc = "Treesj: Toggle Block",
+			},
+		},
+	},
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
