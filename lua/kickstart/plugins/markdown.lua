@@ -79,11 +79,11 @@ return {
 					vim.fn.jobstart({ "cmd.exe", "/c", "start", url })
 				end
 			end,
-			note_id_func = function(title)
+			note_path_func = function(note)
 				local suffix = ""
-				if title ~= nil then
+				if note.title ~= nil then
 					-- If title is given, transform it into valid file name.
-					suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+					note.title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
 				else
 					-- If title is nil, just add 4 random uppercase letters to the suffix.
 					for _ = 1, 4 do
@@ -126,7 +126,7 @@ return {
 			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
 			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
 			{ "oe", "<cmd>:ObsidianExtractNote<CR>", mode = "v", desc = "Note: Extract New Note" },
-			{ "<leader>ot", "<cmd>:ObsidianTemplate<CR>", desc = "Note: Insert template" },
+			{ "<leader>oN", "<cmd>:ObsidianNewFromTemplate<CR>", desc = "Note: New Note From Template" },
 			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
 			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
 			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
@@ -183,6 +183,12 @@ return {
 				desc = "Note: Follow Link",
 				ft = { "markdown" },
 			},
+			{
+				"<C-]>",
+				"<cmd>ObsidianToggleCheckbox<CR>",
+				desc = "Toggle checkbox",
+				ft = { "markdown" },
+			},
 		},
 	},
 	{
@@ -217,12 +223,12 @@ return {
 			vim.g.bullets_checkbox_markers = " ix"
 		end,
 		keys = {
-			{
-				"<C-]>",
-				"<cmd>ToggleCheckbox<CR>",
-				desc = "Toggle checkbox",
-				ft = { "markdown" },
-			},
+			-- {
+			-- 	"<C-]>",
+			-- 	"<cmd>ToggleCheckbox<CR>",
+			-- 	desc = "Toggle checkbox",
+			-- 	ft = { "markdown" },
+			-- },
 
 			{
 				"<C-.>",
