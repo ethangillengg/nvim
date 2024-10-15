@@ -18,11 +18,11 @@ return {
 		},
 		init = function()
 			vim.cmd([[
-  augroup markdown
-    autocmd FileType markdown setlocal wrap
-    autocmd FileType markdown setlocal conceallevel=2
-    autocmd FileType markdown setlocal spell
-  augroup END
+augroup markdown
+autocmd FileType markdown setlocal wrap
+autocmd FileType markdown setlocal conceallevel=2
+autocmd FileType markdown setlocal spell
+augroup END
 ]])
 			local set_header_hl = function(level, hl_group)
 				vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".markdown", hl_group)
@@ -42,6 +42,11 @@ return {
 				},
 			},
 			notes_subdir = "Inbox",
+			daily_notes = {
+				date_format = "%y%m%d%H%M-Standup",
+				default_tags = { "sunwapta", "standup", "work", "daily" },
+				template = "daily",
+			},
 			completion = {
 				min_chars = 0,
 				prepend_note_path = false,
@@ -83,7 +88,7 @@ return {
 				local suffix = ""
 				if note.title ~= nil then
 					-- If title is given, transform it into valid file name.
-					note.title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+					suffix = note.title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
 				else
 					-- If title is nil, just add 4 random uppercase letters to the suffix.
 					for _ = 1, 4 do
@@ -123,16 +128,18 @@ return {
 		},
 
 		keys = {
-			{ "<leader>on", ":ObsidianNew ", desc = "Note: New note" },
-			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "Note: Link selection" },
-			{ "oe", "<cmd>:ObsidianExtractNote<CR>", mode = "v", desc = "Note: Extract New Note" },
-			{ "<leader>oN", "<cmd>:ObsidianNewFromTemplate<CR>", desc = "Note: New Note From Template" },
-			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "Note: Find Note" },
-			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "Note: Grep notes", ft = "markdown" },
-			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "Note: Obsidian backlinks", ft = "markdown" },
-			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "Note: Search tags" },
-			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "Note: Paste image", ft = "markdown" },
-			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "Note: Rename", ft = "markdown" },
+			{ "<leader>on", ":ObsidianNew ", desc = "[O]bsidian: New [n]ote" },
+			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "[O]bsidian: Link selection" },
+			{ "oe", "<cmd>:ObsidianExtractNote<CR>", mode = "v", desc = "[O]bsidian: [e]xtract New Note" },
+			{ "<leader>ot", "<cmd>:ObsidianNewFromTemplate<CR>", desc = "[O]bsidian: New Note From [t]emplate" },
+			{ "<leader>od", "<cmd>:ObsidianToday<CR>", desc = "[O]bsidian: New [D]aily Note" },
+			{ "<leader>oD", "<cmd>:ObsidianDailies<CR>", desc = "[O]bsidian: [D]aily Notes" },
+			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "[O]bsidian: Find Note" },
+			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "[O]bsidian: Grep notes", ft = "markdown" },
+			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "[O]bsidian: Obsidian backlinks", ft = "markdown" },
+			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "[O]bsidian: Search tags" },
+			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "[O]bsidian: Paste image", ft = "markdown" },
+			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "[O]bsidian: Rename", ft = "markdown" },
 			{
 				"<CR>",
 				function()
