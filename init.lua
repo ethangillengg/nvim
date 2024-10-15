@@ -617,34 +617,84 @@ require("lazy").setup({
 		},
 	},
 
+	{
+		"L3MON4D3/LuaSnip",
+		build = (function()
+			-- Build Step is needed for regex support in snippets.
+			-- This step is not supported in many windows environments.
+			-- Remove the below condition to re-enable on windows.
+			if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+				return
+			end
+			return "make install_jsregexp"
+		end)(),
+		dependencies = {
+			-- `friendly-snippets` contains a variety of premade snippets.
+			--    See the README about individual language/framework/plugin snippets:
+			--    https://github.com/rafamadriz/friendly-snippets
+			-- {
+			-- 	"rafamadriz/friendly-snippets",
+			-- 	config = function()
+			-- 		require("luasnip.loaders.from_vscode").lazy_load()
+			-- 	end,
+			-- },
+			"nvim-treesitter/nvim-treesitter",
+			"lervag/vimtex",
+		},
+		event = "InsertEnter",
+		config = function()
+			local ls = require("luasnip")
+			ls.setup({
+				enable_autosnippets = true,
+				store_selection_keys = "<Tab>",
+				update_events = { "TextChanged", "TextChangedI" },
+				region_check_events = {
+					"CursorMoved",
+					"CursorMovedI",
+					"CursorHold",
+					"InsertEnter",
+					"TextChanged",
+				},
+				ft_func = function(...)
+					local snip_at_cursor = require("luasnip.extras.filetype_functions").from_cursor_pos(...)
+					if vim.tbl_contains(snip_at_cursor, "latex") then
+						return snip_at_cursor
+					end
+
+					-- set both markdown and inline to the same filetype
+					if vim.tbl_contains(snip_at_cursor, "markdown") then
+						table.insert(snip_at_cursor, "markdown_core")
+					elseif vim.tbl_contains(snip_at_cursor, "markdown_inline") then
+						table.insert(snip_at_cursor, "markdown_core")
+						table.insert(snip_at_cursor, "latex")
+					end
+
+					return snip_at_cursor
+				end,
+				load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
+					-- load latex for inline math
+					markdown = { "markdown_core", "latex" },
+					markdown_inline = { "markdown_core", "latex" },
+					tex = { "latex" },
+				}),
+			})
+
+			require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/luasnippets" })
+		end,
+		keys = {
+			{
+				"<leader>L",
+				function()
+					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/luasnippets" })
+				end,
+			},
+		},
+	},
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
 			-- Snippet Engine & its associated nvim-cmp source
-			{
-				"L3MON4D3/LuaSnip",
-				build = (function()
-					-- Build Step is needed for regex support in snippets.
-					-- This step is not supported in many windows environments.
-					-- Remove the below condition to re-enable on windows.
-					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-						return
-					end
-					return "make install_jsregexp"
-				end)(),
-				dependencies = {
-					-- `friendly-snippets` contains a variety of premade snippets.
-					--    See the README about individual language/framework/plugin snippets:
-					--    https://github.com/rafamadriz/friendly-snippets
-					{
-						"rafamadriz/friendly-snippets",
-						config = function()
-							require("luasnip.loaders.from_vscode").lazy_load()
-						end,
-					},
-				},
-			},
 			"saadparwaiz1/cmp_luasnip",
 
 			-- Adds other completion capabilities.
@@ -657,13 +707,18 @@ require("lazy").setup({
 		config = function()
 			-- See `:help cmp`
 			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			luasnip.config.setup({})
+			local ls = require("luasnip")
+			local has_words_before = function()
+				unpack = unpack or table.unpack
+				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+				return col ~= 0
+					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+			end
 
 			cmp.setup({
 				snippet = {
 					expand = function(args)
-						luasnip.lsp_expand(args.body)
+						ls.lsp_expand(args.body)
 					end,
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
@@ -680,6 +735,31 @@ require("lazy").setup({
 					["<A-k>"] = cmp.mapping.scroll_docs(4),
 					["<C-c>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						-- use luasnip's as the default
+						if ls.expand_or_locally_jumpable() then
+							ls.expand_or_jump()
+						elseif cmp.visible() then
+							cmp.select_next_item()
+						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+						-- that way you will only jump inside the snippet region
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if ls.jumpable(-1) then
+							ls.jump(-1)
+						elseif cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+
 					--
 					-- If you prefer more traditional completion keymaps,
 					-- you can uncomment the following lines
