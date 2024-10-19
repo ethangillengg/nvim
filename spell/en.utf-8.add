@@ -95,6 +95,7 @@ fix
 YYC
 waitlist
 Sunwapta
+<<<<<<< Updated upstream
 YYC
 dotnet
 SSMS
@@ -110,3 +111,22 @@ yyc
 Standup
 Bridgeland
 intaking
+=======
+NZXT
+Nvidia
+Geforce
+GTX
+nzxt
+S340
+EVGA
+gRPC
+CQRS
+MediatR
+uri
+auth
+OAUTH
+EF
+Liskov
+Lasiodora
+Difficilis
+>>>>>>> Stashed changes
