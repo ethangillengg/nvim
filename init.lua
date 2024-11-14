@@ -656,20 +656,20 @@ require("lazy").setup({
 					"TextChanged",
 				},
 				ft_func = function(...)
-					local snip_at_cursor = require("luasnip.extras.filetype_functions").from_cursor_pos(...)
-					if vim.tbl_contains(snip_at_cursor, "latex") then
-						return snip_at_cursor
+					local ft = require("luasnip.extras.filetype_functions").from_filetype()
+					if vim.tbl_contains(ft, "latex") then
+						return ft
 					end
 
 					-- set both markdown and inline to the same filetype
-					if vim.tbl_contains(snip_at_cursor, "markdown") then
-						table.insert(snip_at_cursor, "markdown_core")
-					elseif vim.tbl_contains(snip_at_cursor, "markdown_inline") then
-						table.insert(snip_at_cursor, "markdown_core")
-						table.insert(snip_at_cursor, "latex")
+					if vim.tbl_contains(ft, "markdown") then
+						table.insert(ft, "markdown_core")
+					elseif vim.tbl_contains(ft, "markdown_inline") then
+						table.insert(ft, "markdown_core")
+						table.insert(ft, "latex")
 					end
 
-					return snip_at_cursor
+					return ft
 				end,
 				load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
 					-- load latex for inline math
