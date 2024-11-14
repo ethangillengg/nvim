@@ -518,7 +518,7 @@ require("lazy").setup({
 				rust_analyzer = {},
 				-- Python
 				pyright = {},
-				ruff_lsp = {},
+				ruff = {},
 				-- C#
 				omnisharp = {
 					cmd = { "OmniSharp" },
