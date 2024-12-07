@@ -16,6 +16,10 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>w", ":wa<cr>")
 vim.keymap.set("n", "<leader>q", ":wqa<cr>")
 
+-- Multiline on single wrapped
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+
 -- Dont stop visual mode on indent
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
