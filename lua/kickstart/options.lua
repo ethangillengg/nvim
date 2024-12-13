@@ -24,7 +24,9 @@ vim.opt.signcolumn = "yes" -- Keep signcolumn on by default
 vim.opt.updatetime = 250 -- Decrease update time
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 10
+if not vim.g.vscode then
+	vim.opt.timeoutlen = 10
+end
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -53,9 +55,4 @@ if is_wsl then
 		},
 		cache_enabled = 0,
 	}
-end
-
-if vim.g.vscode then
-	vim.keymap.set("", "<Space>", "<Nop>")
-	vim.opt.timeoutlen = 100
 end

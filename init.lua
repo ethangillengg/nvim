@@ -3,12 +3,6 @@ require("kickstart.options") -- default vim options
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
-vim.keymap.set(
-	"n",
-	"<leader>rq",
-	'<cmd>w | new | setlocal buftype=nofile filetype=sql | 0r ++edit !sqlcmd query -q "$(cat #)"<CR>',
-	{ desc = "Show diagnostic [E]rror messages" }
-)
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -88,16 +82,6 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -139,6 +123,7 @@ require("lazy").setup({
 	-- "gc" to comment visual regions/lines
 	{
 		"numToStr/Comment.nvim",
+		cond = not vim.g.vscode,
 		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = function()
 			require("Comment").setup({
@@ -611,6 +596,7 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
+		cond = not vim.g.vscode,
 		build = (function()
 			-- Build Step is needed for regex support in snippets.
 			-- This step is not supported in many windows environments.
