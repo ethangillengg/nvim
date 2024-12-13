@@ -5,6 +5,7 @@
 return {
 	{
 		"akinsho/git-conflict.nvim",
+		cond = not vim.g.vscode,
 		version = "*",
 		event = "BufReadPost",
 		init = function()

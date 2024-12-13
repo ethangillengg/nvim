@@ -1,12 +1,13 @@
 return {
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    main = 'ibl',
-    opts = {
-      debounce = 50,
-      indent = {
-        char = '┊',
-      },
-    },
-  },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		cond = not vim.g.vscode,
+		main = "ibl",
+		opts = {
+			debounce = 50,
+			indent = {
+				char = "┊",
+			},
+		},
+	},
 }

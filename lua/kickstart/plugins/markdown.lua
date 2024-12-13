@@ -6,6 +6,10 @@ local checkbox_types = {
 	["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- Ambiguous
 }
 
+if not vim.g.vscode then
+	return {}
+end
+
 return {
 	{
 		"epwalsh/obsidian.nvim",
