@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -54,4 +53,9 @@ if is_wsl then
 		},
 		cache_enabled = 0,
 	}
+end
+
+if vim.g.vscode then
+	vim.keymap.set("", "<Space>", "<Nop>")
+	vim.opt.timeoutlen = 100
 end
