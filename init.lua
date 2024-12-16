@@ -811,6 +811,7 @@ require("lazy").setup({
 
 	{
 		"max397574/better-escape.nvim",
+		cond = not vim.g.vscode,
 		event = "InsertEnter",
 		opts = {
 			timeout = 300,
