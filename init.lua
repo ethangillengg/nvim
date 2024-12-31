@@ -477,7 +477,7 @@ require("lazy").setup({
 						plugins = {
 							{
 								name = "@vue/typescript-plugin",
-								location = "/home/ethan/.npm-global/lib/node_modules/@vue/typescript-plugin",
+								location = "/home/ethan/.bun/install/global/node_modules/@vue/typescript-plugin",
 								languages = { "javascript", "typescript", "vue" },
 							},
 						},
@@ -488,12 +488,14 @@ require("lazy").setup({
 						"vue",
 					},
 				},
-				-- tailwindcss = {
-				-- 	filetypes = { "templ", "javascript", "typescript", "react", "vue" },
-				-- 	init_options = { userLanguages = { templ = "html" } },
-				-- },
+				tailwindcss = {
+					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
+					init_options = { userLanguages = { templ = "html" } },
+					cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
+				},
 				-- eslint = {},
-				volar = {},
+				-- Using the typescript plugin instead for now
+				-- volar = {},
 				-- Rust
 				rust_analyzer = {},
 				-- Python
@@ -553,14 +555,14 @@ require("lazy").setup({
 		},
 		opts = {
 			notify_on_error = false,
-			format_on_save = function(bufnr)
+			format_after_save = function(bufnr)
 				-- Disable "format_on_save lsp_fallback" for languages that don't
 				-- have a well standardized coding style. You can add additional
 				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true }
+				local disable_filetypes = { c = true, cpp = true, cs = true }
 				return {
-					timeout_ms = 500,
 					lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+					stop_after_first = true,
 				}
 			end,
 			-- Conform can also run multiple formatters sequentially
@@ -590,6 +592,7 @@ require("lazy").setup({
 				asm = { "asmfmt" },
 				xml = { "xmlformat" },
 				go = { "gopls" },
+				cs = { "csharpier", timeout_ms = 10000 },
 			},
 		},
 	},
@@ -708,6 +711,7 @@ require("lazy").setup({
 				-- No, but seriously. Please read `:help ins-completion`, it is really good!
 				mapping = cmp.mapping.preset.insert({
 					["<C-s>"] = cmp.mapping.complete({}),
+					["<C-space>"] = cmp.mapping.complete({}),
 					["<C-j>"] = cmp.mapping.select_next_item(),
 					["<C-k>"] = cmp.mapping.select_prev_item(),
 					["<A-j>"] = cmp.mapping.scroll_docs(-4),
@@ -720,8 +724,8 @@ require("lazy").setup({
 							ls.expand_or_jump()
 						elseif cmp.visible() then
 							cmp.select_next_item()
-							-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-							-- that way you will only jump inside the snippet region
+						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+						-- that way you will only jump inside the snippet region
 						elseif has_words_before() then
 							cmp.complete()
 						else
@@ -792,6 +796,9 @@ require("lazy").setup({
 		"ellisonleao/gruvbox.nvim",
 		cond = not vim.g.vscode,
 		priority = 1000, -- Make sure to load this before all the other start plugins.
+		init = function()
+			vim.cmd.colorscheme("gruvbox")
+		end,
 		opts = {
 			contrast = "hard",
 			overrides = {
@@ -801,6 +808,7 @@ require("lazy").setup({
 	},
 	{
 		"catppuccin/nvim",
+		enabled = false,
 		cond = not vim.g.vscode,
 		name = "catppuccin",
 		priority = 1000,
@@ -975,6 +983,12 @@ require("lazy").setup({
 		},
 	},
 	{ "anuvyklack/pretty-fold.nvim", opts = {} },
+	{
+		"seblj/roslyn.nvim",
+		opts = {
+			exe = "Microsoft.CodeAnalysis.LanguageServer",
+		},
+	},
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
