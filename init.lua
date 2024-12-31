@@ -555,7 +555,19 @@ require("lazy").setup({
 		},
 		opts = {
 			notify_on_error = false,
-			format_after_save = function(bufnr)
+			formatters = {
+				-- Daemonized script for running csharpier
+				csharpierd = {
+					command = "bash",
+					-- args = { "-c" },
+					args = {
+						vim.fn.stdpath("config") .. "/scripts/csharpierd.sh",
+						"$FILENAME",
+					},
+					-- stdin = false,
+				},
+			},
+			format_on_save = function(bufnr)
 				-- Disable "format_on_save lsp_fallback" for languages that don't
 				-- have a well standardized coding style. You can add additional
 				-- languages here or re-enable it for the disabled ones.
@@ -592,7 +604,7 @@ require("lazy").setup({
 				asm = { "asmfmt" },
 				xml = { "xmlformat" },
 				go = { "gopls" },
-				cs = { "csharpier", timeout_ms = 10000 },
+				cs = { "csharpierd" },
 			},
 		},
 	},
