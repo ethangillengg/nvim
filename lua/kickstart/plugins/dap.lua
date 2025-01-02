@@ -54,22 +54,7 @@ return {
 				},
 			})
 
-			require("nvim-dap-virtual-text").setup({
-				-- -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
-				-- display_callback = function(variable)
-				-- 	local name = string.lower(variable.name)
-				-- 	local value = string.lower(variable.value)
-				-- 	-- if name:match("secret") or name:match("api") or value:match("secret") or value:match("api") then
-				-- 	-- 	return "*****"
-				-- 	-- end
-				--
-				-- 	if #variable.value > 15 then
-				-- 		return " " .. string.sub(variable.value, 1, 15) .. "... "
-				-- 	end
-				--
-				-- 	return " " .. variable.value
-				-- end,
-			})
+			require("nvim-dap-virtual-text").setup()
 
 			local netcoredbg = vim.fn.exepath("netcoredbg")
 			if netcoredbg ~= "" then
@@ -78,16 +63,17 @@ return {
 					command = netcoredbg,
 					args = {
 						"--interpreter=vscode",
+						"--engineLogging=netcoredbg_log.txt",
 					},
-					env = {
-						-- TODO: These don't seem to apply
-						ASPNETCORE_ENVIRONMENT = function()
-							return "Development"
-						end,
-						ASPNETCORE_URLS = function()
-							return "http://localhost:7009"
-						end,
-					},
+					-- env = {
+					-- 	-- TODO: These don't seem to apply
+					-- 	ASPNETCORE_ENVIRONMENT = function()
+					-- 		return "Development"
+					-- 	end,
+					-- 	ASPNETCORE_URLS = function()
+					-- 		return "http://localhost:7009"
+					-- 	end,
+					-- },
 				}
 
 				dap.configurations.cs = {
@@ -103,7 +89,11 @@ return {
 						type = "coreclr",
 						name = "attach - netcoredbg",
 						request = "attach",
-						processId = "${command:pickProcess}",
+						processId = function()
+							return require("dap.utils").pick_process({
+								filter = "^/usr/bin/dotnet%s+([^%s/]+%.dll)$",
+							})
+						end,
 					},
 				}
 			end
