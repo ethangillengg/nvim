@@ -306,6 +306,11 @@ require("lazy").setup({
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
+
+			{
+				"smjonas/inc-rename.nvim",
+				config = true,
+			},
 		},
 		config = function()
 			vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "[L]SP [i]nfo" })
@@ -384,7 +389,13 @@ require("lazy").setup({
 					-- Rename the variable under your cursor.
 					--  Most Language Servers support renaming across files, etc.
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame symbol")
-					map("<F2>", vim.lsp.buf.rename, "Rename")
+
+					vim.keymap.set("n", "<leader>rn", function()
+						return ":IncRename " .. vim.fn.expand("<cword>")
+					end, { expr = true })
+					vim.keymap.set("n", "<F2>", function()
+						return ":IncRename " .. vim.fn.expand("<cword>")
+					end, { expr = true })
 
 					map("gl", function()
 						vim.diagnostic.open_float({ scope = "line" })
