@@ -10,9 +10,6 @@ vim.opt.mouse = "a"
 vim.opt.mousemodel = "extend" -- disable mouse right-click popup
 vim.opt.showmode = false -- Don't show the mode, since it's already in the status line
 vim.opt.wrap = false
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
-vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true -- Enable break indent
 vim.opt.undofile = true -- Save undo history
 vim.opt.swapfile = false -- creates a swapfile
@@ -41,18 +38,23 @@ vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below
 
 vim.opt.hlsearch = true
 
+-- WSL-Specific Config
 local is_wsl = vim.uv.os_uname()["release"]:lower():match("microsoft") and true or false
-if is_wsl then
-	vim.g.clipboard = {
-		name = "win32yank-wsl",
-		copy = {
-			["+"] = "win32yank.exe -i --crlf",
-			["*"] = "win32yank.exe -i --crlf",
-		},
-		paste = {
-			["+"] = "win32yank.exe -o --crlf",
-			["*"] = "win32yank.exe -o --crlf",
-		},
-		cache_enabled = 0,
-	}
+-- Sync clipboard between OS and Neovim.
+--  Remove this option if you want your OS clipboard to remain independent.
+if not is_wsl then
+	vim.opt.clipboard = "unnamedplus"
+else
+	-- 	vim.g.clipboard = {
+	-- 		name = "win32yank-wsl",
+	-- 		copy = {
+	-- 			["+"] = "win32yank.exe -i --crlf",
+	-- 			["*"] = "win32yank.exe -i --crlf",
+	-- 		},
+	-- 		paste = {
+	-- 			["+"] = "win32yank.exe -o --crlf",
+	-- 			["*"] = "win32yank.exe -o --crlf",
+	-- 		},
+	-- 		cache_enabled = 0,
+	-- 	}
 end
