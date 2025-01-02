@@ -34,17 +34,19 @@ return {
 			if netcoredbg ~= "" then
 				dap.adapters.coreclr = {
 					type = "executable",
-					command = "/nix/store/jx4b3bjcwajms6409j0kyq50w1zmxvwc-user-environment/bin/netcoredbg",
-					-- command = netcoredbg,
+					command = netcoredbg,
 					args = {
 						"--interpreter=vscode",
 					},
-					-- options = {
-					-- env = {
-					-- 	-- ASPNETCORE_ENVIRONMENT = "Development",
-					-- 	DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = 1,
-					-- },
-					-- },
+					env = {
+						-- TODO: These don't seem to apply
+						ASPNETCORE_ENVIRONMENT = function()
+							return "Development"
+						end,
+						ASPNETCORE_URLS = function()
+							return "http://localhost:7009"
+						end,
+					},
 				}
 
 				dap.configurations.cs = {
@@ -53,11 +55,7 @@ return {
 						name = "launch - netcoredbg",
 						request = "launch",
 						program = function()
-							return vim.fn.input(
-								"Path to dll",
-								"dotnet " .. vim.fn.getcwd() .. "/bin/Debug/net9.0/",
-								"file"
-							)
+							return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/net9.0/", "file")
 						end,
 					},
 					{
