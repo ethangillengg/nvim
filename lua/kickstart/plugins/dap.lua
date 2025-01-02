@@ -11,7 +11,48 @@ return {
 			local dap = require("dap")
 			local ui = require("dapui")
 
-			require("dapui").setup()
+			require("dapui").setup({
+				controls = {
+					element = "console",
+				},
+				layouts = {
+					{
+						elements = {
+							{
+								id = "scopes",
+								size = 0.4,
+							},
+							{
+								id = "breakpoints",
+								size = 0.3,
+							},
+							{
+								id = "stacks",
+								size = 0.3,
+							},
+							-- {
+							-- 	id = "watches",
+							-- 	size = 0.25,
+							-- },
+						},
+						position = "left",
+						size = 40,
+					},
+					{
+						elements = {
+							{
+								id = "console",
+							},
+							-- {
+							-- 	id = "console",
+							-- 	size = 0.5,
+							-- },
+						},
+						position = "top",
+						size = 1,
+					},
+				},
+			})
 
 			require("nvim-dap-virtual-text").setup({
 				-- -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
