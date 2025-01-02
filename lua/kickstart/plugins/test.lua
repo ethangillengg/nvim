@@ -10,6 +10,9 @@ return {
 		},
 		config = function()
 			require("neotest").setup({
+				icons = {
+					running_animated = { "⠻", "⠽", "⠾", "⠷", "⠯", "⠟" },
+				},
 				adapters = {
 					require("neotest-dotnet"),
 				},
