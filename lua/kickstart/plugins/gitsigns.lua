@@ -48,7 +48,7 @@ return {
 				map("n", "<leader>gu", gitsigns.undo_stage_hunk, { desc = "[G]it [U]ndo Stage Hunk" })
 				map("n", "<leader>gR", gitsigns.reset_buffer, { desc = "[G]it [R]eset Buffer" })
 				map("n", "<leader>gp", gitsigns.preview_hunk, { desc = "[G]it [P]review Hunk" })
-				map("n", "<leader>gb", gitsigns.blame_line, { desc = "[G]it [B]lame Line" })
+				map("n", "<leader>gb", gitsigns.blame, { desc = "[G]it [B]lame" })
 				map("n", "<leader>gd", gitsigns.diffthis, { desc = "[G]it [D]iff against Index" })
 				map("n", "<leader>gD", function()
 					gitsigns.diffthis("@")
