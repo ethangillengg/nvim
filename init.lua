@@ -610,6 +610,7 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
+		version = "v2.*",
 		cond = not vim.g.vscode,
 		build = (function()
 			-- Build Step is needed for regex support in snippets.
@@ -624,18 +625,28 @@ require("lazy").setup({
 			-- `friendly-snippets` contains a variety of premade snippets.
 			--    See the README about individual language/framework/plugin snippets:
 			--    https://github.com/rafamadriz/friendly-snippets
-			-- {
-			-- 	"rafamadriz/friendly-snippets",
-			-- 	config = function()
-			-- 		require("luasnip.loaders.from_vscode").lazy_load()
-			-- 	end,
-			-- },
+			{
+				"rafamadriz/friendly-snippets",
+				config = function()
+					require("luasnip.loaders.from_vscode").lazy_load()
+				end,
+			},
 			"nvim-treesitter/nvim-treesitter",
 			"lervag/vimtex",
 		},
 		event = "InsertEnter",
 		config = function()
 			local ls = require("luasnip")
+			vim.keymap.set({ "i" }, "<c-k>", function()
+				ls.expand()
+			end, { silent = true })
+			vim.keymap.set({ "i", "s" }, "<s-l>", function()
+				ls.jump(1)
+			end, { silent = true })
+			vim.keymap.set({ "i", "s" }, "<s-h>", function()
+				ls.jump(-1)
+			end, { silent = true })
+
 			ls.setup({
 				enable_autosnippets = true,
 				store_selection_keys = "<Tab>",
@@ -675,6 +686,7 @@ require("lazy").setup({
 		end,
 		keys = {
 			{
+
 				"<leader>L",
 				function()
 					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/luasnippets" })
@@ -687,7 +699,7 @@ require("lazy").setup({
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
 		dependencies = {
-			"rafamadriz/friendly-snippets",
+			"L3MON4D3/LuaSnip",
 			"onsails/lspkind.nvim",
 		},
 
@@ -780,7 +792,7 @@ require("lazy").setup({
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "luasnip", "buffer" },
 				providers = {
 					buffer = {
 						min_keyword_length = 5,
@@ -800,6 +812,20 @@ require("lazy").setup({
 					return {}
 				end,
 			},
+		},
+		snippets = {
+			expand = function(snippet)
+				require("luasnip").lsp_expand(snippet)
+			end,
+			active = function(filter)
+				if filter and filter.direction then
+					return require("luasnip").jumpable(filter.direction)
+				end
+				return require("luasnip").in_snippet()
+			end,
+			jump = function(direction)
+				require("luasnip").jump(direction)
+			end,
 		},
 		opts_extend = { "sources.default" },
 	},
@@ -869,7 +895,7 @@ require("lazy").setup({
 			require("mini.surround").setup()
 			require("mini.move").setup()
 			require("mini.splitjoin").setup({
-				mappings = { toggle = "<c-m>" },
+				mappings = { toggle = "<s-m>" },
 			})
 
 			-- Simple and easy statusline.
