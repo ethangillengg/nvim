@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
+--
 vim.g.have_nerd_font = true
 
 vim.opt.number = true -- Make line numbers default
@@ -42,19 +43,20 @@ vim.opt.hlsearch = true
 local is_wsl = vim.uv.os_uname()["release"]:lower():match("microsoft") and true or false
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
-if not is_wsl then
-	vim.opt.clipboard = "unnamedplus"
-else
-	-- 	vim.g.clipboard = {
-	-- 		name = "win32yank-wsl",
-	-- 		copy = {
-	-- 			["+"] = "win32yank.exe -i --crlf",
-	-- 			["*"] = "win32yank.exe -i --crlf",
-	-- 		},
-	-- 		paste = {
-	-- 			["+"] = "win32yank.exe -o --crlf",
-	-- 			["*"] = "win32yank.exe -o --crlf",
-	-- 		},
-	-- 		cache_enabled = 0,
-	-- 	}
+vim.opt.clipboard = "unnamedplus"
+
+if is_wsl then
+	-- https://www.reddit.com/r/neovim/comments/171fu71/how_can_i_view_the_exact_clipboard_commands_that/
+	vim.g.clipboard = {
+		name = "xclip-wsl",
+		copy = {
+			["+"] = { "xclip", "-quiet", "-i", "-selection", "clipboard" },
+			["*"] = { "xclip", "-quiet", "-i", "-selection", "primary" },
+		},
+		paste = {
+			["+"] = { "xclip", "-o", "-selection", "clipboard" },
+			["*"] = { "xclip", "-o", "-selection", "primary" },
+		},
+		cache_enabled = 1, -- cache MUST be enabled, or else it hangs on dd/y/x and all other copy operations
+	}
 end
