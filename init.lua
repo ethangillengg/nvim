@@ -195,6 +195,7 @@ require("lazy").setup({
 				end,
 			},
 			{ "nvim-telescope/telescope-ui-select.nvim" },
+			{ "debugloop/telescope-undo.nvim" },
 
 			-- Useful for getting pretty icons, but requires a Nerd Font.
 			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
@@ -247,6 +248,7 @@ require("lazy").setup({
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension("undo"))
 
 			-- See `:help telescope.builtin`
 			local builtin = require("telescope.builtin")
@@ -256,6 +258,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<c-p>", builtin.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch Select [T]elescope" })
 			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+			vim.keymap.set("n", "<leader>su", "<cmd>Telescope undo<cr>", { desc = "[S]earch [U]ndo Tree" })
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
@@ -951,29 +954,21 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"Wansmer/treesj",
-		dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
-		opts = { use_default_keymaps = false },
-		keys = {
-			{
-				"<leader>m",
-				function()
-					require("treesj").toggle()
-				end,
-				mode = "n",
-				desc = "Treesj: Toggle Block",
-			},
-			{
-				"<leader>M",
-				function()
-					require("treesj").toggle({ split = { recursive = true } })
-				end,
-				mode = "n",
-				desc = "Treesj: Toggle Block",
-			},
-		},
-	},
+	-- {
+	-- 	"ckolkey/ts-node-action",
+	--    dependencies = { "nvim-treesitter" },
+	-- 	opts = {},
+	-- 	keys = {
+	-- 		{
+	-- 			"<c-m>",
+	-- 			function()
+	-- 				require("ts-node-action").node_action()
+	-- 			end,
+	-- 			mode = "n",
+	-- 			desc = "TS: Trigger Node Action",
+	-- 		},
+	-- 	},
+	-- },
 
 	{
 		"utilyre/barbecue.nvim",
