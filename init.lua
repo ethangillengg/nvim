@@ -8,7 +8,6 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Quick save mappings
 vim.keymap.set("n", "<leader>w", ":wa<cr>")
-
 if not vim.g.vscode then
 	vim.keymap.set("n", "<leader>q", ":wqa<cr>")
 end
@@ -429,7 +428,6 @@ require("lazy").setup({
 
 			for server, config in pairs(servers) do
 				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-				-- config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
 				require("lspconfig")[server].setup(config)
 			end
 		end,
@@ -599,14 +597,12 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
 		},
-
 		-- use a release tag to download pre-built binaries
 		version = "*",
 		-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 		-- build = 'cargo build --release',
 		-- If you use nix, you can build from source using latest nightly rust with:
 		-- build = 'nix run .#build-plugin',
-
 		opts = {
 			keymap = {
 				preset = "none",
@@ -614,11 +610,20 @@ require("lazy").setup({
 				["<c-j>"] = { "select_next", "fallback" },
 				["<C-s>"] = { "show" },
 				["<C-y>"] = { "select_and_accept", "fallback" },
-				["<enter>"] = { "select_and_accept", "fallback" },
+				["<enter>"] = {
+					"accept",
+					function(cmp)
+						cmp.accept({
+							callback = function()
+								vim.api.nvim_feedkeys("\n", "n", true)
+							end,
+						})
+					end,
+					"fallback",
+				},
 				["<A-k>"] = { "scroll_documentation_up", "fallback" },
 				["<A-j>"] = { "scroll_documentation_down", "fallback" },
 			},
-
 			appearance = {
 				-- Sets the fallback highlight groups to nvim-cmp's highlight groups
 				-- Useful for when your theme doesn't support blink.cmp
@@ -627,6 +632,12 @@ require("lazy").setup({
 				nerd_font_variant = "mono",
 			},
 			completion = {
+				list = {
+
+					selection = function(ctx)
+						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+					end,
+				},
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 0,
@@ -641,9 +652,6 @@ require("lazy").setup({
 					},
 				},
 				menu = {
-					auto_show = function(ctx)
-						return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
-					end,
 					draw = {
 						columns = {
 							{
@@ -710,7 +718,6 @@ require("lazy").setup({
 				require("luasnip").jump(direction)
 			end,
 		},
-		opts_extend = { "sources.default" },
 	},
 	{ -- You can easily change to a different colorscheme.
 		-- Change the name of the colorscheme plugin below, and then
@@ -890,7 +897,7 @@ require("lazy").setup({
 		opts = {},
 		keys = {
 			{
-				"<leader>tc",
+				"<leader>tq",
 				"<cmd>Barbecue toggle<cr>",
 				mode = "n",
 				desc = "[T]oggle barbe[C]ue",
