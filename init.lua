@@ -306,6 +306,7 @@ require("lazy").setup({
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
+			"saghen/blink.cmp",
 
 			{
 				"smjonas/inc-rename.nvim",
@@ -461,22 +462,6 @@ require("lazy").setup({
 				end,
 			})
 
-			-- LSP servers and clients are able to communicate to each other what features they support.
-			--  By default, Neovim doesn't support everything that is in the LSP specification.
-			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-			-- Enable the following language servers
-			--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-			--
-			--  Add any additional override configuration in the following tables. Available keys are:
-			--  - cmd (table): Override the default command used to start the server
-			--  - filetypes (table): Override the default list of associated filetypes for the server
-			--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-			--  - settings (table): Override the default settings passed when initializing the server.
-			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
 				-- Nix
 				nil_ls = {},
@@ -542,10 +527,10 @@ require("lazy").setup({
 			}
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 
-			for server_name in pairs(servers) do
-				local server = servers[server_name] or {}
-				server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-				require("lspconfig")[server_name].setup(server)
+			for server, config in pairs(servers) do
+				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+				-- config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
+				require("lspconfig")[server].setup(config)
 			end
 		end,
 	},
@@ -694,123 +679,127 @@ require("lazy").setup({
 			},
 		},
 	},
-	{ -- Autocompletion
-		"hrsh7th/nvim-cmp",
-		cond = not vim.g.vscode,
-		event = "InsertEnter",
-		dependencies = {
-			-- Snippet Engine & its associated nvim-cmp source
-			"saadparwaiz1/cmp_luasnip",
 
-			-- Adds other completion capabilities.
-			--  nvim-cmp does not ship with all sources by default. They are split
-			--  into multiple repos for maintenance purposes.
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-path",
+	{
+		"saghen/blink.cmp",
+		-- optional: provides snippets for the snippet source
+		dependencies = {
+			"rafamadriz/friendly-snippets",
 			"onsails/lspkind.nvim",
 		},
-		config = function()
-			-- See `:help cmp`
-			local cmp = require("cmp")
-			local ls = require("luasnip")
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
 
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						ls.lsp_expand(args.body)
+		-- use a release tag to download pre-built binaries
+		version = "*",
+		-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+		-- build = 'cargo build --release',
+		-- If you use nix, you can build from source using latest nightly rust with:
+		-- build = 'nix run .#build-plugin',
+
+		opts = {
+			-- 'default' for mappings similar to built-in completion
+			-- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+			-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+			-- See the full "keymap" documentation for information on defining your own keymap.
+			keymap = {
+				preset = "none",
+				["<c-k>"] = { "select_prev", "fallback" },
+				["<c-j>"] = { "select_next", "fallback" },
+				["<C-s>"] = { "show" },
+				["<C-y>"] = { "select_and_accept", "fallback" },
+				["<enter>"] = { "select_and_accept", "fallback" },
+				["<A-k>"] = { "scroll_documentation_up", "fallback" },
+				["<A-j>"] = { "scroll_documentation_down", "fallback" },
+			},
+
+			appearance = {
+				-- Sets the fallback highlight groups to nvim-cmp's highlight groups
+				-- Useful for when your theme doesn't support blink.cmp
+				-- Will be removed in a future release
+				use_nvim_cmp_as_default = true,
+				-- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- Adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
+			},
+			completion = {
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 0,
+					treesitter_highlighting = true,
+					window = {
+						min_width = 60,
+						max_height = 80,
+						direction_priority = {
+							menu_north = { "e", "w" },
+							menu_south = { "e", "w" },
+						},
+					},
+				},
+				menu = {
+					auto_show = function()
+						return not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
 					end,
+					draw = {
+						columns = {
+							{
+								"label",
+								-- "kind",
+								"kind_icon",
+								gap = 1,
+							},
+						},
+						components = {
+							kind_icon = {
+								text = function(item)
+									local kind = require("lspkind").symbol_map[item.kind] or ""
+									return kind .. " "
+								end,
+								highlight = function(ctx)
+									return (
+										require("blink.cmp.completion.windows.render.tailwind").get_hl(ctx)
+										or "BlinkCmpKind"
+									) .. ctx.kind
+								end,
+							},
+							label = {
+								width = { fill = true, min = 24, max = 24 },
+							},
+							-- 		kind = {
+							-- 			text = function(item)
+							-- 				return item.kind
+							-- 			end,
+							-- 			highlight = "CmpItemKind",
+							-- 		},
+						},
+					},
 				},
-				completion = { completeopt = "menu,menuone,noinsert" },
+			},
 
-				-- For an understanding of why these mappings were
-				-- chosen, you will need to read `:help ins-completion`
-				--
-				-- No, but seriously. Please read `:help ins-completion`, it is really good!
-				mapping = cmp.mapping.preset.insert({
-					["<C-s>"] = cmp.mapping.complete({}),
-					["<C-space>"] = cmp.mapping.complete({}),
-					["<C-j>"] = cmp.mapping.select_next_item(),
-					["<C-k>"] = cmp.mapping.select_prev_item(),
-					["<A-j>"] = cmp.mapping.scroll_docs(-4),
-					["<A-k>"] = cmp.mapping.scroll_docs(4),
-					["<C-c>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						-- use luasnip's as the default
-						if ls.expand_or_locally_jumpable() then
-							ls.expand_or_jump()
-						elseif cmp.visible() then
-							cmp.select_next_item()
-						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-						-- that way you will only jump inside the snippet region
-						elseif has_words_before() then
-							cmp.complete()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if ls.jumpable(-1) then
-							ls.jump(-1)
-						elseif cmp.visible() then
-							cmp.select_prev_item()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					--
-					-- If you prefer more traditional completion keymaps,
-					-- you can uncomment the following lines
-					--['<Tab>'] = cmp.mapping.select_next_item(),
-					--['<S-Tab>'] = cmp.mapping.select_prev_item(),
-
-					-- Think of <c-l> as moving to the right of your snippet expansion.
-					--  So if you have a snippet that's like:
-					--  function $name($args)
-					--    $body
-					--  end
-					--
-					-- <c-l> will move you to the right of each of the expansion locations.
-					-- <c-h> is similar, except moving you backwards.
-					["<C-l>"] = cmp.mapping(function()
-						if luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						end
-					end, { "i", "s" }),
-					["<C-h>"] = cmp.mapping(function()
-						if luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						end
-					end, { "i", "s" }),
-
-					-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-					--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
-				}),
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "path" },
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+				providers = {
+					buffer = {
+						min_keyword_length = 5,
+						max_items = 5,
+					},
 				},
-				formatting = {
-					format = require("lspkind").cmp_format({
-						mode = "symbol", -- show only symbol annotations
-						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						-- can also be a function to dynamically calculate max width such as
-						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-					}),
-				},
-			})
-		end,
+				cmdline = function()
+					local type = vim.fn.getcmdtype()
+					-- Search forward and backward
+					if type == "/" or type == "?" then
+						return { "buffer" }
+					end
+					-- Commands
+					if type == ":" then
+						return { "cmdline" }
+					end
+					return {}
+				end,
+			},
+		},
+		opts_extend = { "sources.default" },
 	},
-
 	{ -- You can easily change to a different colorscheme.
 		-- Change the name of the colorscheme plugin below, and then
 		-- change the command in the config to whatever the name of that colorscheme is.
