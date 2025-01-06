@@ -282,11 +282,11 @@ require("lazy").setup({
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>fs", require("fzf-lua").lsp_document_symbols, "[F]ind document [S]ymbols")
+					map("<leader>ss", require("fzf-lua").lsp_document_symbols, "[F]ind document [S]ymbols")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
-					map("<leader>fps", require("fzf-lua").lsp_live_workspace_symbols, "[F]ind [P]roject [S]ymbols")
+					map("<leader>sps", require("fzf-lua").lsp_live_workspace_symbols, "[F]ind [P]roject [S]ymbols")
 
 					vim.keymap.set("n", "<leader>rn", function()
 						return ":IncRename " .. vim.fn.expand("<cword>")
@@ -437,7 +437,7 @@ require("lazy").setup({
 		lazy = false,
 		keys = {
 			{
-				"<leader>F",
+				"<leader>f",
 				function()
 					require("conform").format({ async = true, lsp_fallback = true })
 				end,
@@ -883,6 +883,11 @@ require("lazy").setup({
 	-- 	},
 	-- },
 
+	{
+		"glacambre/firenvim",
+		cond = vim.g.started_by_firevim,
+		build = ":call firenvim#install(0)",
+	},
 	{
 		"utilyre/barbecue.nvim",
 		cond = not vim.g.vscode,
