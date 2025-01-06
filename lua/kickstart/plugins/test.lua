@@ -6,7 +6,8 @@ return {
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			"ethangillengg/neotest-dotnet",
+			"Issafalcon/neotest-dotnet",
+		"mfussenegger/nvim-dap",
 		},
 		config = function()
 			require("neotest").setup({
@@ -15,6 +16,13 @@ return {
 				},
 				adapters = {
 					require("neotest-dotnet"),
+				},
+				dap = {
+					-- Extra arguments for nvim-dap configuration
+					-- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
+					args = { justMyCode = false },
+					-- Enter the name of your dap adapter, the default value is netcoredbg
+					adapter_name = "coreclr",
 				},
 			})
 		end,

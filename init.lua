@@ -193,7 +193,7 @@ require("lazy").setup({
 			{ "<leader>sW", "<cmd>FzfLua grep_cword<cr>", desc = "[F]ind [F]iles" },
 			{ "<leader>sh", "<cmd>FzfLua helptags<cr>", desc = "[S]earch [H]elp" },
 			{ "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "[S]earch [K]eymaps" },
-			{ "<leader>ss", "<cmd>FzfLua builtin<cr>", desc = "[S]earch Fzf [B]uiltins" },
+			{ "<leader>sb", "<cmd>FzfLua builtin<cr>", desc = "[S]earch Fzf [B]uiltins" },
 			{ "<leader>s.", "<cmd>FzfLua oldfiles<cr>", desc = "[S]earch Recent Files" },
 			{ "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "[S]earch [Q]uickfix" },
 			{ "<leader>st", "<cmd>FzfLua treesitter<cr>", desc = "[S]earch [T]S Symbols" },
@@ -216,18 +216,11 @@ require("lazy").setup({
 			-- Useful status updates for LSP.
 			{ "j-hui/fidget.nvim", opts = {} },
 
-			{
-				"aznhe21/actions-preview.nvim",
-				opts = {
-					diff = {
-						ctxlen = 10,
-					},
-				},
-			},
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
-			"saghen/blink.cmp",
+			{ "Decodetalkers/csharpls-extended-lsp.nvim" },
+			{ "saghen/blink.cmp" },
 
 			{
 				"smjonas/inc-rename.nvim",
@@ -275,18 +268,18 @@ require("lazy").setup({
 					end
 
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame symbol")
-					map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 					map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
 					map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
 					map("gD", require("fzf-lua").lsp_typedefs, "[G]oto Type [D]efinition")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>ss", require("fzf-lua").lsp_document_symbols, "[F]ind document [S]ymbols")
+					map("<leader>ss", require("fzf-lua").lsp_document_symbols, "[S]earch document [S]ymbols")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
-					map("<leader>sps", require("fzf-lua").lsp_live_workspace_symbols, "[F]ind [P]roject [S]ymbols")
+					map("<leader>sps", require("fzf-lua").lsp_live_workspace_symbols, "[S]earch [P]roject [S]ymbols")
 
 					vim.keymap.set("n", "<leader>rn", function()
 						return ":IncRename " .. vim.fn.expand("<cword>")
@@ -301,7 +294,7 @@ require("lazy").setup({
 
 					-- Execute a code action, usually your cursor needs to be on top of an error
 					-- or a suggestion from your LSP for this to activate.
-					map("<leader>ca", require("actions-preview").code_actions, "[C]ode [A]ction")
+					map("<leader>ca", require("fzf-lua").lsp_code_actions, "[C]ode [A]ction")
 
 					-- Opens a popup that displays documentation about the word under your cursor
 					--  See `:help K` for why this keymap.
@@ -410,6 +403,20 @@ require("lazy").setup({
 				-- XML
 				lemminx = {},
 
+				csharp_ls = {
+					handlers = {
+						["textDocument/definition"] = require("csharpls_extended").handler,
+						["textDocument/typeDefinition"] = require("csharpls_extended").handler,
+					},
+					-- cmd = { require('csharpls') },
+				},
+				-- omnisharp = {
+				-- 	cmd = { "OmniSharp" },
+				-- 	RoslynExtensionsOptions = {
+				-- 		-- Enables support for roslyn analyzers, code fixes and rulesets.
+				-- 		EnableAnalyzersSupport = true,
+				-- 	},
+				-- },
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -638,7 +645,7 @@ require("lazy").setup({
 				},
 				documentation = {
 					auto_show = true,
-					auto_show_delay_ms = 0,
+					auto_show_delay_ms = 100,
 					treesitter_highlighting = true,
 					window = {
 						min_width = 60,
@@ -908,12 +915,13 @@ require("lazy").setup({
 		},
 	},
 	{ "anuvyklack/pretty-fold.nvim", opts = {} },
-	{
-		"seblj/roslyn.nvim",
-		opts = {
-			exe = "Microsoft.CodeAnalysis.LanguageServer",
-		},
-	},
+	-- {
+	-- 	"seblj/roslyn.nvim",
+	-- 	opts = {
+	-- 		exe = "Microsoft.CodeAnalysis.LanguageServer",
+	-- 		filewatching = false,
+	-- 	},
+	-- },
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -927,7 +935,8 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.debug',
 	require("kickstart.plugins.indent_line"),
 	require("kickstart.plugins.dap"),
-	require("kickstart.plugins.test"),
+	require("kickstart.plugins.csharp"),
+	-- require("kickstart.plugins.test"),
 	-- require 'kickstart.plugins.lint',
 	require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),

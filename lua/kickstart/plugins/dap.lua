@@ -90,9 +90,7 @@ return {
 						name = "attach - netcoredbg",
 						request = "attach",
 						processId = function()
-							return require("dap.utils").pick_process({
-								filter = "^/usr/bin/dotnet%s+([^%s/]+%.dll)$",
-							})
+							return require("dap.utils").pick_process()
 						end,
 					},
 				}
