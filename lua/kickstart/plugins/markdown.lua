@@ -6,10 +6,6 @@ local checkbox_types = {
 	["a"] = { char = "󰞋", hl_group = "ObsidianTodoAmbiguous" }, -- Ambiguous
 }
 
-if not vim.g.vscode then
-	return {}
-end
-
 return {
 	{
 		"epwalsh/obsidian.nvim",
@@ -28,15 +24,15 @@ autocmd FileType markdown setlocal conceallevel=2
 autocmd FileType markdown setlocal spell
 augroup END
 ]])
-			local set_header_hl = function(level, hl_group)
-				vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".markdown", hl_group)
-				vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".marker.markdown", hl_group)
-			end
-			set_header_hl("1", { link = "Function" })
-			set_header_hl("2", { link = "Constant" })
-			set_header_hl("3", { link = "Identifier" })
-			set_header_hl("4", { link = "Operator" })
-			set_header_hl("5", { link = "Keyword" })
+			-- local set_header_hl = function(level, hl_group)
+			-- 	vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".markdown", hl_group)
+			-- 	vim.api.nvim_set_hl(0, "@markup.heading." .. level .. ".marker.markdown", hl_group)
+			-- end
+			-- set_header_hl("1", { link = "Function" })
+			-- set_header_hl("2", { link = "Constant" })
+			-- set_header_hl("3", { link = "Identifier" })
+			-- set_header_hl("4", { link = "Operator" })
+			-- set_header_hl("5", { link = "Keyword" })
 		end,
 		opts = {
 			workspaces = {
@@ -56,15 +52,15 @@ augroup END
 				prepend_note_path = false,
 			},
 			ui = {
-				enable = true, -- set to false to disable all additional syntax features
-				checkboxes = checkbox_types,
-				hl_groups = {
-					ObsidianTodo = { bold = true, fg = "#f78c6c" },
-					ObsidianTodoStarted = { bold = true, fg = "#f7d26c" },
-					ObsidianTodoDone = { bold = true, fg = "#89ddff" },
-					ObsidianTodoAmbiguous = { bold = true, fg = "#c792ea" },
-					ObsidianTodoCancelled = { bold = true, fg = "#ff5370" },
-				},
+				enable = false, -- set to false to disable all additional syntax features
+				-- checkboxes = checkbox_types,
+				-- hl_groups = {
+				-- 	ObsidianTodo = { bold = true, fg = "#f78c6c" },
+				-- 	ObsidianTodoStarted = { bold = true, fg = "#f7d26c" },
+				-- 	ObsidianTodoDone = { bold = true, fg = "#89ddff" },
+				-- 	ObsidianTodoAmbiguous = { bold = true, fg = "#c792ea" },
+				-- 	ObsidianTodoCancelled = { bold = true, fg = "#ff5370" },
+				-- },
 			},
 			note_frontmatter_func = function(note)
 				local out = { aliases = note.aliases, tags = note.tags }
@@ -322,6 +318,22 @@ augroup END
 				ft = { "markdown" },
 			},
 		},
+	},
+	{
+		"OXY2DEV/markview.nvim",
+		lazy = false, -- Recommended
+		-- ft = "markdown" -- If you decide to lazy-load anyway
+
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			local presets = require("markview.presets")
+			require("markview").setup({
+				checkboxes = presets.checkboxes.nerd,
+			})
+		end,
 	},
 	-- {
 	-- 	"3rd/image.nvim",
