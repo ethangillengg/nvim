@@ -169,23 +169,37 @@ require("lazy").setup({
 		-- optional for icon support
 		lazy = false,
 		dependencies = { "echasnovski/mini.icons" },
-		opts = {
-			defaults = {
-				prompt = " ",
-				file_icons = "mini",
-			},
-			keymap = {
-				builtin = {
+		opts = {},
+		config = function()
+			local actions = require("fzf-lua").actions
 
-					["<a-k>"] = "preview-page-up",
-					["<a-j>"] = "preview-page-down",
+			require("fzf-lua").setup({
+				defaults = {
+					prompt = " ",
+					file_icons = "mini",
 				},
-			},
-			winopts = {
-				-- border="none",
-				fullscreen = true,
-			},
-		},
+				keymap = {
+					builtin = {
+
+						["<a-k>"] = "preview-page-up",
+						["<a-j>"] = "preview-page-down",
+					},
+				},
+				winopts = {
+					fullscreen = true,
+				},
+
+				git = {
+					status = {
+						actions = {
+							["ctrl-l"] = { fn = actions.git_unstage, reload = true },
+							["ctrl-h"] = { fn = actions.git_stage, reload = true },
+							["ctrl-x"] = { fn = actions.git_reset, reload = true },
+						},
+					},
+				},
+			})
+		end,
 		keys = {
 			{ "<c-p>", "<cmd>FzfLua files<cr>", desc = "[F]ind [F]iles" },
 			{ "<leader>sf", "<cmd>FzfLua files<cr>", desc = "[S]earch [F]iles" },
@@ -200,6 +214,7 @@ require("lazy").setup({
 			{ "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "[S]earch [J]umps" },
 			{ "<leader>sc", "<cmd>FzfLua jumps<cr>", desc = "[S]earch [J]umps" },
 			{ "<leader>sgl", "<cmd>FzfLua git_commits<cr>", desc = "[S]earch [G]it [L]og" },
+			{ "<c-g>", "<cmd>FzfLua git_status<cr>", desc = "[G]it Status" },
 			-- 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			-- 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			-- 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -271,11 +286,14 @@ require("lazy").setup({
 					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 					map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
 					map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
-					map("gD", require("fzf-lua").lsp_typedefs, "[G]oto Type [D]efinition")
+					map("gD", function()
+						require("fzf-lua").lsp_typedefs({ jump_to_single_result = true })
+					end, "[G]oto Type [D]efinition")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
 					map("<leader>ss", require("fzf-lua").lsp_document_symbols, "[S]earch document [S]ymbols")
+					map("<leader>sd", require("fzf-lua").lsp_document_diagnostics, "[S]earch document [D]iagnostics")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
