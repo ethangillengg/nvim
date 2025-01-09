@@ -154,63 +154,106 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"ibhagwan/fzf-lua",
-		cmd = "FzfLua",
-		dependencies = { "echasnovski/mini.icons" },
-		opts = {},
+	{ -- Fuzzy Finder (files, lsp, etc)
+		"nvim-telescope/telescope.nvim",
+		cond = not vim.g.vscode,
+		event = "VimEnter",
+		branch = "0.1.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+
+				-- `build` is used to run some command when the plugin is installed/updated.
+				-- This is only run then, not every time Neovim starts up.
+				build = "make",
+
+				-- `cond` is a condition used to determine whether this plugin should be
+				-- installed and loaded.
+				cond = function()
+					return vim.fn.executable("make") == 1
+				end,
+			},
+			{ "nvim-telescope/telescope-ui-select.nvim" },
+			{ "debugloop/telescope-undo.nvim" },
+
+			-- Useful for getting pretty icons, but requires a Nerd Font.
+			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+		},
 		config = function()
-			local actions = require("fzf-lua").actions
-
-			require("fzf-lua").setup({
+			-- [[ Configure Telescope ]]
+			-- See `:help telescope` and `:help telescope.setup()`
+			require("telescope").setup({
+				-- You can put your default mappings / updates / etc. in here
+				--  All the info you're looking for is in `:help telescope.setup()`
 				defaults = {
-					prompt = " ",
-					file_icons = "mini",
-				},
-				keymap = {
-					builtin = {
-
-						["<a-k>"] = "preview-page-up",
-						["<a-j>"] = "preview-page-down",
+					prompt_prefix = " ",
+					selection_caret = "❯ ",
+					sorting_strategy = "ascending",
+					layout_config = {
+						prompt_position = "top",
+						height = { padding = 0 },
+						width = { padding = 0 },
 					},
-				},
-				winopts = {
-					fullscreen = true,
-				},
-
-				git = {
-					status = {
-						actions = {
-							["ctrl-l"] = { fn = actions.git_unstage, reload = true },
-							["ctrl-h"] = { fn = actions.git_stage, reload = true },
-							["ctrl-x"] = { fn = actions.git_reset, reload = true },
+					mappings = {
+						i = {
+							["<C-j>"] = require("telescope.actions").move_selection_next,
+							["<C-k>"] = require("telescope.actions").move_selection_previous,
 						},
 					},
 				},
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown(),
+					},
+				},
 			})
+
+			-- Enable Telescope extensions if they are installed
+			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension("undo"))
+
+			-- See `:help telescope.builtin`
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<c-p>", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch Select [T]elescope" })
+			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+			vim.keymap.set("n", "<leader>su", "<cmd>Telescope undo<cr>", { desc = "[S]earch [U]ndo Tree" })
+			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
+			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+			vim.keymap.set("n", "<leader>sj", builtin.jumplist, { desc = "[S]earch [J]umps" })
+			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "[G]it telescope status" })
+
+			-- Slightly advanced example of overriding default behavior and theme
+			vim.keymap.set("n", "<leader>/", function()
+				-- You can pass additional configuration to Telescope to change the theme, layout, etc.
+				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+					winblend = 10,
+					previewer = false,
+				}))
+			end, { desc = "[/] Fuzzily search in current buffer" })
+
+			-- It's also possible to pass additional configuration options.
+			--  See `:help telescope.builtin.live_grep()` for information about particular keys
+			vim.keymap.set("n", "<leader>s/", function()
+				builtin.live_grep({
+					grep_open_files = true,
+					prompt_title = "Live Grep in Open Files",
+				})
+			end, { desc = "[S]earch [/] in Open Files" })
+
+			-- Shortcut for searching your Neovim configuration files
+			vim.keymap.set("n", "<leader>sn", function()
+				builtin.find_files({ cwd = vim.fn.stdpath("config") })
+			end, { desc = "[S]earch [N]eovim files" })
 		end,
-		keys = {
-			{ "<c-p>", "<cmd>FzfLua files<cr>", desc = "[F]ind [F]iles" },
-			{ "<leader>sf", "<cmd>FzfLua files<cr>", desc = "[S]earch [F]iles" },
-			{ "<leader>sw", "<cmd>FzfLua live_grep<cr>", desc = "[F]ind [F]iles" },
-			{ "<leader>sW", "<cmd>FzfLua grep_cword<cr>", desc = "[F]ind [F]iles" },
-			{ "<leader>sh", "<cmd>FzfLua helptags<cr>", desc = "[S]earch [H]elp" },
-			{ "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "[S]earch [K]eymaps" },
-			{ "<leader>sb", "<cmd>FzfLua builtin<cr>", desc = "[S]earch Fzf [B]uiltins" },
-			{ "<leader>s.", "<cmd>FzfLua oldfiles<cr>", desc = "[S]earch Recent Files" },
-			{ "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "[S]earch [Q]uickfix" },
-			{ "<leader>st", "<cmd>FzfLua treesitter<cr>", desc = "[S]earch [T]S Symbols" },
-			{ "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "[S]earch [J]umps" },
-			{ "<leader>sc", "<cmd>FzfLua jumps<cr>", desc = "[S]earch [J]umps" },
-			{ "<leader>sgl", "<cmd>FzfLua git_commits<cr>", desc = "[S]earch [G]it [L]og" },
-			{ "<c-g>", "<cmd>FzfLua git_status<cr>", desc = "[G]it Status" },
-			-- 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-			-- 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-			-- 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-			-- 		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-			-- 		vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "[G]it telescope status" })
-			-- 		vim.keymap.set("n", "<leader>su", "<cmd>Telescope undo<cr>", { desc = "[S]earch [U]ndo Tree" })
-		},
 	},
 
 	{ -- LSP Configuration & Plugins
@@ -273,22 +316,26 @@ require("lazy").setup({
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame symbol")
-					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-					map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
-					map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
-					map("gD", function()
-						require("fzf-lua").lsp_typedefs({ jump_to_single_result = true })
-					end, "[G]oto Type [D]efinition")
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+
+					-- Jump to the type of the word under your cursor.
+					--  Useful when you're not sure what type a variable is and you want to see
+					--  the definition of its *type*, not where it was *defined*.
+					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>ss", require("fzf-lua").lsp_document_symbols, "[S]earch document [S]ymbols")
-					map("<leader>sd", require("fzf-lua").lsp_document_diagnostics, "[S]earch document [D]iagnostics")
+					map("<leader>ss", require("telescope.builtin").lsp_document_symbols, "[S]earch document [S]ymbols")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
-					map("<leader>sps", require("fzf-lua").lsp_live_workspace_symbols, "[S]earch [P]roject [S]ymbols")
+					map(
+						"<leader>sps",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[S]earch [P]roject [S]ymbols"
+					)
 
 					vim.keymap.set("n", "<leader>rn", function()
 						return ":IncRename " .. vim.fn.expand("<cword>")
@@ -303,7 +350,7 @@ require("lazy").setup({
 
 					-- Execute a code action, usually your cursor needs to be on top of an error
 					-- or a suggestion from your LSP for this to activate.
-					map("<leader>ca", require("fzf-lua").lsp_code_actions, "[C]ode [A]ction")
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
 					-- Opens a popup that displays documentation about the word under your cursor
 					--  See `:help K` for why this keymap.
@@ -644,6 +691,8 @@ require("lazy").setup({
 					end,
 					"fallback",
 				},
+				["<C-u>"] = { "scroll_documentation_up", "fallback" },
+				["<C-d>"] = { "scroll_documentation_down", "fallback" },
 				["<A-k>"] = { "scroll_documentation_up", "fallback" },
 				["<A-j>"] = { "scroll_documentation_down", "fallback" },
 			},
