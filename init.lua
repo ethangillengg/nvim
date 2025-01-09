@@ -317,9 +317,13 @@ require("lazy").setup({
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+					map("gd", function()
+						require("omnisharp_extended").telescope_lsp_definition()
+					end, "[G]oto [D]efinition")
 					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("gI", function()
+						require("omnisharp_extended").telescope_lsp_implementation()
+					end, "[G]oto [I]mplementation")
 
 					-- Jump to the type of the word under your cursor.
 					--  Useful when you're not sure what type a variable is and you want to see
@@ -461,14 +465,6 @@ require("lazy").setup({
 				lemminx = {},
 				omnisharp = {
 					cmd = { "OmniSharp" },
-					-- decompilation support
-					handlers = {
-						["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-						["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-						["textDocument/references"] = require("omnisharp_extended").references_handler,
-						["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-					},
-
 					FormattingOptions = {
 						-- Enables support for reading code style, naming convention and analyzer
 						-- settings from .editorconfig.
