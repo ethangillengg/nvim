@@ -194,6 +194,7 @@ require("lazy").setup({
 						prompt_position = "top",
 						height = { padding = 0 },
 						width = { padding = 0 },
+						-- preview_width = 0.5,
 					},
 					mappings = {
 						i = {
@@ -497,7 +498,13 @@ require("lazy").setup({
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 
 			for server, config in pairs(servers) do
-				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+				config.capabilities = require("blink.cmp").get_lsp_capabilities(
+					vim.tbl_extend(
+						"keep",
+						config.capabilities or {},
+						{ textDocument = { completion = { completionItem = { snippetSupport = false } } } }
+					)
+				)
 				require("lspconfig")[server].setup(config)
 			end
 		end,
@@ -590,12 +597,12 @@ require("lazy").setup({
 			-- `friendly-snippets` contains a variety of premade snippets.
 			--    See the README about individual language/framework/plugin snippets:
 			--    https://github.com/rafamadriz/friendly-snippets
-			{
-				"rafamadriz/friendly-snippets",
-				config = function()
-					require("luasnip.loaders.from_vscode").lazy_load()
-				end,
-			},
+			-- {
+			-- 	"rafamadriz/friendly-snippets",
+			-- 	config = function()
+			-- 		require("luasnip.loaders.from_vscode").lazy_load()
+			-- 	end,
+			-- },
 			"nvim-treesitter/nvim-treesitter",
 			"lervag/vimtex",
 		},
@@ -750,14 +757,18 @@ require("lazy").setup({
 					},
 				},
 			},
+			snippets = { preset = "luasnip" },
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "snippets", "lsp", "path", "buffer" },
 				providers = {
 					buffer = {
 						min_keyword_length = 5,
 						max_items = 5,
+					},
+					snippets = {
+						score_offset = 1,
 					},
 				},
 				cmdline = function()
