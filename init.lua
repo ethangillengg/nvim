@@ -108,16 +108,6 @@ require("lazy").setup({
 		},
 	},
 
-	-- NOTE: Plugins can also be added by using a table,
-	-- with the first argument being the link and the following
-	-- keys can be used to configure plugin behavior/loading/etc.
-	--
-	-- Use `opts = {}` to force a plugin to be loaded.
-	--
-	--  This is equivalent to:
-	--    require('Comment').setup({})
-
-	-- "gc" to comment visual regions/lines
 	{
 		"numToStr/Comment.nvim",
 		cond = not vim.g.vscode,
@@ -166,8 +156,7 @@ require("lazy").setup({
 
 	{
 		"ibhagwan/fzf-lua",
-		-- optional for icon support
-		lazy = false,
+		cmd = "FzfLua",
 		dependencies = { "echasnovski/mini.icons" },
 		opts = {},
 		config = function()
@@ -227,6 +216,8 @@ require("lazy").setup({
 	{ -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		cond = not vim.g.vscode,
+		event = { "BufReadPost", "BufNewFile" },
+		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
 		dependencies = {
 			-- Useful status updates for LSP.
 			{ "j-hui/fidget.nvim", opts = {} },
@@ -234,7 +225,7 @@ require("lazy").setup({
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
-			{ "Decodetalkers/csharpls-extended-lsp.nvim" },
+			{ "Hoffs/omnisharp-extended-lsp.nvim" },
 			{ "saghen/blink.cmp" },
 
 			{
@@ -395,7 +386,7 @@ require("lazy").setup({
 				tailwindcss = {
 					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
 					init_options = { userLanguages = { templ = "html" } },
-					cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
+					-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
 				},
 				-- eslint = {},
 				-- Using the typescript plugin instead for now
@@ -420,21 +411,30 @@ require("lazy").setup({
 				-- },
 				-- XML
 				lemminx = {},
-
-				csharp_ls = {
+				omnisharp = {
+					cmd = { "OmniSharp" },
+					-- decompilation support
 					handlers = {
-						["textDocument/definition"] = require("csharpls_extended").handler,
-						["textDocument/typeDefinition"] = require("csharpls_extended").handler,
+						["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+						["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+						["textDocument/references"] = require("omnisharp_extended").references_handler,
+						["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
 					},
-					-- cmd = { require('csharpls') },
+
+					FormattingOptions = {
+						-- Enables support for reading code style, naming convention and analyzer
+						-- settings from .editorconfig.
+						EnableEditorConfigSupport = true,
+					},
+					RoslynExtensionsOptions = {
+						-- Enables support for roslyn analyzers, code fixes and rulesets.
+						EnableAnalyzersSupport = true,
+						EnableImportCompletion = true,
+					},
+					Sdk = {
+						IncludePrereleases = true,
+					},
 				},
-				-- omnisharp = {
-				-- 	cmd = { "OmniSharp" },
-				-- 	RoslynExtensionsOptions = {
-				-- 		-- Enables support for roslyn analyzers, code fixes and rulesets.
-				-- 		EnableAnalyzersSupport = true,
-				-- 	},
-				-- },
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -655,12 +655,7 @@ require("lazy").setup({
 				nerd_font_variant = "mono",
 			},
 			completion = {
-				list = {
-
-					selection = function(ctx)
-						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-					end,
-				},
+				accept = { auto_brackets = { enabled = true } },
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 100,
@@ -675,6 +670,9 @@ require("lazy").setup({
 					},
 				},
 				menu = {
+					auto_show = function(ctx)
+						return ctx.mode ~= "cmdline"
+					end,
 					draw = {
 						columns = {
 							{
@@ -706,7 +704,7 @@ require("lazy").setup({
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "luasnip", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer" },
 				providers = {
 					buffer = {
 						min_keyword_length = 5,
@@ -893,46 +891,29 @@ require("lazy").setup({
 	},
 
 	-- {
-	-- 	"ckolkey/ts-node-action",
-	--    dependencies = { "nvim-treesitter" },
+	-- 	"glacambre/firenvim",
+	-- 	cond = vim.g.started_by_firevim,
+	-- 	build = ":call firenvim#install(0)",
+	-- },
+	-- {
+	-- 	"utilyre/barbecue.nvim",
+	-- 	cond = not vim.g.vscode,
+	-- 	name = "barbecue",
+	-- 	event = { "BufReadPre", "BufNewFile" },
+	-- 	dependencies = {
+	-- 		"SmiteshP/nvim-navic",
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
 	-- 	opts = {},
 	-- 	keys = {
 	-- 		{
-	-- 			"<c-m>",
-	-- 			function()
-	-- 				require("ts-node-action").node_action()
-	-- 			end,
+	-- 			"<leader>tq",
+	-- 			"<cmd>Barbecue toggle<cr>",
 	-- 			mode = "n",
-	-- 			desc = "TS: Trigger Node Action",
+	-- 			desc = "[T]oggle barbe[C]ue",
 	-- 		},
 	-- 	},
 	-- },
-
-	{
-		"glacambre/firenvim",
-		cond = vim.g.started_by_firevim,
-		build = ":call firenvim#install(0)",
-	},
-	{
-		"utilyre/barbecue.nvim",
-		cond = not vim.g.vscode,
-		name = "barbecue",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons",
-		},
-		opts = {},
-		keys = {
-			{
-				"<leader>tq",
-				"<cmd>Barbecue toggle<cr>",
-				mode = "n",
-				desc = "[T]oggle barbe[C]ue",
-			},
-		},
-	},
-	{ "anuvyklack/pretty-fold.nvim", opts = {} },
 	-- {
 	-- 	"seblj/roslyn.nvim",
 	-- 	opts = {
@@ -952,15 +933,15 @@ require("lazy").setup({
 	--
 	-- require 'kickstart.plugins.debug',
 	require("kickstart.plugins.indent_line"),
-	require("kickstart.plugins.dap"),
-	require("kickstart.plugins.csharp"),
-	-- require("kickstart.plugins.test"),
-	-- require 'kickstart.plugins.lint',
 	require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),
-	require("kickstart.plugins.gitsigns"), -- adds gitsigns recommend keymaps
-	require("custom.plugins.init"),
-	require("kickstart.plugins.markdown"),
+	require("kickstart.plugins.gitsigns"),
+	-- require("kickstart.plugins.csharp"),
+	-- require("kickstart.plugins.dap"),
+	-- require("kickstart.plugins.test"),
+	-- require 'kickstart.plugins.lint',
+	-- require("custom.plugins.init"),
+	-- require("kickstart.plugins.markdown"),
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.

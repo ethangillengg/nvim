@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p bash xh jq
+
 PROCESS_NAME="dotnet-csharpier"
 TIMEOUT_SECONDS=$((3600 * 4)) # 4 hours in seconds
 SERVER_PORT=42061

@@ -11,14 +11,14 @@ return {
 				lsp = {
 					omnisharp = {
 						enable = false,
-						cmd_path = "OmniSharp",
+						-- cmd_path = "OmniSharp",
 					},
-					-- roslyn = {
-					-- 	-- When set to true, csharp.nvim will launch roslyn automatically.
-					-- 	enable = true,
-					-- 	-- Path to the roslyn LSP see 'Roslyn LSP Specific Prerequisites' above.
-					-- 	cmd_path = "Microsoft.CodeAnalysis.LanguageServer",
-					-- },
+					roslyn = {
+						-- When set to true, csharp.nvim will launch roslyn automatically.
+						enable = true,
+						-- Path to the roslyn LSP see 'Roslyn LSP Specific Prerequisites' above.
+						cmd_path = "Microsoft.CodeAnalysis.LanguageServer",
+					},
 				},
 			})
 		end,
