@@ -689,6 +689,7 @@ require("lazy").setup({
 	{
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
+		event = "InsertEnter",
 		dependencies = {
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
