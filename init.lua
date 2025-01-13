@@ -320,7 +320,7 @@ require("lazy").setup({
 					map("gd", function()
 						require("omnisharp_extended").telescope_lsp_definition()
 					end, "[G]oto [D]efinition")
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gr", require("omnisharp_extended").telescope_lsp_references, "[G]oto [R]eferences")
 					map("gI", function()
 						require("omnisharp_extended").telescope_lsp_implementation()
 					end, "[G]oto [I]mplementation")
