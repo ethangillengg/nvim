@@ -221,7 +221,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
 			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<c-p>", builtin.find_files, { desc = "[S]earch [F]iles" })
-			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch Select [T]elescope" })
+			vim.keymap.set("n", "<leader>sb", builtin.builtin, { desc = "[S]earch Select [T]elescope" })
 			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 			vim.keymap.set("n", "<leader>su", "<cmd>Telescope undo<cr>", { desc = "[S]earch [U]ndo Tree" })
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
@@ -316,14 +316,32 @@ require("lazy").setup({
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
+					-- print(vim.inspect(event))
+					-- vim.cmd([[new ]])
+					-- local client = vim.lsp.get_client_by_id(event.data.client_id)
+					-- vim.api.nvim_put({ vim.inspect(client.name) }, "", true, true)
 
-					map("gd", function()
-						require("omnisharp_extended").telescope_lsp_definition()
-					end, "[G]oto [D]efinition")
-					map("gr", require("omnisharp_extended").telescope_lsp_references, "[G]oto [R]eferences")
-					map("gI", function()
-						require("omnisharp_extended").telescope_lsp_implementation()
-					end, "[G]oto [I]mplementation")
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client.name == "omnisharp" then
+						map("gd", function()
+							require("omnisharp_extended").telescope_lsp_definition()
+						end, "[G]oto [D]efinition")
+						map("gr", function()
+							require("omnisharp_extended").telescope_lsp_reference()
+						end, "[G]oto [R]eferences")
+						map("gI", function()
+							require("omnisharp_extended").telescope_lsp_implementations()
+						end, "[G]oto [I]mplementation")
+
+						-- ["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+						-- ["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+						-- ["textDocument/references"] = require("omnisharp_extended").references_handler,
+						-- ["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
+					end
 
 					-- Jump to the type of the word under your cursor.
 					--  Useful when you're not sure what type a variable is and you want to see
