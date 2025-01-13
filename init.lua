@@ -178,7 +178,7 @@ require("lazy").setup({
 			{ "debugloop/telescope-undo.nvim" },
 
 			-- Useful for getting pretty icons, but requires a Nerd Font.
-			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+			{ "echasnovski/mini.icons", enabled = vim.g.have_nerd_font },
 		},
 		config = function()
 			-- [[ Configure Telescope ]]
@@ -554,6 +554,7 @@ require("lazy").setup({
 				html = { "prettierd" },
 				css = { "prettierd" },
 				scss = { "prettierd" },
+				json = { "prettierd" },
 				vue = { "prettierd" },
 				javascript = { "prettierd" },
 				typescript = { "prettierd" },
@@ -951,25 +952,25 @@ require("lazy").setup({
 	-- 	cond = vim.g.started_by_firevim,
 	-- 	build = ":call firenvim#install(0)",
 	-- },
-	-- {
-	-- 	"utilyre/barbecue.nvim",
-	-- 	cond = not vim.g.vscode,
-	-- 	name = "barbecue",
-	-- 	event = { "BufReadPre", "BufNewFile" },
-	-- 	dependencies = {
-	-- 		"SmiteshP/nvim-navic",
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 	},
-	-- 	opts = {},
-	-- 	keys = {
-	-- 		{
-	-- 			"<leader>tq",
-	-- 			"<cmd>Barbecue toggle<cr>",
-	-- 			mode = "n",
-	-- 			desc = "[T]oggle barbe[C]ue",
-	-- 		},
-	-- 	},
-	-- },
+	{
+		"utilyre/barbecue.nvim",
+		cond = not vim.g.vscode,
+		name = "barbecue",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {},
+		keys = {
+			{
+				"<leader>tq",
+				"<cmd>Barbecue toggle<cr>",
+				mode = "n",
+				desc = "[T]oggle barbe[C]ue",
+			},
+		},
+	},
 	-- {
 	-- 	"seblj/roslyn.nvim",
 	-- 	opts = {
