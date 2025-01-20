@@ -194,7 +194,7 @@ require("lazy").setup({
 						prompt_position = "top",
 						height = { padding = 0 },
 						width = { padding = 0 },
-						-- preview_width = 0.5,
+						-- preview_width = 0.55,
 					},
 					mappings = {
 						i = {
@@ -331,10 +331,10 @@ require("lazy").setup({
 							require("omnisharp_extended").telescope_lsp_definition()
 						end, "[G]oto [D]efinition")
 						map("gr", function()
-							require("omnisharp_extended").telescope_lsp_reference()
+							require("omnisharp_extended").telescope_lsp_references()
 						end, "[G]oto [R]eferences")
 						map("gI", function()
-							require("omnisharp_extended").telescope_lsp_implementations()
+							require("omnisharp_extended").telescope_lsp_implementation()
 						end, "[G]oto [I]mplementation")
 
 						-- ["textDocument/definition"] = require("omnisharp_extended").definition_handler,
@@ -391,7 +391,6 @@ require("lazy").setup({
 
 					vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
 					vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
 						local highlight_augroup =
 							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
@@ -458,24 +457,28 @@ require("lazy").setup({
 					init_options = { userLanguages = { templ = "html" } },
 					-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
 				},
-				-- eslint = {},
-				-- Using the typescript plugin instead for now
-				-- volar = {},
-				-- Rust
-				rust_analyzer = {},
-				-- Python
-				pyright = {},
-				ruff = {},
+				jsonls = {
+
+					cmd = { "/home/ethan/.bun/bin/vscode-json-languageserver", "--stdio" },
+				},
+				-- -- eslint = {},
+				-- -- Using the typescript plugin instead for now
+				-- -- volar = {},
+				-- -- Rust
+				-- rust_analyzer = {},
+				-- -- Python
+				-- pyright = {},
+				-- ruff = {},
 				-- C/C++
-				clangd = {},
-				glslls = {},
+				-- clangd = {},
+				-- glslls = {},
 				-- Bash
 				bashls = {},
 				-- Latex
-				texlab = {},
+				-- texlab = {},
 				-- Go
-				gopls = {},
-				templ = {},
+				-- gopls = {},
+				-- templ = {},
 				-- htmx = {
 				-- 	filetypes = { "html", "templ" },
 				-- },
@@ -510,7 +513,6 @@ require("lazy").setup({
 				},
 			}
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-
 			for server, config in pairs(servers) do
 				config.capabilities = require("blink.cmp").get_lsp_capabilities(
 					vim.tbl_extend(
@@ -849,6 +851,15 @@ require("lazy").setup({
 		event = "InsertEnter",
 		opts = {
 			timeout = 300,
+			mappings = {
+				-- map kj and kk as well
+				i = {
+					k = {
+						k = "<Esc>",
+						j = "<Esc>",
+					},
+				},
+			},
 		},
 	},
 	--
@@ -974,7 +985,7 @@ require("lazy").setup({
 		"utilyre/barbecue.nvim",
 		cond = not vim.g.vscode,
 		name = "barbecue",
-		event = { "BufReadPre", "BufNewFile" },
+		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons",
