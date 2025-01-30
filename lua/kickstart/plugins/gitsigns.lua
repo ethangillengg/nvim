@@ -4,6 +4,29 @@
 
 return {
 	{
+		"akinsho/git-conflict.nvim",
+		lazy = false,
+		version = "*",
+		config = true,
+		opts = {
+			default_mappings = true,
+			-- default_commands = true,
+			disable_diagnostics = true,
+			highlights = {
+				incoming = "DiffAdd",
+				current = "DiffChange",
+			},
+		},
+		keys = {
+			{
+				"<leader>gq",
+				"<cmd>GitConflictListQf<CR>",
+				mode = "",
+				desc = "[G]it list conflicts",
+			},
+		},
+	},
+	{
 		"lewis6991/gitsigns.nvim",
 		cond = not vim.g.vscode,
 		opts = {
