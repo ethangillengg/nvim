@@ -154,6 +154,8 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Pretty quickfix list
+	{ "yorickpeterse/nvim-pqf", opts = {} },
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
 		cond = not vim.g.vscode,
@@ -873,6 +875,7 @@ require("lazy").setup({
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		cond = not vim.g.vscode,
 		config = function()
 			-- Better Around/Inside textobjects
@@ -881,7 +884,14 @@ require("lazy").setup({
 			--  - va)  - [V]isually select [A]round [)]paren
 			--  - yinq - [Y]ank [I]nside [N]ext [']quote
 			--  - ci'  - [C]hange [I]nside [']quote
-			require("mini.ai").setup({ n_lines = 500 })
+			local spec_treesitter = require("mini.ai").gen_spec.treesitter
+			require("mini.ai").setup({
+				n_lines = 500,
+
+				custom_textobjects = {
+					f = spec_treesitter({ a = "@function.outer", i = "@function.inner" }),
+				},
+			})
 
 			-- Add/delete/replace surroundings (brackets, quotes, etc.)
 			--
@@ -974,6 +984,47 @@ require("lazy").setup({
 			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
+	},
+	{
+		"otavioschwanck/arrow.nvim",
+		dependencies = { "echasnovski/mini.icons" },
+		lazy = false,
+		opts = {
+			show_icons = true,
+			separate_save_and_remove = true,
+			leader_key = ";", -- Recommended to be a single key
+			buffer_leader_key = "m", -- Per Buffer Mappings
+			window = {
+				border = "single",
+			},
+		},
+		keys = {
+
+			{
+				"<leader>a",
+				function()
+					require("arrow.persist").toggle()
+				end,
+				mode = "n",
+				desc = "[A]rrow Save",
+			},
+			{
+				"<C-h>",
+				function()
+					require("arrow.persist").next()
+				end,
+				mode = "n",
+				desc = "Arrow Next",
+			},
+			{
+				"<C-l>",
+				function()
+					require("arrow.persist").previous()
+				end,
+				mode = "n",
+				desc = "Arrow Prev",
+			},
+		},
 	},
 
 	-- {
