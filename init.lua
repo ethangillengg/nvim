@@ -154,8 +154,27 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Pretty quickfix list
-	{ "yorickpeterse/nvim-pqf", opts = {} },
+	-- quickfix list
+	-- { "itchyny/vim-qfedit", ft = "qf" },
+	{
+		"stevearc/quicker.nvim",
+		ft = "qf",
+		lazy = false,
+		opts = {},
+	},
+	{
+		"kevinhwang91/nvim-bqf",
+		dependencies = {
+			"junegunn/fzf",
+		},
+		ft = "qf",
+		opts = {
+			preview = {
+				show_title = false,
+				winblend = 0,
+			},
+		},
+	},
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
 		cond = not vim.g.vscode,
@@ -235,22 +254,12 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "[G]it telescope status" })
 
 			-- Slightly advanced example of overriding default behavior and theme
-			vim.keymap.set("n", "<leader>/", function()
+			vim.keymap.set("n", "<leader>s/", function()
 				-- You can pass additional configuration to Telescope to change the theme, layout, etc.
 				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-					winblend = 10,
 					previewer = false,
 				}))
 			end, { desc = "[/] Fuzzily search in current buffer" })
-
-			-- It's also possible to pass additional configuration options.
-			--  See `:help telescope.builtin.live_grep()` for information about particular keys
-			vim.keymap.set("n", "<leader>s/", function()
-				builtin.live_grep({
-					grep_open_files = true,
-					prompt_title = "Live Grep in Open Files",
-				})
-			end, { desc = "[S]earch [/] in Open Files" })
 
 			-- Shortcut for searching your Neovim configuration files
 			vim.keymap.set("n", "<leader>sn", function()
@@ -271,7 +280,6 @@ require("lazy").setup({
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
-			{ "Hoffs/omnisharp-extended-lsp.nvim" },
 			{ "saghen/blink.cmp" },
 
 			{
@@ -328,22 +336,6 @@ require("lazy").setup({
 					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if client.name == "omnisharp" then
-						map("gd", function()
-							require("omnisharp_extended").telescope_lsp_definition()
-						end, "[G]oto [D]efinition")
-						map("gr", function()
-							require("omnisharp_extended").telescope_lsp_references()
-						end, "[G]oto [R]eferences")
-						map("gI", function()
-							require("omnisharp_extended").telescope_lsp_implementation()
-						end, "[G]oto [I]mplementation")
-
-						-- ["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-						-- ["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-						-- ["textDocument/references"] = require("omnisharp_extended").references_handler,
-						-- ["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-					end
 
 					-- Jump to the type of the word under your cursor.
 					--  Useful when you're not sure what type a variable is and you want to see
@@ -486,22 +478,6 @@ require("lazy").setup({
 				-- },
 				-- XML
 				lemminx = {},
-				omnisharp = {
-					cmd = { "OmniSharp" },
-					FormattingOptions = {
-						-- Enables support for reading code style, naming convention and analyzer
-						-- settings from .editorconfig.
-						EnableEditorConfigSupport = true,
-					},
-					RoslynExtensionsOptions = {
-						-- Enables support for roslyn analyzers, code fixes and rulesets.
-						EnableAnalyzersSupport = true,
-						EnableImportCompletion = true,
-					},
-					Sdk = {
-						IncludePrereleases = true,
-					},
-				},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -1052,13 +1028,13 @@ require("lazy").setup({
 			},
 		},
 	},
-	-- {
-	-- 	"seblj/roslyn.nvim",
-	-- 	opts = {
-	-- 		exe = "Microsoft.CodeAnalysis.LanguageServer",
-	-- 		filewatching = false,
-	-- 	},
-	-- },
+	{
+		"seblj/roslyn.nvim",
+		opts = {
+			exe = "Microsoft.CodeAnalysis.LanguageServer",
+			filewatching = false,
+		},
+	},
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
