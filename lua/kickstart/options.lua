@@ -60,3 +60,13 @@ if is_wsl then
 		cache_enabled = 1, -- cache MUST be enabled, or else it hangs on dd/y/x and all other copy operations
 	}
 end
+
+vim.filetype.add({
+	-- filename = {
+	-- 	["Directory.Build.props"] = "xml",
+	-- },
+
+	pattern = {
+		[".*.props"] = "xml",
+	},
+})
