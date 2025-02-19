@@ -44,10 +44,28 @@ function M.in_any_mathzone()
 	return in_markdown_mathzone() or in_tex_mathzone()
 end
 
+function M.in_cs_xmlcomment()
+	local buf = vim.api.nvim_get_current_buf()
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	row = row - 1
+	col = col - 1
+	local parser = ts.get_parser(buf)
+	parser:parse()
+
+	local node = parser:named_node_for_range({ row, col, row, col })
+
+	if node:type() == "comment" and vim.api.nvim_get_current_line():match("^%s*///") ~= nil then
+		return true
+	else
+		return false
+	end
+end
+
 function M.in_tex_env(name)
 	local is_inside = vim.fn["vimtex#env#is_inside"](name)
 	return (is_inside[1] > 0 and is_inside[2] > 0)
 end
+
 -------------
 
 return M
