@@ -767,18 +767,6 @@ require("lazy").setup({
 						score_offset = 1,
 					},
 				},
-				cmdline = function()
-					local type = vim.fn.getcmdtype()
-					-- Search forward and backward
-					if type == "/" or type == "?" then
-						return { "buffer" }
-					end
-					-- Commands
-					if type == ":" then
-						return { "cmdline" }
-					end
-					return {}
-				end,
 			},
 		},
 		snippets = {
@@ -1045,7 +1033,7 @@ require("lazy").setup({
 	-- require("kickstart.plugins.test"),
 	-- require 'kickstart.plugins.lint',
 	-- require("custom.plugins.init"),
-	-- require("kickstart.plugins.markdown"),
+	require("kickstart.plugins.markdown"),
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
