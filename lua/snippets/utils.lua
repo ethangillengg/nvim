@@ -44,7 +44,7 @@ function M.in_any_mathzone()
 	return in_markdown_mathzone() or in_tex_mathzone()
 end
 
-function M.in_cs_xmlcomment()
+function M.in_ts_node_type(node_type)
 	local buf = vim.api.nvim_get_current_buf()
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	row = row - 1
@@ -54,7 +54,8 @@ function M.in_cs_xmlcomment()
 
 	local node = parser:named_node_for_range({ row, col, row, col })
 
-	if node:type() == "comment" and vim.api.nvim_get_current_line():match("^%s*///") ~= nil then
+	print(node:type())
+	if node:type() == node_type then
 		return true
 	else
 		return false
