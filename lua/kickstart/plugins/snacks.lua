@@ -121,13 +121,13 @@ return {
 				end,
 				desc = "Smart Find Files",
 			},
-			{
-				"<c-p>",
-				function()
-					Snacks.picker.smart({ multi = { "buffers", "files" } })
-				end,
-				desc = "Smart Find Files",
-			},
+			-- {
+			-- 	"<c-p>",
+			-- 	function()
+			-- 		Snacks.picker.smart({ multi = { "buffers", "files" } })
+			-- 	end,
+			-- 	desc = "Smart Find Files",
+			-- },
 			{
 				"<leader>sh",
 				function()
@@ -150,27 +150,27 @@ return {
 				desc = "File Explorer",
 			},
 			-- find
+			-- {
+			-- 	"<leader>fb",
+			-- 	function()
+			-- 		Snacks.picker.buffers()
+			-- 	end,
+			-- 	desc = "Buffers",
+			-- },
 			{
-				"<leader>fb",
-				function()
-					Snacks.picker.buffers()
-				end,
-				desc = "Buffers",
-			},
-			{
-				"<leader>ff",
+				"<leader>f",
 				function()
 					Snacks.picker.files()
 				end,
 				desc = "Find Files",
 			},
-			{
-				"<leader>fp",
-				function()
-					Snacks.picker.projects()
-				end,
-				desc = "Projects",
-			},
+			-- {
+			-- 	"<leader>fp",
+			-- 	function()
+			-- 		Snacks.picker.projects()
+			-- 	end,
+			-- 	desc = "Projects",
+			-- },
 			-- git
 			{
 				"<leader>gb",

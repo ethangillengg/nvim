@@ -19,7 +19,7 @@ vim.opt.writebackup = false -- if a file is being edited by another program (or 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes" -- Keep signcolumn on by default
-vim.opt.updatetime = 250 -- Decrease update time
+vim.opt.updatetime = 500 -- Decrease update time
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
 if not vim.g.vscode then

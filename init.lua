@@ -162,19 +162,19 @@ require("lazy").setup({
 		lazy = false,
 		opts = {},
 	},
-	{
-		"kevinhwang91/nvim-bqf",
-		dependencies = {
-			"junegunn/fzf",
-		},
-		ft = "qf",
-		opts = {
-			preview = {
-				show_title = false,
-				winblend = 0,
-			},
-		},
-	},
+	-- {
+	-- 	"kevinhwang91/nvim-bqf",
+	-- 	dependencies = {
+	-- 		"junegunn/fzf",
+	-- 	},
+	-- 	ft = "qf",
+	-- 	opts = {
+	-- 		preview = {
+	-- 			show_title = false,
+	-- 			winblend = 0,
+	-- 		},
+	-- 	},
+	-- },
 	-- { -- Fuzzy Finder (files, lsp, etc)
 	-- 	"nvim-telescope/telescope.nvim",
 	-- 	cond = not vim.g.vscode,
@@ -510,7 +510,7 @@ require("lazy").setup({
 		lazy = false,
 		keys = {
 			{
-				"<leader>f",
+				"<leader>F",
 				function()
 					require("conform").format({ async = true, lsp_fallback = true })
 				end,
@@ -582,6 +582,16 @@ require("lazy").setup({
 		dependencies = {
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
+			"saghen/blink.compat",
+			{
+				"supermaven-inc/supermaven-nvim",
+				opts = {
+					keymaps = {
+						accept_suggestion = "<c-y>", -- handled by nvim-cmp / blink.cmp
+					},
+					-- disable_inline_completion = true,
+				},
+			},
 		},
 		-- use a release tag to download pre-built binaries
 		version = "*",
@@ -591,11 +601,12 @@ require("lazy").setup({
 		-- build = 'nix run .#build-plugin',
 		opts = {
 			keymap = {
+
 				preset = "none",
 				["<c-k>"] = { "select_prev", "fallback" },
 				["<c-j>"] = { "select_next", "fallback" },
 				["<C-s>"] = { "show" },
-				["<C-y>"] = { "select_and_accept", "fallback" },
+				-- ["<C-y>"] = { "select_and_accept", "fallback" },
 				["<enter>"] = {
 					"accept",
 					function(cmp)
@@ -679,6 +690,22 @@ require("lazy").setup({
 					snippets = {
 						score_offset = 1,
 					},
+
+					-- supermaven = {
+					-- 	name = "supermaven",
+					-- 	module = "blink.compat.source",
+					-- 	-- score_offset = 10,
+					-- 	async = true,
+					-- 	transform_items = function(_, items)
+					-- 		local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+					-- 		local kind_idx = #CompletionItemKind + 1
+					-- 		CompletionItemKind[kind_idx] = "Copilot"
+					-- 		for _, item in ipairs(items) do
+					-- 			item.kind = kind_idx
+					-- 		end
+					-- 		return items
+					-- 	end,
+					-- },
 				},
 			},
 		},
@@ -700,7 +727,6 @@ require("lazy").setup({
 	{ -- You can easily change to a different colorscheme.
 		-- Change the name of the colorscheme plugin below, and then
 		-- change the command in the config to whatever the name of that colorscheme is.
-		--
 		"ellisonleao/gruvbox.nvim",
 		cond = not vim.g.vscode,
 		priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -710,7 +736,16 @@ require("lazy").setup({
 		opts = {
 			contrast = "hard",
 			overrides = {
-				SignColumn = { bg = "#1d2021" },
+				SignColumn = {
+					-- bg = "#1d2021"
+					bg = "#181a1c",
+				},
+			},
+			palette_overrides = {
+				-- gruvbox dark
+				-- dark0_hard = "#1d2021",
+				-- dark0_hard = "#131819",
+				dark0_hard = "#181a1c",
 			},
 		},
 	},
@@ -944,7 +979,7 @@ require("lazy").setup({
 	require("kickstart.plugins.luasnip"),
 	require("kickstart.plugins.markdown"),
 
-  -- proj-specific
+	-- proj-specific
 	require("kickstart.plugins.csharp"),
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
