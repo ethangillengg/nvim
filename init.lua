@@ -471,7 +471,7 @@ require("lazy").setup({
 				-- Latex
 				-- texlab = {},
 				-- Go
-				-- gopls = {},
+				gopls = {},
 				-- templ = {},
 				-- htmx = {
 				-- 	filetypes = { "html", "templ" },
