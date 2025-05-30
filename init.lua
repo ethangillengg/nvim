@@ -162,19 +162,6 @@ require("lazy").setup({
 		lazy = false,
 		opts = {},
 	},
-	-- {
-	-- 	"kevinhwang91/nvim-bqf",
-	-- 	dependencies = {
-	-- 		"junegunn/fzf",
-	-- 	},
-	-- 	ft = "qf",
-	-- 	opts = {
-	-- 		preview = {
-	-- 			show_title = false,
-	-- 			winblend = 0,
-	-- 		},
-	-- 	},
-	-- },
 	-- { -- Fuzzy Finder (files, lsp, etc)
 	-- 	"nvim-telescope/telescope.nvim",
 	-- 	cond = not vim.g.vscode,
@@ -271,8 +258,7 @@ require("lazy").setup({
 	{ -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		cond = not vim.g.vscode,
-		event = { "BufReadPost", "BufNewFile" },
-		cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+		lazy = false,
 		dependencies = {
 			-- Useful status updates for LSP.
 			{ "j-hui/fidget.nvim", opts = {} },
@@ -446,11 +432,11 @@ require("lazy").setup({
 						"vue",
 					},
 				},
-				tailwindcss = {
-					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
-					init_options = { userLanguages = { templ = "html" } },
-					-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
-				},
+				-- tailwindcss = {
+				-- 	filetypes = { "templ", "javascript", "typescript", "react", "vue" },
+				-- 	init_options = { userLanguages = { templ = "html" } },
+				-- 	-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
+				-- },
 				jsonls = {
 
 					cmd = { "/home/ethan/.bun/bin/vscode-json-languageserver", "--stdio" },
@@ -472,6 +458,8 @@ require("lazy").setup({
 				-- texlab = {},
 				-- Go
 				gopls = {},
+				-- C#
+				roslyn_ls = {},
 				-- templ = {},
 				-- htmx = {
 				-- 	filetypes = { "html", "templ" },
@@ -499,11 +487,12 @@ require("lazy").setup({
 						{ textDocument = { completion = { completionItem = { snippetSupport = false } } } }
 					)
 				)
-				require("lspconfig")[server].setup(config)
+				vim.lsp.config(server, config)
+				vim.lsp.enable(server)
 			end
 		end,
 	},
-
+	--
 	{ -- Autoformat
 		"stevearc/conform.nvim",
 		cond = not vim.g.vscode,
@@ -866,7 +855,6 @@ require("lazy").setup({
 				"nix",
 				"glsl",
 				"query",
-				"latex",
 				"go",
 				"templ",
 				"c_sharp",

@@ -1,12 +1,12 @@
 return {
-	{
-		"seblyng/roslyn.nvim",
-		ft = { "cs" },
-		opts = {
-			exe = "Microsoft.CodeAnalysis.LanguageServer",
-			filewatching = false,
-		},
-	},
+	-- {
+	-- 	"seblyng/roslyn.nvim",
+	-- 	ft = { "cs" },
+	-- 	opts = {
+	-- 		exe = "Microsoft.CodeAnalysis.LanguageServer",
+	-- 		filewatching = false,
+	-- 	},
+	-- },
 	-- {
 	-- 	"seblyng/roslyn.nvim",
 	-- 	ft = { "cs", "razor" },
