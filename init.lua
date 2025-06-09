@@ -428,15 +428,37 @@ require("lazy").setup({
 					},
 					filetypes = {
 						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+						"vue",
+					},
+				},
+				eslint = {
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+						"vue",
+					},
+				},
+				oxlint = {
+					filetypes = {
+						"javascript",
 						"typescript",
 						"vue",
 					},
 				},
-				-- tailwindcss = {
-				-- 	filetypes = { "templ", "javascript", "typescript", "react", "vue" },
-				-- 	init_options = { userLanguages = { templ = "html" } },
-				-- 	-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
-				-- },
+				tailwindcss = {
+					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
+					init_options = { userLanguages = { templ = "html" } },
+					-- cmd = { "/home/ethan/.bun/bin/tailwindcss-language-server", "--stdio" },
+				},
 				jsonls = {
 
 					cmd = { "/home/ethan/.bun/bin/vscode-json-languageserver", "--stdio" },
@@ -457,9 +479,26 @@ require("lazy").setup({
 				-- Latex
 				-- texlab = {},
 				-- Go
-				gopls = {},
+				-- gopls = {},
 				-- C#
-				roslyn_ls = {},
+				-- roslyn = {
+				-- 	filetypes = { "csharp", "c_sharp", "cs" },
+				-- 	cmd = {
+				-- 		"Microsoft.CodeAnalysis.LanguageServer",
+				-- 		"--logLevel=Information",
+				-- 		"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+				-- 		"--stdio",
+				-- 	},
+				-- 	settings = {
+				-- 		["csharp|inlay_hints"] = {
+				-- 			csharp_enable_inlay_hints_for_implicit_object_creation = true,
+				-- 			csharp_enable_inlay_hints_for_implicit_variable_types = true,
+				-- 		},
+				-- 		["csharp|code_lens"] = {
+				-- 			dotnet_enable_references_code_lens = true,
+				-- 		},
+				-- 	},
+				-- },
 				-- templ = {},
 				-- htmx = {
 				-- 	filetypes = { "html", "templ" },
@@ -558,7 +597,7 @@ require("lazy").setup({
 				tex = { "latexindent" },
 				asm = { "asmfmt" },
 				xml = { "xmlformat" },
-				go = { "gopls" },
+				-- go = { "gopls" },
 				cs = { "csharpierd" },
 			},
 		},

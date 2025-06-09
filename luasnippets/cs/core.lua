@@ -9,23 +9,23 @@ local function in_xmlcomment_node()
 end
 return {
 
-	as(
-		{
-			trig = "///",
-			dscr = "XML Comment",
-			condition = line_begin,
-		},
-		fmt(
-			[[
-/// <summary>
-/// {}
-/// </summary>
-	]],
-			{
-				i(1, ""),
-			}
-		)
-	),
+	-- 	as(
+	-- 		{
+	-- 			trig = "///",
+	-- 			dscr = "XML Comment",
+	-- 			condition = line_begin,
+	-- 		},
+	-- 		fmt(
+	-- 			[[
+	-- /// <summary>
+	-- /// {}
+	-- /// </summary>
+	-- 	]],
+	-- 			{
+	-- 				i(1, ""),
+	-- 			}
+	-- 		)
+	-- 	),
 
 	as({
 		trig = "crr",

@@ -6,6 +6,7 @@ return {
 	{
 		"akinsho/git-conflict.nvim",
 		lazy = false,
+		enabled = false,
 		version = "*",
 		config = true,
 		opts = {

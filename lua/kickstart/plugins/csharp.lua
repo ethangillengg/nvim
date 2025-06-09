@@ -1,88 +1,102 @@
 return {
-	-- {
-	-- 	"seblyng/roslyn.nvim",
-	-- 	ft = { "cs" },
-	-- 	opts = {
-	-- 		exe = "Microsoft.CodeAnalysis.LanguageServer",
-	-- 		filewatching = false,
-	-- 	},
-	-- },
-	-- {
-	-- 	"seblyng/roslyn.nvim",
-	-- 	ft = { "cs", "razor" },
-	-- 	dependencies = {
-	-- 		{
-	-- 			-- By loading as a dependencies, we ensure that we are available to set
-	-- 			-- the handlers for roslyn
-	-- 			"tris203/rzls.nvim",
-	-- 			config = function()
-	-- 				---@diagnostic disable-next-line: missing-fields
-	-- 				require("rzls").setup({
-	-- 					path = "/nix/store/r9547xfjfvwpwiq7ydf4pb1xihx72ms3-user-environment/bin/rzls",
-	-- 				})
-	-- 			end,
-	-- 		},
-	-- 	},
-	-- 	config = function()
-	-- 		require("roslyn").setup({
-	-- 			exe = "Microsoft.CodeAnalysis.LanguageServer",
-	-- 			filewatching = false,
-	-- 			args = {
-	-- 				"--stdio",
-	-- 				"--logLevel=Information",
-	-- 				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-	-- 				"--razorSourceGenerator=" .. vim.fs.joinpath(
-	-- 					vim.fn.stdpath("data") --[[@as string]],
-	-- 					"mason",
-	-- 					"packages",
-	-- 					"roslyn",
-	-- 					"libexec",
-	-- 					"Microsoft.CodeAnalysis.Razor.Compiler.dll"
-	-- 				),
-	-- 				"--razorDesignTimePath=" .. vim.fs.joinpath(
-	-- 					vim.fn.stdpath("data") --[[@as string]],
-	-- 					"mason",
-	-- 					"packages",
-	-- 					"rzls",
-	-- 					"libexec",
-	-- 					"Targets",
-	-- 					"Microsoft.NET.Sdk.Razor.DesignTime.targets"
-	-- 				),
-	-- 			},
-	-- 			---@diagnostic disable-next-line: missing-fields
-	-- 			config = {
-	-- 				handlers = require("rzls.roslyn_handlers"),
-	-- 				settings = {
-	-- 					["csharp|inlay_hints"] = {
-	-- 						csharp_enable_inlay_hints_for_implicit_object_creation = true,
-	-- 						csharp_enable_inlay_hints_for_implicit_variable_types = true,
-	--
-	-- 						csharp_enable_inlay_hints_for_lambda_parameter_types = true,
-	-- 						csharp_enable_inlay_hints_for_types = true,
-	-- 						dotnet_enable_inlay_hints_for_indexer_parameters = true,
-	-- 						dotnet_enable_inlay_hints_for_literal_parameters = true,
-	-- 						dotnet_enable_inlay_hints_for_object_creation_parameters = true,
-	-- 						dotnet_enable_inlay_hints_for_other_parameters = true,
-	-- 						dotnet_enable_inlay_hints_for_parameters = true,
-	-- 						dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
-	-- 						dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
-	-- 						dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
-	-- 					},
-	-- 					["csharp|code_lens"] = {
-	-- 						dotnet_enable_references_code_lens = true,
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	init = function()
-	-- 		-- we add the razor filetypes before the plugin loads
-	-- 		vim.filetype.add({
-	-- 			extension = {
-	-- 				razor = "razor",
-	-- 				cshtml = "razor",
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	"seblyng/roslyn.nvim",
+	ft = { "cs" },
+	opts = {
+		filewatching = "off",
+	},
+	config = function(_, opts)
+		require("roslyn").setup(opts)
+
+		vim.treesitter.language.register("c_sharp", "csharp")
+		vim.lsp.config("roslyn", {
+			on_attach = function() end,
+			cmd = {
+				"Microsoft.CodeAnalysis.LanguageServer",
+				"--logLevel=Information",
+				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+				"--stdio",
+			},
+			settings = {
+				["csharp|inlay_hints"] = {
+					csharp_enable_inlay_hints_for_implicit_object_creation = true,
+					csharp_enable_inlay_hints_for_implicit_variable_types = true,
+				},
+				["csharp|code_lens"] = {
+					dotnet_enable_references_code_lens = true,
+				},
+			},
+		})
+
+		-- for refreshing diagnotics more frequently since roslyn is buggy
+		-- see: https://github.com/seblyng/roslyn.nvim/wiki#diagnostic-refresh
+		vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+			pattern = "*",
+			callback = function()
+				local clients = vim.lsp.get_clients({ name = "roslyn" })
+				if not clients or #clients == 0 then
+					return
+				end
+
+				local buffers = vim.lsp.get_buffers_by_client_id(clients[1].id)
+				for _, buf in ipairs(buffers) do
+					vim.lsp.util._refresh("textDocument/diagnostic", { bufnr = buf })
+				end
+			end,
+		})
+
+		-- for auto inserting summary comments
+		-- see: https://github.com/seblyng/roslyn.nvim/wiki#textdocument_vs_onautoinsert
+		vim.api.nvim_create_autocmd("LspAttach", {
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				local bufnr = args.buf
+
+				if client and (client.name == "roslyn" or client.name == "roslyn_ls") then
+					vim.api.nvim_create_autocmd("InsertCharPre", {
+						desc = "Roslyn: Trigger an auto insert on '/'.",
+						buffer = bufnr,
+						callback = function()
+							local char = vim.v.char
+
+							if char ~= "/" then
+								return
+							end
+
+							local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+							row, col = row - 1, col + 1
+							local uri = vim.uri_from_bufnr(bufnr)
+
+							local params = {
+								_vs_textDocument = { uri = uri },
+								_vs_position = { line = row, character = col },
+								_vs_ch = char,
+								_vs_options = {
+									tabSize = vim.bo[bufnr].tabstop,
+									insertSpaces = vim.bo[bufnr].expandtab,
+								},
+							}
+
+							-- NOTE: We should send textDocument/_vs_onAutoInsert request only after
+							-- buffer has changed.
+							vim.defer_fn(function()
+								client:request(
+									---@diagnostic disable-next-line: param-type-mismatch
+									"textDocument/_vs_onAutoInsert",
+									params,
+									function(err, result, _)
+										if err or not result then
+											return
+										end
+
+										vim.snippet.expand(result._vs_textEdit.newText)
+									end,
+									bufnr
+								)
+							end, 1)
+						end,
+					})
+				end
+			end,
+		})
+	end,
 }
