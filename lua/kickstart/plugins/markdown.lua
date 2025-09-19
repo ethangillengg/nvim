@@ -22,7 +22,7 @@ return {
 			vim.cmd([[
 	augroup markdown
 	autocmd FileType markdown setlocal wrap
-	autocmd FileType markdown setlocal conceallevel=2
+	autocmd FileType markdown setlocal conceallevel=0
 	autocmd FileType markdown setlocal spell
 	augroup END
 	]])
@@ -60,7 +60,7 @@ return {
 				prepend_note_path = false,
 			},
 			ui = {
-				enable = true, -- set to false to disable all additional syntax features
+				enable = false, -- set to false to disable all additional syntax features
 				checkboxes = {
 
 					[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
