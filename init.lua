@@ -611,6 +611,7 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
 			"saghen/blink.compat",
+			{ "zbirenbaum/copilot.lua" },
 			{
 				"supermaven-inc/supermaven-nvim",
 				opts = {

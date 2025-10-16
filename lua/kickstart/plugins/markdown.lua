@@ -13,7 +13,7 @@ return {
 		"obsidian-nvim/obsidian.nvim",
 		ft = "markdown",
 		version = "*", -- recommended, use latest release instead of latest commit
-		cmd = { "ObsidianQuickSwitch", "ObsidianToday" },
+		cmd = { "Obsidian quick_switch", "Obsidian today" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
@@ -37,6 +37,7 @@ return {
 			-- set_header_hl("5", { link = "Keyword" })
 		end,
 		opts = {
+			legacy_commands = false,
 			workspaces = {
 				{
 					name = "notes",
@@ -59,15 +60,20 @@ return {
 				blink = true,
 				prepend_note_path = false,
 			},
+			checkbox = {
+
+				order = { " ", "x", "~", "!", ">" },
+			},
 			ui = {
 				enable = false, -- set to false to disable all additional syntax features
-				checkboxes = {
+				-- checkboxes = {
+				--
+				-- 	[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+				-- 	["x"] = { char = "", hl_group = "ObsidianDone" },
+				-- 	["~"] = { char = "", hl_group = "ObsidianTilde" },
+				-- 	["!"] = { char = "", hl_group = "ObsidianTodoStarted" },
+				-- },
 
-					[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-					["x"] = { char = "", hl_group = "ObsidianDone" },
-					["~"] = { char = "", hl_group = "ObsidianTilde" },
-					["!"] = { char = "", hl_group = "ObsidianTodoStarted" },
-				},
 				hl_groups = {
 					ObsidianTodo = { bold = true, fg = "#f78c6c" },
 					ObsidianTodoStarted = { bold = true, fg = "#f7d26c" },
@@ -149,25 +155,25 @@ return {
 		},
 
 		keys = {
-			{ "<leader>on", ":ObsidianNew ", desc = "[O]bsidian: New [n]ote" },
-			{ "ol", "<cmd>:ObsidianLink<CR>", mode = "v", desc = "[O]bsidian: Link selection" },
-			{ "oe", "<cmd>:ObsidianExtractNote<CR>", mode = "v", desc = "[O]bsidian: [e]xtract New Note" },
-			{ "<leader>ot", "<cmd>:ObsidianNewFromTemplate<CR>", desc = "[O]bsidian: New Note From [t]emplate" },
-			{ "<leader>od", "<cmd>:ObsidianToday<CR>", desc = "[O]bsidian: New [D]aily Note" },
-			{ "<leader>oD", "<cmd>:ObsidianDailies<CR>", desc = "[O]bsidian: [D]aily Notes" },
-			{ "<leader>of", "<cmd>:ObsidianQuickSwitch<CR>", desc = "[O]bsidian: Find Note" },
-			{ "<leader>os", "<cmd>:ObsidianSearch<CR>", desc = "[O]bsidian: Grep notes", ft = "markdown" },
-			{ "<leader>ob", "<cmd>:ObsidianBacklinks<CR>", desc = "[O]bsidian: Obsidian backlinks", ft = "markdown" },
-			{ "<leader>og", "<cmd>:ObsidianTags<CR>", desc = "[O]bsidian: Search tags" },
-			{ "<leader>oi", "<cmd>:ObsidianPasteImg<CR>", desc = "[O]bsidian: Paste image", ft = "markdown" },
-			{ "<leader>or", "<cmd>:ObsidianRename<CR>", desc = "[O]bsidian: Rename", ft = "markdown" },
+			{ "<leader>on", ":Obsidian new<CR>", desc = "[O]bsidian: New [n]ote" },
+			{ "ol", "<cmd>:Obsidian link<CR>", mode = "v", desc = "[O]bsidian: Link selection" },
+			{ "oe", "<cmd>:Obsidian extract_note<CR>", mode = "v", desc = "[O]bsidian: [e]xtract New Note" },
+			{ "<leader>ot", "<cmd>:Obsidian new_from_template<CR>", desc = "[O]bsidian: New Note From [t]emplate" },
+			{ "<leader>od", "<cmd>:Obsidian today<CR>", desc = "[O]bsidian: New [D]aily Note" },
+			{ "<leader>oD", "<cmd>:Obsidian dailies<CR>", desc = "[O]bsidian: [D]aily Notes" },
+			{ "<leader>of", "<cmd>:Obsidian quick_switch<CR>", desc = "[O]bsidian: Find Note" },
+			{ "<leader>os", "<cmd>:Obsidian search<CR>", desc = "[O]bsidian: Grep notes", ft = "markdown" },
+			{ "<leader>ob", "<cmd>:Obsidian backlinks<CR>", desc = "[O]bsidian: Obsidian backlinks", ft = "markdown" },
+			{ "<leader>og", "<cmd>:Obsidian tags<CR>", desc = "[O]bsidian: Search tags" },
+			{ "<leader>oi", "<cmd>:Obsidian paste_img<CR>", desc = "[O]bsidian: Paste image", ft = "markdown" },
+			{ "<leader>or", "<cmd>:Obsidian rename<CR>", desc = "[O]bsidian: Rename", ft = "markdown" },
 			{
 				"<CR>",
 				function()
 					local cursor_on_markdown_link = require("obsidian").util.cursor_on_markdown_link
 
 					if cursor_on_markdown_link() then -- follow the link
-						vim.cmd(":ObsidianFollowLink")
+						vim.cmd(":Obsidian follow_link")
 					else -- try to find a link on the line
 						local bufnr = 0 -- current buf
 						local lang = "markdown_inline" -- use the inline parser
@@ -199,7 +205,7 @@ return {
 							local _, node_col = node:range()
 							if node_col > cur_col then
 								vim.api.nvim_win_set_cursor(bufnr, { cur_row + 1, node_col })
-								vim.cmd(":ObsidianFollowLink")
+								vim.cmd(":Obsidian follow_link")
 								return
 							end
 						end
@@ -213,7 +219,7 @@ return {
 			},
 			{
 				"<C-]>",
-				"<cmd>ObsidianToggleCheckbox<CR>",
+				"<cmd>Obsidian toggle_checkbox<CR>",
 				desc = "Toggle checkbox",
 				ft = { "markdown" },
 			},
