@@ -608,6 +608,7 @@ require("lazy").setup({
 		-- optional: provides snippets for the snippet source
 		event = "InsertEnter",
 		dependencies = {
+			{ "yus-works/csc.nvim", opts = {} },
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
 			"saghen/blink.compat",
