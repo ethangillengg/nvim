@@ -5,14 +5,10 @@
 return {
 	{
 		"akinsho/git-conflict.nvim",
+		enabled = true,
 		lazy = false,
-		enabled = false,
-		version = "*",
-		config = true,
 		opts = {
-			default_mappings = true,
-			-- default_commands = true,
-			disable_diagnostics = true,
+			-- disable_diagnostics = true,
 			highlights = {
 				incoming = "DiffAdd",
 				current = "DiffChange",
