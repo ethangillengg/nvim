@@ -599,6 +599,8 @@ require("lazy").setup({
 				xml = { "xmlformat" },
 				go = { "gopls" },
 				cs = { "csharpierd" },
+				props = { "csharpierd" },
+				csproj = { "csharpierd" },
 			},
 		},
 	},
