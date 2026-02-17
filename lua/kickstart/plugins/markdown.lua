@@ -102,17 +102,17 @@ return {
 					return out
 				end,
 			},
-			follow_url_func = function(url)
-				local this_os = vim.loop.os_uname().sysname
-
-				if this_os == "Linux" then
-					vim.fn.jobstart({ "xdg-open", url })
-				elseif this_os == "Darwin" then
-					vim.fn.jobstart({ "open", url })
-				elseif this_os == "Windows_NT" then
-					vim.fn.jobstart({ "cmd.exe", "/c", "start", url })
-				end
-			end,
+			-- follow_url_func = function(url)
+			-- 	local this_os = vim.loop.os_uname().sysname
+			--
+			-- 	if this_os == "Linux" then
+			-- 		vim.fn.jobstart({ "xdg-open", url })
+			-- 	elseif this_os == "Darwin" then
+			-- 		vim.fn.jobstart({ "open", url })
+			-- 	elseif this_os == "Windows_NT" then
+			-- 		vim.fn.jobstart({ "cmd.exe", "/c", "start", url })
+			-- 	end
+			-- end,
 			note_path_func = function(note)
 				local suffix = ""
 				if note.title ~= nil then
@@ -135,7 +135,7 @@ return {
 			end,
 
 			attachments = {
-				img_folder = "_attachments/imgs",
+				folder = "_attachments/imgs",
 				img_text_func = function(_, path)
 					-- Always use the the absolute path.
 					local link_path = tostring(path)
@@ -296,6 +296,7 @@ return {
 	},
 	{
 		"jbyuki/nabla.nvim",
+		enabled = false,
 		ft = { "markdown" },
 		config = function()
 			local nb = require("nabla")
