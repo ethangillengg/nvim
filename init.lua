@@ -274,8 +274,8 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "[L]SP [i]nfo" })
-			vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "[L]SP [r]estart all" })
+			-- vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "[L]SP [i]nfo" })
+			vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<cr>", { desc = "[L]SP [r]estart all" })
 			local signs = {
 				{ name = "DiagnosticSignError", text = "" },
 				{ name = "DiagnosticSignWarn", text = "" },
@@ -447,13 +447,13 @@ require("lazy").setup({
 						"vue",
 					},
 				},
-				oxlint = {
-					filetypes = {
-						"javascript",
-						"typescript",
-						"vue",
-					},
-				},
+				-- oxlint = {
+				-- 	filetypes = {
+				-- 		"javascript",
+				-- 		"typescript",
+				-- 		"vue",
+				-- 	},
+				-- },
 				tailwindcss = {
 					filetypes = { "templ", "javascript", "typescript", "react", "vue" },
 					init_options = { userLanguages = { templ = "html" } },
