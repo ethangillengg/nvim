@@ -1,8 +1,19 @@
 return {
 	"seblyng/roslyn.nvim",
 	ft = { "cs" },
+	---@module 'roslyn.config'
+	---@type RoslynNvimConfig
 	opts = {
-		filewatching = "off",
+		filewatching = "roslyn",
+	},
+	dependencies = {
+		{
+			"khoido2003/roslyn-filewatch.nvim",
+			build = "nvim -l build.lua --", -- Compiles or downloads the Native Rust module fallback
+			config = function()
+				require("roslyn_filewatch").setup()
+			end,
+		},
 	},
 	config = function(_, opts)
 		require("roslyn").setup(opts)
@@ -13,7 +24,7 @@ return {
 			cmd = {
 				"Microsoft.CodeAnalysis.LanguageServer",
 				"--logLevel=Information",
-				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
 				"--stdio",
 			},
 			settings = {

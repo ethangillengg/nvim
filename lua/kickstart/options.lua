@@ -70,3 +70,10 @@ vim.filetype.add({
 		[".*.props"] = "xml",
 	},
 })
+
+vim.filetype.add({
+	pattern = {
+		["appsettings.*.json"] = "jsonc",
+		["appsettings.json"] = "jsonc",
+	},
+})
