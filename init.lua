@@ -108,17 +108,6 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		"numToStr/Comment.nvim",
-		cond = not vim.g.vscode,
-		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-		config = function()
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-			})
-		end,
-	},
-
 	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
 	-- This is often very useful to both group configuration, as well as handle
@@ -581,6 +570,7 @@ require("lazy").setup({
 				css = { "prettierd" },
 				scss = { "prettierd" },
 				json = { "prettierd" },
+				jsonc = { "prettierd" },
 				vue = { "prettierd" },
 				javascript = { "prettierd" },
 				typescript = { "prettierd" },

@@ -3,23 +3,49 @@
 -- config. This will add also the recommended keymaps.
 
 return {
+	-- {
+	-- 	"akinsho/git-conflict.nvim",
+	-- 	enabled = true,
+	-- 	lazy = false,
+	-- 	opts = {
+	-- 		-- disable_diagnostics = true,
+	-- 		highlights = {
+	-- 			incoming = "DiffAdd",
+	-- 			current = "DiffChange",
+	-- 		},
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>gq",
+	-- 			"<cmd>GitConflictListQf<CR>",
+	-- 			mode = "",
+	-- 			desc = "[G]it list conflicts",
+	-- 		},
+	-- 	},
+	-- },
 	{
-		"akinsho/git-conflict.nvim",
-		enabled = true,
-		lazy = false,
-		opts = {
-			-- disable_diagnostics = true,
-			highlights = {
-				incoming = "DiffAdd",
-				current = "DiffChange",
-			},
-		},
+		"esmuellert/codediff.nvim",
+		cmd = "CodeDiff",
 		keys = {
 			{
-				"<leader>gq",
-				"<cmd>GitConflictListQf<CR>",
+				"<leader>gd",
+				"<cmd>CodeDiff<CR>",
 				mode = "",
-				desc = "[G]it list conflicts",
+				desc = "[G]it code [d]iff",
+			},
+
+			{
+				"<leader>gq",
+				"<cmd>CodeDiff<CR>",
+				mode = "",
+				desc = "[G]it code diff",
+			},
+
+			{
+				"<leader>gc",
+				"<cmd>term git commit<CR>",
+				mode = "",
+				desc = "[G]it [c]ommit ",
 			},
 		},
 	},
