@@ -835,7 +835,7 @@ require("lazy").setup({
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+		-- dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		cond = not vim.g.vscode,
 		config = function()
 			-- Better Around/Inside textobjects
@@ -885,6 +885,7 @@ require("lazy").setup({
 	},
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
 		build = ":TSUpdate",
 		opts = {
 			ensure_installed = {
@@ -934,7 +935,7 @@ require("lazy").setup({
 			-- Prefer git instead of curl in order to improve connectivity in some environments
 			require("nvim-treesitter.install").prefer_git = true
 			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup(opts)
+			require("nvim-treesitter.config").setup(opts)
 
 			-- There are additional nvim-treesitter modules that you can use to interact
 			-- with nvim-treesitter. You should go explore a few and see what interests you:
