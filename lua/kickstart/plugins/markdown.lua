@@ -10,6 +10,12 @@ set_header_hl("5", { link = "Keyword" })
 
 return {
 	{
+		"dhruvasagar/vim-table-mode",
+		ft = "markdown",
+
+		setup = true,
+	},
+	{
 		"obsidian-nvim/obsidian.nvim",
 		ft = "markdown",
 		version = "*", -- recommended, use latest release instead of latest commit
