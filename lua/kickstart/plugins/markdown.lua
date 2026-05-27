@@ -119,11 +119,11 @@ return {
 			-- 		vim.fn.jobstart({ "cmd.exe", "/c", "start", url })
 			-- 	end
 			-- end,
-			note_path_func = function(note)
+			note_id_func = function(id)
 				local suffix = ""
-				if note.title ~= nil then
+				if id ~= nil then
 					-- If title is given, transform it into valid file name.
-					suffix = note.title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+					suffix = id:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
 				else
 					-- If title is nil, just add 4 random uppercase letters to the suffix.
 					for _ = 1, 4 do
