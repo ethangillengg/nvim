@@ -888,6 +888,7 @@ require("lazy").setup({
 		branch = "main",
 		build = ":TSUpdate",
 		opts = {},
+		main = "nvim-treesitter.configs",
 		config = function(_, opts)
 			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
@@ -900,6 +901,7 @@ require("lazy").setup({
 				lua = "lua",
 				luadoc = "luadoc",
 				markdown = "markdown",
+				markdown_inline = "markdown",
 				vim = "vim",
 				vimdoc = "vimdoc",
 				cpp = "cpp",
@@ -921,6 +923,7 @@ require("lazy").setup({
 				go = "go",
 				templ = "templ",
 				c_sharp = "cs",
+				sql = "sql",
 			}
 
 			ts_langs = vim.tbl_keys(ts_lang_dict)
