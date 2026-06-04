@@ -50,10 +50,15 @@ return {
 					path = "~/Notes",
 				},
 			},
-			notes_subdir = "Inbox",
+			notes_subdir = "_Inbox",
+			note = {
+				template = "alam",
+			},
+
 			daily_notes = {
-				date_format = "%y%m%d0000-daily",
+				date_format = "%y%m%d0000-%A-daily",
 				default_tags = { "ALAM", "work", "daily" },
+				folder = "Work/ALAM",
 				template = "daily",
 			},
 			picker = {
@@ -141,7 +146,7 @@ return {
 			end,
 
 			attachments = {
-				folder = "_attachments/imgs",
+				folder = ".attachments/imgs",
 				img_text_func = function(_, path)
 					-- Always use the the absolute path.
 					local link_path = tostring(path)
@@ -151,13 +156,21 @@ return {
 			},
 
 			templates = {
-				subdir = "_t",
+				subdir = ".templates",
 				date_format = "%Y-%m-%d-%a",
 				time_format = "%H:%M",
 				substitutions = {
 					date = function()
 						return tostring(os.date("%Y-%m-%d"))
 					end,
+				},
+				customizations = {
+					abadata = {
+						notes_subdir = "Work/AbaData",
+					},
+					alam = {
+						notes_subdir = "Work/ALAM",
+					},
 				},
 			},
 		},
