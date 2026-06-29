@@ -16,6 +16,8 @@ end
 -- Multiline on single wrapped
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<M-l>", "<nop>")
+vim.keymap.set("n", "<M-h>", "<nop>")
 
 -- Dont stop visual mode on indent
 vim.keymap.set("v", "<", "<gv")

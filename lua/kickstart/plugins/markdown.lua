@@ -22,7 +22,6 @@ return {
 		cmd = { "Obsidian quick_switch", "Obsidian today" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
 		},
 		init = function()
 			vim.cmd([[
@@ -67,8 +66,7 @@ return {
 			},
 			completion = {
 				min_chars = 0,
-				nvim_cmp = false,
-				blink = true,
+				-- blink = true,
 				prepend_note_path = false,
 			},
 			checkbox = {
@@ -81,6 +79,7 @@ return {
 				--
 				-- 	[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
 				-- 	["x"] = { char = "", hl_group = "ObsidianDone" },
+				-- 	h
 				-- 	["~"] = { char = "", hl_group = "ObsidianTilde" },
 				-- 	["!"] = { char = "", hl_group = "ObsidianTodoStarted" },
 				-- },

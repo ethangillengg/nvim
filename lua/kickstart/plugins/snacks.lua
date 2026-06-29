@@ -38,7 +38,9 @@ return {
 					-- { section = "header" },
 					{
 						section = "terminal",
-						cmd = "fortune -s | cowsay",
+						cmd = (this_os == "Linux")
+							and "fortune -s | cowsay" 
+							or "echo 'Welcome Back'",
 						hl = "header",
 						padding = 1,
 						indent = 8,
