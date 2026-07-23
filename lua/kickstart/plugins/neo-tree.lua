@@ -4,6 +4,7 @@
 return {
 	{
 		"stevearc/oil.nvim",
+		cmd = "Oil",
 		opts = {
 			use_default_keymaps = false,
 			keymaps = {

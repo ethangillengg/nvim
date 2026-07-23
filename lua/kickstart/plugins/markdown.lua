@@ -51,13 +51,13 @@ return {
 			},
 			notes_subdir = "_Inbox",
 			note = {
-				template = "alam",
+				template = "abadata",
 			},
 
 			daily_notes = {
 				date_format = "%y%m%d0000-%A-daily",
 				default_tags = { "ALAM", "work", "daily" },
-				folder = "Work/ALAM",
+				folder = "Work/AbaData",
 				template = "daily",
 			},
 			picker = {

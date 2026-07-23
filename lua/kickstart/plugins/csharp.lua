@@ -1,6 +1,6 @@
 return {
 	"seblyng/roslyn.nvim",
-	ft = { "cs" },
+	ft = { "cs", "razor", "cshtml" },
 	---@module 'roslyn.config'
 	---@type RoslynNvimConfig
 	opts = {
@@ -15,10 +15,19 @@ return {
 		-- 	end,
 		-- },
 	},
+	init = function()
+		-- We add the Razor file types before the plugin loads.
+		vim.filetype.add({
+			extension = {
+				razor = "razor",
+				cshtml = "razor",
+			},
+		})
+	end,
 	config = function(_, opts)
 		require("roslyn").setup(opts)
 
-		vim.treesitter.language.register("c_sharp", "csharp")
+		vim.treesitter.language.register("c_sharp", "csharp", "razor", "cshtml")
 		vim.lsp.config("roslyn", {
 			on_attach = function() end,
 			cmd = {
