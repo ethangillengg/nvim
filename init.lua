@@ -153,6 +153,53 @@ require("lazy").setup({
 		lazy = false,
 		opts = {},
 	},
+	-- {
+	-- 	"dmtrKovalenko/fff.nvim",
+	-- 	build = function()
+	-- 		-- downloads a prebuilt binary or falls back to cargo build
+	-- 		require("fff.download").download_or_build_binary()
+	-- 	end,
+	-- 	-- for nixos:
+	-- 	-- build = "nix run .#release",
+	-- 	opts = {
+	-- 		debug = {
+	-- 			enabled = true,
+	-- 			show_scores = true,
+	-- 		},
+	-- 	},
+	-- 	lazy = false, -- the plugin lazy-initialises itself
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>f",
+	-- 			function()
+	-- 				require("fff").find_files()
+	-- 			end,
+	-- 			desc = "FFFind files",
+	-- 		},
+	-- 		{
+	-- 			"<leader>sg",
+	-- 			function()
+	-- 				require("fff").live_grep()
+	-- 			end,
+	-- 			desc = "LiFFFe grep",
+	-- 		},
+	-- 		{
+	-- 			"fz",
+	-- 			function()
+	-- 				require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
+	-- 			end,
+	-- 			desc = "Live fffuzy grep",
+	-- 		},
+	-- 		{
+	-- 			"fw",
+	-- 			function()
+	-- 				require("fff").live_grep_under_cursor()
+	-- 			end,
+	-- 			mode = { "n", "x" },
+	-- 			desc = "Search current word / selection",
+	-- 		},
+	-- 	},
+	-- },
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
 		cond = not vim.g.vscode,
@@ -213,7 +260,45 @@ require("lazy").setup({
 						"package-lock.json",
 						"%.exe",
 						"%.lock",
-						"%lock.json",
+						"lock%.json",
+						"lock%.json",
+						"dx%.?.*%.js",
+						"exceljs%.?.*%.js",
+						"jspdf%.?.*%.js",
+						"jszip%.?.*%.js",
+						"jszip%.?.*%.js",
+						"require%.?.*%.js",
+						"FileSaver%.?.*%.js",
+						"bootstrap%.?.*%.js",
+						"json2%.?.*%.js",
+						"globalize%.?.*%.js",
+						"modernizr%.?.*%.js",
+						"MicrosoftMvcValidation%.?.*%.js",
+						"MicrosoftMvcAjax%.?.*%.js",
+						"jquery%.?.*%.js",
+						"jasmine%.?.*%.js",
+						"jasmine%.?.*%.css",
+						"arcgis%.?.*%.js",
+						"selectize%.?.*%.js",
+						"cldr%.?.*%.js",
+						"knockout%.?.*%.js",
+						"html2canvas%.?.*%.js",
+						"Mousewheel%.?.*%.js",
+						"MicrosoftAjax%.?.*%.js",
+						"underscore%.?.*%.js",
+						"Spinner%.?.*%.js",
+						"globalize[/\\]",
+						"cldr[/\\]",
+						"PoTree[/\\]",
+						"dist[/\\]",
+						"RGraph[/\\]",
+						"Proj4js[/\\]",
+						"DevExtreme[/\\]",
+						"Handsontable[/\\]",
+						"JQuery[/\\]",
+						"zip%-js[/\\]",
+						"js%-xlsx[/\\]",
+						"vectormap%-data[/\\]",
 					},
 				},
 				extensions = {
@@ -617,8 +702,8 @@ require("lazy").setup({
 			-- javascript = { { "prettierd", "prettier" } },
 			formatters_by_ft = {
 				html = { "prettierd" },
-				-- css = { "prettierd" },
-				-- scss = { "prettierd" },
+				css = { "prettierd" },
+				scss = { "prettierd" },
 				json = { "prettierd" },
 				jsonc = { "prettierd" },
 				vue = { "prettierd" },
@@ -949,7 +1034,7 @@ require("lazy").setup({
 				go = "go",
 				templ = "templ",
 				c_sharp = "cs",
-				sql = "sql",
+				-- sql = "sql",
 			}
 
 			ts_langs = vim.tbl_keys(ts_lang_dict)
