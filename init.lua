@@ -317,8 +317,8 @@ require("lazy").setup({
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-			vim.keymap.set("n", "<leader>f", builtin.find_files, { desc = "[S]earch [F]iles" })
-			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<leader>f", builtin.find_files, { desc = "Search [F]iles" })
+			vim.keymap.set("n", "<leader>sf", builtin.git_status, { desc = "[S]earch Git Changed [F]iles" })
 			vim.keymap.set("n", "<c-p>", builtin.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<leader>sb", builtin.builtin, { desc = "[S]earch Select [T]elescope" })
 			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
@@ -415,7 +415,7 @@ require("lazy").setup({
 					-- local client = vim.lsp.get_client_by_id(event.data.client_id)
 					-- vim.api.nvim_put({ vim.inspect(client.name) }, "", true, true)
 
-					-- map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 					-- map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 					-- map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 					--
