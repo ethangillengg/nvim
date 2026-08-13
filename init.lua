@@ -416,7 +416,7 @@ require("lazy").setup({
 					-- vim.api.nvim_put({ vim.inspect(client.name) }, "", true, true)
 
 					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-					-- map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
 					-- map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 					--
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
