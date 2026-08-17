@@ -72,6 +72,19 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Disable autoformat for any file inside an `ad2` directory
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	desc = "Disable autoformat for files under an ad2 directory",
+	group = vim.api.nvim_create_augroup("disable-autoformat-ad2", { clear = true }),
+	pattern = "*",
+	callback = function(args)
+		local path = vim.fn.fnamemodify(args.match, ":p")
+		if path:match("[/\\]ad2[/\\]") then
+			vim.b[args.buf].disable_autoformat = true
+		end
+	end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
