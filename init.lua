@@ -580,6 +580,12 @@ require("lazy").setup({
 						"vue",
 					},
 				},
+				kotlin_lsp = {
+					filetypes = {
+						"kotlin",
+						"kt",
+					},
+				},
 				eslint = {
 					filetypes = {
 						"javascript",
@@ -590,6 +596,9 @@ require("lazy").setup({
 						"typescript.tsx",
 						"vue",
 					},
+				},
+				yamlls = {
+					filetypes = { "yaml" },
 				},
 				-- oxlint = {
 				-- 	filetypes = {

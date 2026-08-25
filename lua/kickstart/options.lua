@@ -72,6 +72,12 @@ vim.filetype.add({
 })
 
 vim.filetype.add({
+	extension = {
+		xaml = "xml",
+	},
+})
+
+vim.filetype.add({
 	pattern = {
 		["appsettings.*.json"] = "jsonc",
 		["appsettings.json"] = "jsonc",
