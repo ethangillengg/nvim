@@ -61,7 +61,7 @@ return {
 				template = "daily",
 			},
 			picker = {
-				name = "snacks.pick",
+				name = "snacks.picker",
 				sort_by = "created",
 			},
 			completion = {

@@ -1,19 +1,10 @@
 return {
 	"seblyng/roslyn.nvim",
-	ft = { "cs", "cshtml" },
+	ft = { "cs", "cshtml", "razor" },
 	---@module 'roslyn.config'
 	---@type RoslynNvimConfig
 	opts = {
 		filewatching = "auto",
-	},
-	dependencies = {
-		-- {
-		-- 	"khoido2003/roslyn-filewatch.nvim",
-		-- 	build = "nvim -l build.lua --", -- Compiles or downloads the Native Rust module fallback
-		-- 	config = function()
-		-- 		require("roslyn_filewatch").setup()
-		-- 	end,
-		-- },
 	},
 	init = function()
 		-- We add the Razor file types before the plugin loads.
@@ -27,23 +18,15 @@ return {
 	config = function(_, opts)
 		require("roslyn").setup(opts)
 
-		vim.treesitter.language.register("c_sharp", "csharp", "cshtml")
 		vim.lsp.config("roslyn", {
 			on_attach = function() end,
-			cmd = {
-				"Microsoft.CodeAnalysis.LanguageServer",
-				"--logLevel=Information",
-				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
-				"--stdio",
-			},
 			settings = {
 
 				["csharp|background_analysis"] = {
-
-					-- dotnet_analyzer_diagnostics_scope = "fullSolution",
-					-- dotnet_compiler_diagnostics_scope = "fullSolution",
-					dotnet_analyzer_diagnostics_scope = "openFiles",
-					dotnet_compiler_diagnostics_scope = "openFiles",
+					dotnet_analyzer_diagnostics_scope = "fullSolution",
+					dotnet_compiler_diagnostics_scope = "fullSolution",
+					-- dotnet_analyzer_diagnostics_scope = "openFiles",
+					-- dotnet_compiler_diagnostics_scope = "openFiles",
 				},
 				["csharp|inlay_hints"] = {
 					csharp_enable_inlay_hints_for_implicit_object_creation = true,

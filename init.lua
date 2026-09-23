@@ -558,7 +558,7 @@ require("lazy").setup({
 				-- Nix
 				nil_ls = {},
 				-- Web Dev
-				html = {},
+				html = { "html", "templ", "cshtml", "razor" },
 				cssls = {},
 				ts_ls = {
 					init_options = {
@@ -684,7 +684,6 @@ require("lazy").setup({
 			end
 		end,
 	},
-	--
 	{ -- Autoformat
 		"stevearc/conform.nvim",
 		cond = not vim.g.vscode,
@@ -693,7 +692,10 @@ require("lazy").setup({
 			{
 				"<leader>F",
 				function()
-					require("conform").format({ async = true, lsp_fallback = true })
+					require("conform").format({
+						async = true,
+						lsp_format = "fallback",
+					})
 				end,
 				mode = "",
 				desc = "[F]ormat buffer",
@@ -701,9 +703,19 @@ require("lazy").setup({
 		},
 		config = function(_, opts)
 			require("conform").setup(opts)
+
+			vim.api.nvim_create_user_command("FormatToggle", function()
+				vim.g.disable_autoformat = not vim.g.disable_autoformat
+
+				local state = vim.g.disable_autoformat and "disabled" or "enabled"
+				vim.notify("Autoformat " .. state, vim.log.levels.INFO)
+			end, {
+				desc = "Toggle autoformat-on-save",
+			})
+
 			vim.api.nvim_create_user_command("FormatDisable", function(args)
 				if args.bang then
-					-- FormatDisable! will disable formatting just for this buffer
+					-- FormatDisable! disables formatting for this buffer only
 					vim.b.disable_autoformat = true
 				else
 					vim.g.disable_autoformat = true
@@ -712,49 +724,29 @@ require("lazy").setup({
 				desc = "Disable autoformat-on-save",
 				bang = true,
 			})
+
 			vim.api.nvim_create_user_command("FormatEnable", function()
 				vim.b.disable_autoformat = false
 				vim.g.disable_autoformat = false
 			end, {
 				desc = "Re-enable autoformat-on-save",
 			})
-			-- vim.b.disable_autoformat = true
 		end,
 		opts = {
 			notify_on_error = false,
-			formatters = {
-				-- Daemonized script for running csharpier
-				csharpierd = {
-					command = "bash",
-					-- args = { "-c" },
-					args = {
-						vim.fn.stdpath("config") .. "/scripts/csharpierd.sh",
-						"$FILENAME",
-					},
-					-- stdin = false,
-				},
-			},
-			format_after_save = function(bufnr)
-				-- Disable "format_on_save lsp_fallback" for languages that don't
-				-- have a well standardized coding style. You can add additional
-				-- languages here or re-enable it for the disabled ones.
-				-- Disable with a global or buffer-local variable
+
+			format_on_save = function(bufnr)
 				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 					return
 				end
 
-				local disable_filetypes = { c = true, cpp = true, cs = true }
 				return {
-					lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+					timeout_ms = 1000,
+					lsp_format = "fallback",
 					stop_after_first = true,
 				}
 			end,
-			-- Conform can also run multiple formatters sequentially
-			-- python = { "isort", "black" },
-			--
-			-- You can use a sub-list to tell conform to run *until* a formatter
-			-- is found.
-			-- javascript = { { "prettierd", "prettier" } },
+
 			formatters_by_ft = {
 				html = { "prettierd" },
 				css = { "prettierd" },
@@ -766,6 +758,7 @@ require("lazy").setup({
 				typescript = { "prettierd" },
 				javascriptreact = { "prettierd" },
 				typescriptreact = { "prettierd" },
+
 				nix = { "alejandra" },
 				lua = { "stylua" },
 				cpp = { "clang_format" },
@@ -773,14 +766,16 @@ require("lazy").setup({
 				python = { "ruff_format" },
 				bash = { "shfmt" },
 				sh = { "shfmt" },
-				-- yaml = { "yamlfmt" },
 				tex = { "latexindent" },
 				asm = { "asmfmt" },
 				xml = { "xmlformat" },
 				go = { "gopls" },
-				cs = { "csharpierd" },
-				props = { "csharpierd" },
-				csproj = { "csharpierd" },
+
+				-- C# intentionally has no external formatter.
+				-- Conform falls back to the Roslyn LSP formatter.
+				cs = {},
+				props = {},
+				csproj = {},
 			},
 		},
 	},
@@ -1095,7 +1090,7 @@ require("lazy").setup({
 			ts_langs = vim.tbl_keys(ts_lang_dict)
 			ts_filetypes = vim.tbl_values(ts_lang_dict)
 
-			require("nvim-treesitter.config").setup(opts)
+			require("nvim-treesitter").setup(opts)
 			require("nvim-treesitter").install(ts_langs)
 
 			vim.api.nvim_create_autocmd("FileType", {
@@ -1173,7 +1168,12 @@ require("lazy").setup({
 	},
 	{
 		"mason-org/mason.nvim",
-		opts = {},
+		opts = {
+			registries = {
+				"github:mason-org/mason-registry",
+				"github:Crashdummyy/mason-registry",
+			},
+		},
 	},
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -1188,7 +1188,7 @@ require("lazy").setup({
 	require("kickstart.plugins.snacks"),
 	require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),
-	require("kickstart.plugins.gitsigns"),
+	require("kickstart.plugins.git"),
 	require("kickstart.plugins.luasnip"),
 	require("kickstart.plugins.markdown"),
 

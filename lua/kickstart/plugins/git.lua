@@ -23,31 +23,112 @@ return {
 	-- 		},
 	-- 	},
 	-- },
+	-- {
+	-- 	"esmuellert/codediff.nvim",
+	-- 	cmd = "CodeDiff",
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>gd",
+	-- 			"<cmd>CodeDiff<CR>",
+	-- 			mode = "",
+	-- 			desc = "[G]it code [d]iff",
+	-- 		},
+	--
+	-- 		{
+	-- 			"<leader>gq",
+	-- 			"<cmd>CodeDiff<CR>",
+	-- 			mode = "",
+	-- 			desc = "[G]it code diff",
+	-- 		},
+	--
+	-- 		{
+	-- 			"<leader>gc",
+	-- 			"<cmd>term git commit<CR>",
+	-- 			mode = "",
+	-- 			desc = "[G]it [c]ommit ",
+	-- 		},
+	-- 	},
+	-- },
 	{
-		"esmuellert/codediff.nvim",
-		cmd = "CodeDiff",
-		keys = {
-			{
-				"<leader>gd",
-				"<cmd>CodeDiff<CR>",
-				mode = "",
-				desc = "[G]it code [d]iff",
-			},
+		"NeogitOrg/neogit",
+		lazy = true,
+		dependencies = {
+			-- Only one of these is needed.
+			"sindrets/diffview.nvim", -- optional
+			"esmuellert/codediff.nvim", -- optional
 
-			{
-				"<leader>gq",
-				"<cmd>CodeDiff<CR>",
-				mode = "",
-				desc = "[G]it code diff",
-			},
+			-- For a custom log pager
+			"m00qek/baleia.nvim", -- optional
 
-			{
-				"<leader>gc",
-				"<cmd>term git commit<CR>",
-				mode = "",
-				desc = "[G]it [c]ommit ",
-			},
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+			"nvim-mini/mini.pick", -- optional
+			"folke/snacks.nvim", -- optional
 		},
+		cmd = "Neogit",
+		keys = {
+			{ "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
+		},
+		config = function()
+			local function highlights()
+				local links = {
+					NeogitChangeDeleted = "DiagnosticError",
+					NeogitChangeModified = "DiagnosticWarn",
+					NeogitChangeAdded = "DiagnosticO",
+
+					-- NeogitNormal = "Normal",
+					-- NeogitFloat = "NormalFloat",
+					-- NeogitFloatBorder = "FloatBorder",
+
+					NeogitDiffAdd = "DiffAdd",
+					NeogitDiffDelete = "DiffDelete",
+					NeogitDiffContext = "Normal",
+					NeogitDiffHeader = "Title",
+					--
+					NeogitDiffAddHighlight = "DiffAdd",
+					NeogitDiffDeleteHighlight = "DiffDelete",
+					NeogitDiffContextHighlight = "CursorLine",
+					--
+					NeogitDiffAddCursor = "DiffAdd",
+					NeogitDiffDeleteCursor = "DiffDelete",
+					NeogitDiffContextCursor = "CursorLine",
+
+					NeogitDiffDeleteInline = "CodeDiffCharDelete",
+					NeogitDiffAddInline = "CodeDiffCharInsert",
+
+					NeogitBranch = "Identifier",
+					NeogitRemote = "Constant",
+					NeogitTagName = "Tag",
+					NeogitObjectId = "Comment",
+
+					NeogitSectionHeader = "Title",
+
+					NeogitHunkHeader = "CursorLine",
+					NeogitHunkHeaderCursor = "CursorLine",
+					NeogitHunkHeaderHighlight = "Visual",
+
+					NeogitFilePath = "Directory",
+
+					NeogitCommitViewHeader = "ArrowCurrentFile",
+					NeogitCommitViewDescription = "Normal",
+					NeogitActiveItem = "ArrowCurrentFile",
+				}
+
+				for group, link in pairs(links) do
+					vim.api.nvim_set_hl(0, group, { link = link })
+				end
+			end
+
+			-- Neogit respects groups that already exist.
+			highlights()
+
+			require("neogit").setup()
+
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				callback = highlights,
+			})
+		end,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
