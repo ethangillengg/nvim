@@ -80,11 +80,17 @@ return {
 
 							local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 							row, col = row - 1, col + 1
+
 							local uri = vim.uri_from_bufnr(bufnr)
 
 							local params = {
-								_vs_textDocument = { uri = uri },
-								_vs_position = { line = row, character = col },
+								_vs_textDocument = {
+									uri = uri,
+								},
+								_vs_position = {
+									line = row,
+									character = col,
+								},
 								_vs_ch = char,
 								_vs_options = {
 									tabSize = vim.bo[bufnr].tabstop,
@@ -92,8 +98,6 @@ return {
 								},
 							}
 
-							-- NOTE: We should send textDocument/_vs_onAutoInsert request only after
-							-- buffer has changed.
 							vim.defer_fn(function()
 								client:request(
 									---@diagnostic disable-next-line: param-type-mismatch
@@ -104,7 +108,30 @@ return {
 											return
 										end
 
-										vim.snippet.expand(result._vs_textEdit.newText)
+										local new_text = result._vs_textEdit.newText:gsub("\r\n", "\n"):gsub("\r", "\n")
+
+										-- Roslyn includes indentation in the returned text,
+										-- but vim.snippet.expand() also applies the current
+										-- line's indentation to subsequent lines.
+										--
+										-- Strip the indentation Roslyn added so it isn't doubled.
+										local lines = vim.split(new_text, "\n", { plain = true })
+
+										if #lines > 1 then
+											local indent = lines[2]:match("^(%s*)")
+
+											if indent and indent ~= "" then
+												for i = 2, #lines do
+													if lines[i]:sub(1, #indent) == indent then
+														lines[i] = lines[i]:sub(#indent + 1)
+													end
+												end
+											end
+										end
+
+										new_text = table.concat(lines, "\n")
+
+										vim.snippet.expand(new_text)
 									end,
 									bufnr
 								)
