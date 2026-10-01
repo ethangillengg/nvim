@@ -407,9 +407,9 @@ require("lazy").setup({
 			-- Useful status updates for LSP.
 			{ "j-hui/fidget.nvim", opts = {} },
 
-			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
+			-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
-			{ "folke/neodev.nvim", opts = {} },
+			{ "folke/lazydev.nvim", ft = "lua", opts = {} },
 			{ "saghen/blink.cmp" },
 
 			{
@@ -418,26 +418,15 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-			-- vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "[L]SP [i]nfo" })
-			vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<cr>", { desc = "[L]SP [r]estart all" })
-			local signs = {
-				{ name = "DiagnosticSignError", text = "" },
-				{ name = "DiagnosticSignWarn", text = "" },
-				{ name = "DiagnosticSignHint", text = "" },
-				{
-					name = "DiagnosticSignInfo",
-					text = "",
-				},
-			}
-
-			for _, sign in ipairs(signs) do
-				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-			end
-
+			vim.keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "[L]SP [i]nfo" })
 			vim.diagnostic.config({
-				-- show signs
 				signs = {
-					active = signs,
+					text = {
+						[vim.diagnostic.severity.ERROR] = "",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.INFO] = "",
+						[vim.diagnostic.severity.HINT] = "",
+					},
 				},
 				update_in_insert = true,
 				severity_sort = true,
@@ -668,6 +657,9 @@ require("lazy").setup({
 							diagnostics = { disable = { "missing-fields" } },
 						},
 					},
+				},
+				powershell_es = {
+					bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services",
 				},
 			}
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
