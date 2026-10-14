@@ -771,6 +771,17 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		"github/copilot.vim",
+		config = function()
+			vim.keymap.set("i", "<c-y>", 'copilot#Accept("\\<C-y>")', {
+				expr = true,
+				replace_keycodes = false,
+				silent = true,
+				desc = "Accept Copilot suggestion",
+			})
+		end,
+	},
 
 	{
 		"saghen/blink.cmp",
@@ -781,16 +792,6 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 			"echasnovski/mini.icons",
 			"saghen/blink.compat",
-			{ "zbirenbaum/copilot.lua" },
-			{
-				"supermaven-inc/supermaven-nvim",
-				opts = {
-					keymaps = {
-						accept_suggestion = "<c-y>", -- handled by nvim-cmp / blink.cmp
-					},
-					-- disable_inline_completion = true,
-				},
-			},
 		},
 		-- use a release tag to download pre-built binaries
 		version = "*",
@@ -889,22 +890,6 @@ require("lazy").setup({
 					snippets = {
 						score_offset = 1,
 					},
-
-					-- supermaven = {
-					-- 	name = "supermaven",
-					-- 	module = "blink.compat.source",
-					-- 	-- score_offset = 10,
-					-- 	async = true,
-					-- 	transform_items = function(_, items)
-					-- 		local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-					-- 		local kind_idx = #CompletionItemKind + 1
-					-- 		CompletionItemKind[kind_idx] = "Copilot"
-					-- 		for _, item in ipairs(items) do
-					-- 			item.kind = kind_idx
-					-- 		end
-					-- 		return items
-					-- 	end,
-					-- },
 				},
 			},
 		},
