@@ -376,13 +376,21 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sj", builtin.jumplist, { desc = "[S]earch [J]umps" })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 			vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "[G]it telescope status" })
-			vim.keymap.set("n", "<leader>ss", function()
+			vim.keymap.set("n", "<leader>sd", function()
 				builtin.lsp_document_symbols({
 					prompt_title = "Methods and Functions",
 					symbols = { "Method", "Function" },
 					symbol_width = 120,
 				})
-			end, { desc = "[S]earch [F]unctions and [M]ethods" })
+			end, { desc = "[S]earch [D]ocument Symbols" })
+
+			vim.api.nvim_create_user_command("ScopeSymbols", function()
+				require("kickstart.telescope.scope_symbols").open()
+			end, {})
+
+			vim.keymap.set("n", "<leader>ss", "<cmd>ScopeSymbols<cr>", {
+				desc = "[S]earch Sybmbold in [S]cope",
+			})
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>s/", function()
