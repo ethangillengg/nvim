@@ -668,6 +668,7 @@ require("lazy").setup({
 				},
 				powershell_es = {
 					bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services",
+					shell = "powershell.exe",
 				},
 			}
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -1069,6 +1070,7 @@ require("lazy").setup({
 				go = "go",
 				templ = "templ",
 				c_sharp = "cs",
+				powershell = "ps1",
 				-- sql = "sql",
 			}
 
